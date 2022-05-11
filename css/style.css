@@ -1,0 +1,1188 @@
+body{
+	background-color: #f2eff8;
+	/* background-image: url("img/fon.jpg");
+	background-position: top left;
+	background-repeat: repeat-x */
+}
+
+
+.PopUpEnter{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	/* background-color: #323938;
+	border-top: 1px solid #ccc; */
+	z-index: 10;
+}
+
+.PopUpForma{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	/* background-color: #323938;
+	border-top: 1px solid #ccc; */
+	z-index: 10;
+}
+
+.PopUpFon{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: #323938;
+	opacity: 0.9;
+
+}
+
+.PopUpPanel{
+	position: absolute;
+	left: 50%;
+	top: 15%;	
+}
+
+.PopUpBlock{
+	position: absolute;
+	left: -200px;
+	top: 0px;
+	width: 400px;
+	height: 410px;
+	background-color: #fff;
+	border-radius: 6px;
+	box-shadow: 0px 10px 40px #000;
+}
+
+.PopUpName{
+	position: absolute;
+	top: 30px;
+	left: 40px;
+	width: 220px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 24px;
+	color: #000000;
+}
+
+#PopUp{
+	visibility: hidden;
+}
+
+#PopUpF{
+	visibility: hidden;
+}
+
+.PopUpReg{
+	position: absolute;
+	cursor: pointer;
+	top: 35px;
+	right: 40px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 16px;
+	text-decoration: underline;
+	color: #888888;
+}
+
+.PopUpReg:hover{
+	color: #37bbd6;
+}
+
+.PopUpClose{
+	position: absolute;
+	cursor: pointer;
+	top: 0px;
+	right: -40px;
+	width: 40px;
+	height: 40px;
+	background-image: url("img/close.png");
+	background-size: cover;
+}
+
+.PopUpZg{
+	position: absolute;
+	top: 90px;
+	left: 40px;
+	width: 220px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 16px;
+	color: #888888;
+}
+
+.SocIcons{
+	position: absolute;
+	top: 120px;
+	left: 40px;
+	width: 220px;
+	
+}
+
+.Si{
+	width: 40px;
+	height: 40px;
+	border: 1px solid #dcdcdc;
+	border-radius: 3px;
+	display: inline-table;
+}
+
+.Rline{
+	position: absolute;
+	top: 190px;
+	left: 40px;
+	width: 320px;
+	border-top: 1px solid #ccc;
+}
+
+.Login{
+	position: absolute;
+	top: 220px;
+	left: 40px;
+	width: 240px;
+	height:30px;
+	padding-left: 10px; 
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #ccc;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+}
+
+.Pass{
+	position: absolute;
+	top: 270px;
+	left: 40px;
+	width: 240px;
+	height:30px;
+	padding-left: 10px; 
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #ccc;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+}
+
+.MyName{
+	position: absolute;
+	top: 80px;
+	left: 40px;
+	width: 240px;
+	height:30px;
+	padding-left: 10px; 
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #ccc;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+}
+
+.Email{
+	position: absolute;
+	top: 130px;
+	left: 40px;
+	width: 240px;
+	height:30px;
+	padding-left: 10px; 
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #ccc;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+}
+
+.PassNew{
+	position: absolute;
+	top: 220px;
+	left: 40px;
+	width: 240px;
+	height:30px;
+	padding-left: 10px; 
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #ccc;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+}
+
+.PassAgain{
+	position: absolute;
+	top: 270px;
+	left: 40px;
+	width: 240px;
+	height:30px;
+	padding-left: 10px; 
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #ccc;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+}
+
+.BtEnter{
+	position: absolute;
+	top: 330px;
+	right: 40px;
+	width: 150px;
+	height:40px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #fff;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	background-color: #37bbd6
+}
+
+.BtReg{
+	position: absolute;
+	top: 330px;
+	right: 40px;
+	width: 200px;
+	height:40px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #fff;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	background-color: #37bbd6
+}
+
+.FogPass{
+	position: absolute;
+	top: 333px;
+	left: 40px;
+	width: 150px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 14px;
+	color: #888;
+	border: 0px solid #ccc;
+}
+
+.MenuLine{
+	position: relative;
+	top: 0px;
+	left: 0px;
+	min-width: 1300px;
+	width: 100%;
+	height: 60px;
+	/*border-top: 15px solid #000000; */
+	border-bottom: 1px solid #ccc;
+	background-color: #323938;
+	/* background-image: url("img/menu-9.png");
+	background-position: center;
+	background-repeat: no-repeat; */
+	z-index: 5;
+}
+
+.MenuLineDown{
+	position: relative;
+	top: 0px;
+	left: 0px;
+	
+	width: 100%;
+	height: 60px;
+	/* border-bottom: 15px solid #000000; */
+	border-top: 1px solid #ccc;
+	background-color: #222;
+	/* background-image: url("img/menu-9.png");
+	background-position: center;
+	background-repeat: no-repeat; */
+	z-index: 5;
+}
+
+#R1{
+	border-left: 1px solid #595e5d;
+}
+#R2{
+	border-left: 1px solid #595e5d;
+}
+#R3{
+	border-left: 1px solid #595e5d;
+	/* border-right: 1px solid #ccc; */
+}
+#R4{
+	border-left: 1px solid #595e5d;
+	border-right: 1px solid #595e5d;
+}
+
+.Rbt{
+	width: 230px;
+	height: 40px;
+	padding-left: 40px;
+	padding-top: 3px;
+	/* font-family: 'Roboto Condensed', sans-serif; */
+	/* font-family: 'Montserrat', sans-serif; */
+	/* font-family: 'Yanone Kaffeesatz', sans-serif;  */
+	font-family: 'Fira Sans Condensed', sans-serif;
+	/* font-family: 'Scada', sans-serif; */
+	font-size: 16px;
+	line-height: 1.2;
+	color: #838383;
+	font-weight: normal;
+	border: 0px solid #ccc;
+	
+}
+
+.Ava{
+	position: relative;
+	width:40px;
+	height: 40px;
+	top: -1px;
+	background-image: url("img/ava-1.png");
+	background-size: cover;
+	background-color: #595e5d;
+}
+
+.UserName{
+	position: relative;
+	left: 50px;
+	top: -40px;
+	width: 150px;
+	height: 40px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 13px;
+	line-height: 1.3;
+	color: #838383;
+	font-weight: normal;
+}
+
+.Enter{
+	position: relative;
+	cursor: pointer;
+	left: 50px;
+	top: -40px;
+	width: 150px;
+	height: 40px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 16px;
+	text-decoration: underline;
+	line-height: 1.2;
+	color: #4e9f90;
+	font-weight: normal;
+}
+.Enter:hover{
+	color: #fff;
+}
+
+.Intro{
+	position: relative;
+	padding-top: 30px;
+	left: 0px;
+	min-width: 1300px;
+	width: 100%;
+	height: 300px;
+	border-bottom: 1px solid #ccc;
+	background-color: #FFF;
+	z-index: 4;
+}
+
+.Intro2{
+	position: relative;
+	padding-top: 30px;
+	left: 0px;
+	min-width: 1300px;
+	width: 100%;
+	height: 200px;
+	border-bottom: 1px solid #ccc;
+	background-color: #FFF;
+	z-index: 4;
+}
+
+.Footer{
+	position: relative;
+	padding-top: 20px;
+	margin: 10px;
+	width: 100%;
+	
+	background-color: #FFF;
+	z-index: 4;
+}
+
+.SiteName{
+	margin: 5px;
+	padding-top: 20px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 50px;
+	line-height: 0.9;
+	color: #37bbd6;
+	/* font-weight: normal; */
+	/* background-image: url("img/logo-em-small.png");
+	background-image: url("img/logo-em-2.png"); 
+	background-position: right top;
+	background-repeat: no-repeat; */
+}
+
+.SitePodpis{
+	margin: 5px;
+	padding-top: 10px;
+	font-family: 'Caveat', cursive;
+	font-size: 30px;
+	line-height: 1;
+	color: #000000;
+	/* font-weight: normal; */
+}
+
+.SiteName2{
+	margin: 0px auto;
+	padding-top: 10px;
+	width: 1000px;
+	height: 70px;
+	border: 0px solid #ccc;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 46px;
+	line-height: 0.9;
+	color: #37bbd6;
+	/* font-weight: normal; 
+	background-image: url("img/logo-em-small.png");
+	background-position: right top;
+	background-repeat: no-repeat; */
+}
+
+.SitePodpis2{
+	margin: 0px auto;
+	padding-top: 15px;
+	width: 1000px;
+	height: 30px;
+	border: 0px solid #ccc;
+	font-family: 'Caveat', cursive;
+	font-size: 20px;
+	line-height: 1;
+	color: #000000;
+	/* font-weight: normal; */
+}
+
+.IdBlock{
+	position: relative;
+	margin: 0px auto;
+	top: 10px;
+	width: 1000px;
+	height: 250px;
+	border: 0px solid #ccc;
+}
+
+.BtEdit{
+	position: absolute;
+	cursor: pointer;
+	top: 11px; 
+	right: -40px;
+	width: 20px;
+	height: 20px;
+	background-image: url("img/edit.png");
+	background-size: cover;
+	opacity: 0.4;
+}
+
+.BtEdit:hover{
+	opacity: 1;
+}
+
+.AvaBig{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 250px;
+	height: 250px;
+	background-color: #888;
+}
+
+.IdName{
+	position: absolute;
+	top: 20px;
+	left: 280px;
+	height: 30px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 32px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.IdStatus{
+	position: absolute;
+	top: 60px;
+	left: 280px;
+	width: 400px;
+	height: 30px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 15px;
+	color: #000000;
+}
+
+.IdEmail{
+	position: absolute;
+	top: 100px;
+	left: 430px;
+	width: 150px;
+	height: 30px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #000000;
+}
+
+.IdPhone{
+	position: absolute;
+	top: 100px;
+	left: 280px;
+	width: 150px;
+	height: 30px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #000000;
+}
+
+.IdOpis{
+	position: absolute;
+	top: 170px;
+	left: 280px;
+	width: 400px;
+	height: 80px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 15px;
+	color: #888;
+}
+
+.SiteNameFooter{
+	
+	padding-top: 0px;
+	
+	height: 65px;
+	
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 50px;
+	line-height: 0.9;
+	color: #37bbd6;
+	/* font-weight: normal;
+	background-image: url("img/logo-em-small.png");
+	background-position: right top;
+	background-repeat: no-repeat; */
+}
+
+.SitePodpisFooter{
+	
+	margin-top: 35px;
+	
+	height: 20px;
+
+	font-family: 'Caveat', cursive;
+	font-size: 22px;
+	line-height: 1;
+	color: #000000;
+	/* font-weight: normal; */
+
+}
+
+.SiteId{
+
+	margin-top: 35px;
+	
+	height: 20px;
+	
+	
+	font-family: 'Open Sans', sans-serif;
+	font-size: 11px;
+	font-style: italic;
+	color: #999;
+	
+}
+
+.MethodMenu{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	min-width: 1300px;
+	width: 100%;
+	height: 70px;
+}
+
+.Mbt{
+	margin-right: 0px;
+	padding-top: 27px;
+	padding-left: 6px;
+	text-align: left;
+	width: 100px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	line-height: 1.1;
+	color: #a7a7a7;
+	font-weight: normal;
+	font-size: 14px;
+}
+.Mbt:hover{
+	color: #000;
+}
+
+.Lib{
+	position: relative;
+	margin: 30px auto;
+	min-width: 1300px;
+	width: 85%;
+	text-align: center;
+	/* height: 2800px; */
+    /* display: block; */
+    /* clear: both; */
+	
+}
+
+.PageZg{
+	position: relative;
+	margin: 30px auto;
+	width: 100%;
+	text-align: left;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	color: #888;
+	font-weight: normal;
+	font-size: 24px;
+}
+
+
+.OpisanieBlock{
+	position: relative;
+	margin: 0px auto;
+	width: 1200px;
+	height: 450px;
+	border: 0px solid #cccccc;
+}
+
+.OLeft{
+	position: absolute;
+	left: 60px;
+	top: 0px;
+	width: 700px;
+}
+
+.Ozg{
+	font-family: 'Fira Sans Condensed', sans-serif;
+	color: #000;
+	font-weight: normal;
+	font-size: 26px;
+	text-align: left;
+	padding-bottom: 30px;
+}
+
+.Otxt{
+	/* font-family: 'Fira Sans Condensed', sans-serif; 
+	font-family: 'Roboto', sans-serif;
+	font-family: 'Roboto Condensed', sans-serif;	*/
+	
+	font-family: 'Open Sans', sans-serif;
+	color: #667;
+	font-weight: normal;
+	font-size: 16px;
+	text-align: left;
+	line-height: 1.5;
+}
+
+.ORight{
+	position: absolute;
+	left: 860px;
+	top: 0px;
+	width: 260px;
+}
+
+.Oplus{
+	padding-bottom: 25px;
+	padding-left: 30px;
+	/* font-family: 'Fira Sans Condensed', sans-serif;
+	font-family: 'Open Sans', sans-serif; */
+	font-family: 'Roboto Condensed', sans-serif;
+	color: #000;
+	font-weight: normal;
+	font-size: 18px;
+	text-align: left;
+	background-image: url("img/plus-icon.png");
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+
+.FilesBlock{
+	position: relative;
+	margin: 0px auto;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	width: 1200px;
+	/* height: 300px; */
+	border-top: 1px solid #cccccc;
+}
+
+.FilesLine{
+	width: 1200px;
+	margin-left:50px;
+	border: 0px solid #cccccc;
+	/* display: grid; */
+    /* clear: both; */
+}
+
+.FileBox{
+	width: 180px;
+	/* height: 180px; */
+	margin-left: 10px;
+	margin-right: 10px;
+	border: 0px solid #cccccc;
+	display: inline-table; 
+	clear: both;
+}
+
+.FileIcon{
+	width: 80px;
+	height: 80px;
+	background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.FileOpisanie{
+	/* font-family: 'Times New Roman', sans-serif; */
+	font-family: 'Open Sans', sans-serif;
+	color: #6d6d6d;
+	/* font-style: italic; */
+	font-size: 13px;
+	text-align: left;
+	padding-top: 8px;
+	padding-bottom: 20px;
+}
+
+.LinksBlock{
+	position: relative;
+	margin: 0px auto;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	width: 1200px;
+	/* height: 300px; */
+	border-top: 1px solid #cccccc;
+}
+
+.LinkBox{
+	margin-left: 60px;
+	padding-bottom: 20px;
+	width: 700px;
+	border: 0px solid #cccccc;
+}
+
+.Link{
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-weight: normal;
+	font-size: 16px;
+	text-align: left;
+	padding-bottom: 5px;
+}
+
+.LinkOpisanie{
+	/* font-family: 'Roboto', sans-serif; */
+	font-family: 'Open Sans', sans-serif;
+	color: #6d6d6d;
+	/* font-style: italic; */
+	font-size: 14px;
+	text-align: left;
+	padding-bottom: 5px;
+}
+
+.PhotoBlock{
+	position: relative;
+	margin: 0px auto;
+	width: 1200px;
+	border-top: 1px solid #cccccc;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.PhotoLine{
+	width: 1200px;
+	margin-left:50px;
+	border: 0px solid #cccccc;
+	/* display: grid; */
+    /* clear: both; */
+}
+
+.PhotoBox{
+	width: 180px;
+	/* height: 180px; */
+	margin-left: 10px;
+	margin-right: 10px;
+	border: 0px solid #cccccc;
+	display: inline-table; 
+	clear: both;
+}
+
+.PhotoSmall{
+	width: 180px;
+	height: 120px;
+	background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.PhotoOpisanie{
+	/* font-family: 'Times New Roman', sans-serif; */
+	font-family: 'Open Sans', sans-serif;
+	color: #6d6d6d;
+	/* font-style: italic; */
+	font-size: 15px;
+	text-align: center;
+	padding-top: 8px;
+	padding-bottom: 20px;
+}
+
+.HistoryBlock{
+	position: relative;
+	margin: 0px auto;
+	width: 1200px;
+	/* height: 300px; */
+	border-top: 1px solid #cccccc;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.Htxt{
+	width: 700px;
+	margin-left: 60px;
+	/* font-family: 'Roboto', sans-serif; */
+	font-family: 'Open Sans', sans-serif;
+	color: #757575;
+	font-weight: normal;
+	font-size: 16px;
+	text-align: left;
+	line-height: 1.5;
+	padding-bottom: 20px;
+}
+
+.AM{
+	position: relative;
+	margin: 0px auto;
+	width: 1200px;
+	/* height: 300px; */
+	border-top: 1px solid #cccccc;
+	padding-top: 30px;
+	padding-bottom: 0px;
+}
+
+.Zg{
+	position: relative;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	color: #000;
+	font-weight: normal;
+	font-size: 28px;
+	text-align: left;
+	padding-left: 60px;
+	padding-bottom: 30px;
+}
+
+.MBlock{
+	position: relative;
+	/* float: left; */
+	margin: 10px;
+	width: 280px;
+	height: 400px;
+	text-align: left;
+	border: 0px solid #cccccc;
+	display: inline-table; 
+	clear: both;
+}
+
+.MPict{
+	position: relative;
+	width: 280px;
+	height: 160px;
+	border: 0px solid #cccccc;
+	background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.WBlock{
+	position: relative;
+	width: 280px;
+	padding-top: 5px;
+	padding-bottom: 20px;
+	/* height: 100px; */
+	min-height: 100px;
+	background-color: #FFF;
+}
+
+.Markers{
+	margin-left: 10px;
+}
+
+.MMarkers{
+	margin-left: 48px;
+	margin-top: 30px;
+}
+
+.MName{
+	margin-left: 15px;
+	margin-top: 5px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	color: #000;
+	font-weight: bold;
+	font-size: 26px;
+	
+}
+
+.MMName{
+	margin-left: 60px;
+	margin-top: 70px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	color: #000;
+	font-weight: bold;
+	font-size: 36px;
+	
+}
+
+.VName{
+	margin-left: 15px;
+	margin-top: 0px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	color: #000;
+	font-weight: normal;
+	font-size: 17px;
+}
+
+.MVName{
+	margin-left: 60px;
+	margin-top: 0px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	color: #000;
+	font-weight: normal;
+	font-size: 22px;
+}
+
+
+
+.GBlock{
+	position: relative;
+	width: 280px;
+	min-height: 15px;
+	padding-bottom: 5px;
+	background-image: url("img/shadow-small.png");
+	background-position: right top;
+	background-repeat: no-repeat;
+}
+
+.People{
+	margin-left: 13px;
+	padding-top: 17px;
+	padding-left: 28px;
+	/* font-family: 'Fira Sans Condensed', sans-serif;
+	font-family: 'Open Sans', sans-serif;  */
+	font-family: 'Roboto Condensed', sans-serif;
+	color: #6d6d6d;
+	font-weight: normal;
+	font-size: 17px;
+	padding-bottom: 2px;
+	background-image: url("img/icon-24x24-1.png");
+	background-position: 0px 15px;
+	background-repeat: no-repeat;
+}
+
+.MPeople{
+	margin-left: 60px;
+	margin-top: 15px;
+	padding-top: 15px;
+	padding-left: 28px;
+	/* font-family: 'Fira Sans Condensed', sans-serif;
+	font-family: 'Open Sans', sans-serif;  */
+	font-family: 'Roboto Condensed', sans-serif;
+	color: #6d6d6d;
+	font-weight: normal;
+	font-size: 19px;
+	padding-bottom: 9px;
+	background-image: url("img/icon-24x24-1.png");
+	background-position: 0px 15px;
+	background-repeat: no-repeat;
+}
+
+.Hours{
+	margin-left: 13px;
+	/* font-family: 'Fira Sans Condensed', sans-serif;
+	font-family: 'Open Sans', sans-serif;  */
+	font-family: 'Roboto Condensed', sans-serif;
+	color: #6d6d6d;
+	font-weight: normal;
+	font-size: 17px;
+	padding-top: 4px;
+	padding-left: 28px;
+	padding-bottom: 8px;
+	background-image: url("img/icon-24x24-2.png");
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+
+.MHours{
+	margin-left: 60px;
+	/* font-family: 'Fira Sans Condensed', sans-serif;
+	font-family: 'Open Sans', sans-serif;  */
+	font-family: 'Roboto Condensed', sans-serif;
+	color: #6d6d6d;
+	font-weight: normal;
+	font-size: 19px;
+	padding-top: 2px;
+	padding-left: 28px;
+	padding-bottom: 5px;
+	background-image: url("img/icon-24x24-2.png");
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+
+.IBlock{
+	position: relative;
+	padding-top: 0;
+	padding-left: 15px;
+	Padding-right: 20px;
+	padding-bottom: 40px;
+	font-family: 'Open Sans', sans-serif; 
+	color: #6d6d6d;
+	/* font-style: italic; */
+	font-size: 13px;
+	border-top: 0px solid #cccccc;
+}
+
+.MIBlock{
+	position: relative;
+	margin-left: 60px;
+	margin-top: 20px;
+	padding-top: 0;
+	Padding-right: 50px;
+	padding-bottom: 20px;
+	font-family: 'Open Sans', sans-serif; 
+	color: #6d6d6d;
+	/* font-style: italic; */
+	font-size: 16px;
+	border-top: 0px solid #cccccc;
+}
+
+.MObnovlenie{
+	position: absolute;
+	bottom: 0px;
+	left: 60px;
+	width: 200px;
+	height: 25px;
+	font-family: 'Open Sans', sans-serif; 
+	color: #b9b9b9;
+	font-style: italic;
+	font-size: 12px;
+	border: 0px solid #666;
+}
+
+.MethodHead{
+	position: relative;
+	margin: 50px auto 0px auto;
+	width: 1200px;
+	height: 450px;
+	border: 0px solid #cccccc;
+}
+
+.MethodObl{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 800px;
+	height: 450px;
+	background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Redactor{
+	position: absolute;
+/*	left: 60px;
+	top: 43px; */
+	font-family: 'Open Sans', sans-serif; 
+	color: #666;
+	font-style: italic;
+	font-size: 12px;
+	border: 0px solid #cccccc;
+}
+
+.MethodOpisBlock{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 400px;
+	height: 450px;
+	background-color: #FFF;
+}
+
+.YellowLine{
+	position: relative;
+	margin: 0px auto;
+	width: 1200px;
+	height: 60px;
+	background-color: #80f1ff;
+
+}
+
+.YIcon{
+	position: absolute;
+	left: 0px;
+	top: 1px;
+	width: 30px;
+	height: 30px;
+	border: 0px solid #ccc;
+	background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.YFL{
+	position: absolute;
+	left: -35px;
+	top: 2px;
+	width: 35px;
+	height: 56px;
+	background-image: url("img/y-flag-left.png");
+	background-position: right top;
+	background-repeat: no-repeat;
+}
+
+.YFR{
+	position: absolute;
+	right: -35px;
+	top: 2px;
+	width: 35px;
+	height: 56px;
+	background-image: url("img/y-flag-right.png");
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+
+.YBt{
+	position: absolute;
+	top: 15px;
+	width: 160px;
+	height: 40px;
+	padding-left: 38px;
+	border: 0px solid #ccc;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	color: #19636c;
+	font-weight: normal;
+	font-size: 14px;
+	text-transform: uppercase;
+	cursor: pointer;
+	opacity: 0.3;
+}
+
+.YBt:hover{
+	color: #000;
+}
+
+
+#YBt1{
+	left: 60px;
+}
+
+#YBt2{
+	left: 280px;
+}
+
+#YBt3{
+	left: 500px;
+}
+
+#YBt4{
+	left: 720px;
+}
+
+#YBt5{
+	left: 940px;
+}
+
+.ShadowBig{
+	position: relative;
+	margin: 0px auto;
+	width: 1200px;
+	height: 60px;
+	background-image: url("img/shadow-big.png");
+	background-position: center top;
+	background-repeat: no-repeat;
+}

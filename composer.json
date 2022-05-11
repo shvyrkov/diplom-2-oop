@@ -1,0 +1,21 @@
+{
+    "name": "skillbox/cms-project",
+
+    "authors": [
+        {
+        "name": "Yuriy Shvyrkov",
+        "email": "shvyrkov@yandex.ru"
+        }
+    ],
+
+    "require": {
+        "phpunit/php-timer": "^5.0",
+        "illuminate/database": "^8.76",
+        "illuminate/support": "^8.76"
+    },
+
+    "autoload": {
+        "psr-4": {"App\\": "src/"},
+        "files": ["helpers.php"]
+    }
+}

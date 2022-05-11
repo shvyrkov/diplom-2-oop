@@ -1,0 +1,311 @@
+body{
+	background-color: #f2eff8;
+}
+.SiteName{
+	font-size: 42pt;
+}
+
+/* Header - Footer */
+.title {
+	background-color: #fff;
+}
+/* Nav User menu */
+.user_navbar {
+	background-color: rgb(50, 57, 56, 0.9);
+}
+/* Methods menu */
+.method_menu {
+	background-color: #fff; 
+	border-bottom: 1px solid #bbb;
+}
+/* Классы в личном кабинете id.php */
+.IdEdit{ /* New */
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+	margin-left: 20px;
+	opacity: 0.4;
+}
+.IdEdit:hover{/* New */
+	opacity: 1;
+}
+.Ava_Big{
+/*    position: relative;*/
+	max-width: 230px; 
+/*	max-height: 230px; */
+	background-color: #fff;
+}
+
+.Id_Name{
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 24pt;
+	font-weight: bold;
+	color: #000000;
+}
+
+.Id_Status{
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 15px;
+	color: #000000;
+}
+
+.Id_Email{
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #000000;
+}
+
+.Id_Phone{
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 18px;
+	color: #000000;
+}
+
+.Id_Opis{
+	font-family: 'Fira Sans Condensed', sans-serif;
+	font-size: 15px;
+	color: #888;
+}
+
+/* Карточка метода в index.php*/
+.MBlock{
+	position: relative;
+	/* float: left; */
+	margin: 10px;
+	width: 100%;
+	height: 400px;
+	text-align: left;
+	border: 0px solid #cccccc;
+	display: inline-table; 
+	clear: both;
+}
+
+.MPict{
+	position: relative;
+	width: 100%;
+	height: 160px;
+	border: 0px solid #cccccc;
+	background-repeat: no-repeat;
+    background-size: cover;
+}
+.M_Pict{
+	position: relative;
+	width: 100%;
+	height: 160px;
+	border: 0px solid #cccccc;
+	background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.WBlock{
+	position: relative;
+	width: 100%;
+	padding-top: 5px;
+	padding-bottom: 20px;
+	/* height: 100px; */
+	min-height: 100px;
+	background-color: #FFF;
+}
+
+.Markers{
+	margin-left: 10px;
+}
+
+.MName{
+	margin-left: 15px;
+	margin-top: 5px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	color: #000;
+	font-weight: bold;
+	font-size: 26px;
+	
+}
+
+.VName{
+	margin-left: 15px;
+	margin-top: 0px;
+	font-family: 'Fira Sans Condensed', sans-serif;
+	color: #000;
+	font-weight: normal;
+	font-size: 17px;
+}
+
+.GBlock{
+	position: relative;
+	width: 100%;
+	min-height: 15px;
+	padding-bottom: 5px;
+	background-image: url("img/shadow-small.png");
+	background-position: right top;
+	background-repeat: no-repeat;
+}
+
+.People{
+	margin-left: 13px;
+	padding-top: 17px;
+	padding-left: 28px;
+	/* font-family: 'Fira Sans Condensed', sans-serif;
+	font-family: 'Open Sans', sans-serif;  */
+	font-family: 'Roboto Condensed', sans-serif;
+	color: #6d6d6d;
+	font-weight: normal;
+	font-size: 17px;
+	padding-bottom: 2px;
+	background-image: url("img/icon-24x24-1.png");
+	background-position: 0px 15px;
+	background-repeat: no-repeat;
+}
+
+.Hours{
+	margin-left: 13px;
+	/* font-family: 'Fira Sans Condensed', sans-serif;
+	font-family: 'Open Sans', sans-serif;  */
+	font-family: 'Roboto Condensed', sans-serif;
+	color: #6d6d6d;
+	font-weight: normal;
+	font-size: 17px;
+	padding-top: 4px;
+	padding-left: 28px;
+	padding-bottom: 8px;
+	background-image: url("img/icon-24x24-2.png");
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+
+.IBlock{
+	position: relative;
+	padding-top: 0;
+	padding-left: 15px;
+	Padding-right: 20px;
+	padding-bottom: 40px;
+	font-family: 'Open Sans', sans-serif; 
+	color: #6d6d6d;
+	/* font-style: italic; */
+	font-size: 13px;
+	border-top: 0px solid #cccccc;
+}
+
+/* edea_method_types.php */
+.Mbt{
+	width: 100%;
+}
+
+/* for method's files */
+.article {
+	max-width: 1600px; 
+	border: none;
+}
+
+.Method_Obl{
+	max-height: 450px;
+}
+
+.Redactor{
+	position: relative;
+	font-family: 'Open Sans', sans-serif; 
+	color: #667;
+	font-style: italic;
+	font-size: 12px;
+	border: 0px solid #cccccc;
+}
+
+.MethodOpis_Block{
+	background-color: #FFF;
+}
+.MMarkers{
+	margin-left: 48px;
+	margin-top: 10px;
+}
+
+.MMName{
+	margin-top: 10px;
+}
+
+.MPeople{
+	margin-left: 60px;
+	margin-top: 5px;
+	padding-top: 15px;
+	padding-left: 28px;
+	padding-bottom: 9px;
+}
+
+.YellowLine{
+	width: auto;
+}
+
+.YellowLine, .FilesBlock, .LinksBlock, .PhotoBlock, .HistoryBlock, .AM, .ShadowBig {
+	width: auto;
+}
+.Zg{
+	padding-left: 10px;
+}
+.Htxt{
+    width: 100%;
+	margin-left: 10px;
+    
+}
+.PhotoLine{
+    width: 100%;
+	margin-left:30px;
+}
+.FilesLine{
+	width: 100%;
+	margin-left:30px;
+
+}
+.LinkBox{
+	margin-left: 30px;
+	width: 100%;
+}
+
+.Link{
+    word-wrap:break-word;
+}
+.Lib{
+
+	margin: 30px auto;
+	min-width: 300px;
+	width: 85%;
+}
+/* Footer */
+.Footer{
+	margin: 0px;
+}
+.SiteNameFooter{
+	font-size: 36pt;
+	
+}
+.bottom {
+    position: relative;
+    color: white;
+    margin-left: 30px;
+    padding-top: 15px;
+}
+
+.font-error {
+    color: red;
+    font-size: 1.0 em;
+}
+.border-error {
+    border-color: red;
+}
+
+.font-success {
+    color: salmon;
+}
+
+.AdminMenuLineDown{
+	position: relative;
+	top: 0px;
+	left: 0px;
+	
+	width: 100%;
+	height: 60px;
+	/* border-bottom: 15px solid #000000; */
+	border-top: 1px solid #ccc;
+	background-color: #999;
+	/* background-image: url("img/menu-9.png");
+	background-position: center;
+	background-repeat: no-repeat; */
+	z-index: 5;
+}
