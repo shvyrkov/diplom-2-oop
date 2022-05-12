@@ -118,23 +118,22 @@ class SimpleImage {
     * @return mixed - bool false - если валидация пройдена успешно
     *               - array $errors - массив со списком ошибок
     */
-    public static function fileValidation($types, $size, $file)
+    public static function imageFileValidation($types, $size, $file)
     {
-      $errors = false;
+      $errors = [];
 
       if (!empty($file['myfile']['error'])) { // Проверяем наличие ошибок
-        $errors['file']['LoadingError'] = $file['myfile']['error'];
+        $errors['LoadingError'] = $file['myfile']['error'];
        }
    // Проверить тип загружаемых файлов, это должны быть только картинки (jpeg, png, jpg).
        if (!in_array(mime_content_type($file['myfile']['tmp_name']), $types)) { 
-           $errors['file']['TypeError'] = 'Неправильный тип ' . mime_content_type($file['myfile']['tmp_name']) . 'загружаемого файла ' . $file['myfile']['name'];
+           $errors['TypeError'] = 'Неправильный тип ' . mime_content_type($file['myfile']['tmp_name']) . 'загружаемого файла ' . $file['myfile']['name'];
        }
    // Проверить размер загружаемого файла (файл не должен превышать 2 Мб).
        if ($file['myfile']['size'] > $size) {
-          $errors['file']['SizeError'] = 'Файл ' . $file['myfile']['name'] . ' не может быть загружен на сервер, так как его размер составляет ' . static::formatSize($file['myfile']['size']) . ', что больше допустимых ' . static::formatSize($size);
+          $errors['SizeError'] = 'Файл ' . $file['myfile']['name'] . ' не может быть загружен на сервер, так как его размер составляет ' . static::formatSize($file['myfile']['size']) . ', что больше допустимых ' . static::formatSize($size);
        }
 
-       return $errors;
-
+         return $errors;
     }
 }

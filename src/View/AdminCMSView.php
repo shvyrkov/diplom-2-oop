@@ -62,11 +62,11 @@ class AdminCMSView extends AdminView
                 $errors['subtitle'] = 'Название подзаголовка не должно быть больше ' . MAX_SUBTITLE_LENGTH . ' символов';
             }
 
-            if ($people && !Helper::checkLength($people, MIN_PEOPLE_LENGTH, MAX_PEOPLE_LENGTH)) {
+            if (!Helper::checkLength($people, MIN_PEOPLE_LENGTH, MAX_PEOPLE_LENGTH)) {
                 $errors['people'] = 'Количество символов в поле не должно быть больше ' . MAX_PEOPLE_LENGTH;
             }
 
-            if ($duration && !Helper::checkLength($duration, MIN_PEOPLE_LENGTH, MAX_DURATION_LENGTH)) {
+            if (!Helper::checkLength($duration, MIN_PEOPLE_LENGTH, MAX_DURATION_LENGTH)) {
                 $errors['duration'] = 'Количество символов в поле не должно быть больше ' . MAX_DURATION_LENGTH;
             }
 
@@ -74,7 +74,7 @@ class AdminCMSView extends AdminView
                 $errors['description'] = 'Должно быть не меньше ' . MIN_TITLE_LENGTH . ' и не больше ' . MAX_DESCRIPTION_LENGTH . ' символов';
             }
 
-            if ($author && !Helper::checkLength($author, MIN_TITLE_LENGTH, MAX_AUTHOR_LENGTH)) {
+            if (!Helper::checkLength($author, MIN_TITLE_LENGTH, MAX_AUTHOR_LENGTH)) {
                 $errors['author'] = 'Должно быть не меньше ' . MIN_TITLE_LENGTH . ' и не больше ' . MAX_AUTHOR_LENGTH . ' символов';
             }
 
@@ -103,20 +103,13 @@ class AdminCMSView extends AdminView
             }
 
             if ($_FILES['myfile']['name'] != '') { // Проверка на наличие файла для загрузки
-                $types = include(CONFIG_DIR . IMAGE_TYPES);
-                $errors = SimpleImage::fileValidation($types, FILE_SIZE, $_FILES);
-            //     if (!empty($_FILES['myfile']['error'])) { // Проверяем наличие ошибок
-            //      $errors['file']['LoadingError'] = $_FILES['myfile']['error'];
-            //     }
-            // // Проверить тип загружаемых файлов, это должны быть только картинки (jpeg, png, jpg).
-            //     if (!in_array(mime_content_type($_FILES['myfile']['tmp_name']), ['image/jpeg', 'image/jpg', 'image/png'])) { 
-            //         $errors['file']['TypeError'] = 'Неправильный тип ' . mime_content_type($_FILES['myfile']['tmp_name']) . 'загружаемого файла ' . $_FILES['myfile']['name'];
-            //     }
-            // // Проверить размер загружаемого файла (файл не должен превышать 2 Мб).
-            //     if ($_FILES['myfile']['size'] > FILE_SIZE) {
-            //        $errors['file']['SizeError'] = 'Файл ' . $_FILES['myfile']['name'] . ' не может быть загружен на сервер, так как его размер составляет ' . Users::formatSize($_FILES['myfile']['size']) . ', что больше допустимых ' . Users::formatSize(FILE_SIZE);
-            //     }
-// var_dump($errors);
+                $types = include(CONFIG_DIR . IMAGE_TYPES); // Допустимые типы файла изображения
+                $fileError = SimpleImage::imageFileValidation($types, FILE_SIZE, $_FILES); // Валидация файла изображения
+
+                if ($fileError) {
+                    $errors['file'] = $fileError; // Если валидация не прошла, то добавляем её ошибки
+                }
+
                 if ($errors === false) { // Загружаем файл на сервер
 
                     $myfile = new SplFileInfo($_FILES['myfile']['name']); // Загружаемое имя файла с расширением

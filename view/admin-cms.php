@@ -33,45 +33,44 @@ include 'layout/admin_header.php';
             <div class="row no-gutters">
                 
                 <div class="col-md-8 Method_Obl" >
-                  <img src="<?php echo DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . DEFAULT_ARTICLE_IMAGE; ?>" class="card-img" alt="Photo">
-                  <p class="card-text"></p>
-                  <label class="form-label" for="upload">Выберите изображение для статьи:</label>
-                  <input type="file" id="inputFile" class="custom-file-input " multiple name="myfile" accept="image/png, image/jpeg, image/jpg">
-                  <label class="form-label
-                    <?php
-                    if($errors['file']) {
-                      echo "border-error font-error";
-                    }
-                    ?>
-                  " for="upload">
-                    <?php
-                    if ($errors['file']) { 
-                      ?>
-                    <ul>
-                      <?php
-                      foreach ($errors['file'] as $error) {
-                        printf('<li class="font-error"> %s </li>', $error);
-                      }
-                      ?>
-                    </ul>
-                    <?php
-                    } else {
-                      printf(' %s', 'Файл не более ' . Users::formatSize(FILE_SIZE));
-                    }
-                    ?>
-                  </label>
+                  <img src="<?php printf('%s', $image ? DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . $image : DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . DEFAULT_ARTICLE_IMAGE); ?>" class="card-img" alt="Photo">
+                  <p class="card-text">
+                      <label class="form-label" for="upload">Выберите изображение для статьи:</label>
+                      <input type="file" id="inputFile" class="custom-file-input " multiple name="myfile" accept="image/png, image/jpeg, image/jpg">
+                      <label class="form-label
+                        <?php
+                        if(isset($errors['file'])) {
+                          echo "border-error font-error";
+                        }
+                        ?>
+                      " for="upload">
+                        <?php
+                        if (isset($errors['file'])) { 
+                          ?>
+                        <ul>
+                          <?php
+                          foreach ($errors['file'] as $error) {
+                            printf('<li class="font-error"> %s </li>', $error);
+                          }
+                          ?>
+                        </ul>
+                        <?php
+                        } else {
+                          printf(' %s', 'Файл не более ' . Users::formatSize(FILE_SIZE));
+                        }
+                        ?>
+                      </label>
+                  </p>
                 </div>
 
                 <div class="col-md-4 MethodOpis_Block">
                     <div class="card-body ">
-
                         <div class="MMName">Заголовок*:
                           <input type="text" class="form-control 
                           <?php
                           if($errors['articleTitle']) { echo "border-error"; }
                           ?>
                           " id="articleTitle" name="articleTitle" required placeholder="Название метода" value="<?php printf('%s', $articleTitle ?? ''); ?>">
-                          
                         </div>
                         <div class="font-error">
                             <?php
@@ -130,11 +129,11 @@ include 'layout/admin_header.php';
                             printf(' %s', $errors['description'] ?? '');
                             ?>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+                    </div><!-- card-body -->
+                </div><!-- col-md-4 MethodOpis_Block -->
+            </div><!-- row no-gutters-->
+        </div><!-- card mt-3 article -->
+        <p></p>
         <div class="row px-5 pt-4 ShadowBig">
             <div class="Redactor col-md-6">Автор*: 
               <input type="text" class="form-control 
@@ -173,23 +172,23 @@ include 'layout/admin_header.php';
 
             <div class="MMarkers">
             </div>
-    <!-- Меню типов методов -->
-        <div class="container-fluid pl-3 pt-2 pb-2 method_menu">
-            <div class="row">
-            <?php
-            foreach (Methods::all() as $method) {  // Метод модели all получит все записи из связанной с моделью таблицы БД
-            ?>
-              <div class="col-6 col-sm-3 col-md">
-                  <div  class="Mbt" style="background-image: url('<?='/' . IMG . '/' .$method->image; ?>'); background-position: left top; background-repeat: no-repeat; cursor:pointer"><?=$method->name ?>
-                    <br>
-                    <input class="form-check-input" type="checkbox" name="methods[]" value="<?php printf('%s', $method->id ?? 9); ?>">
+        <!-- Меню типов методов -->
+            <div class="container-fluid pl-3 pt-2 pb-2 method_menu">
+                <div class="row">
+                <?php
+                foreach (Methods::all() as $method) {  // Метод модели all получит все записи из связанной с моделью таблицы БД
+                ?>
+                  <div class="col-6 col-sm-3 col-md">
+                      <div  class="Mbt" style="background-image: url('<?='/' . IMG . '/' .$method->image; ?>'); background-position: left top; background-repeat: no-repeat; cursor:pointer"><?=$method->name ?>
+                        <br>
+                        <input class="form-check-input" type="checkbox" name="methods[]" value="<?php printf('%s', $method->id ?? 9); ?>">
+                      </div>
                   </div>
-              </div>
-            <?php
-            }
-            ?>
-            </div><!-- row -->
-        </div><!-- container -->
+                <?php
+                }
+                ?>
+                </div><!-- row -->
+            </div><!-- container -->
 
             <div class="col-md-12">
                 <div class="Ozg">Описание метода:</div>
@@ -201,19 +200,11 @@ include 'layout/admin_header.php';
               <button class="btn btn-outline-primary" type="submit" name="submit" id="submit">Сохранить изменения</button>
             </div>
             
-        </div>
+        </div><!-- row -->
       </form>
-<pre>
-<?php
-print_r($_POST);
-print_r($_FILES);
-// echo "<br>";
-?>
-</pre>
-            <br/>
-            <br/>
-        </div><!--/sign up form-->
-    </div><!-- row -->
+      <br/>
+      <br/>
+    </div><!--/sign up form-->
 </div><!-- container -->
 
 <?php
