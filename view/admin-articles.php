@@ -23,6 +23,7 @@ include 'layout/admin_header.php';
                     <div class="signup-form"><!--sign up form-->
                         <!-- <h2>Админка</h2> -->
                         <h2><?=$title ?></h2>
+                        <pre>testing</pre>
 <pre>
 <?php
 // use App\Components\Menu;
