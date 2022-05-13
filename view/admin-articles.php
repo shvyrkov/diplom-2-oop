@@ -26,7 +26,7 @@ include 'layout/admin_header.php';
 
                         <p>main</p>
 
-                        <pre>testing</pre>
+                        <pre>list</pre>
 
 <pre>
 <?php
