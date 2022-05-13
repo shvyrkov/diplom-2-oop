@@ -27,6 +27,7 @@ include 'layout/admin_header.php';
                         <p>main</p>
 
                         <pre>list</pre>
+                        <pre>editor</pre>
 
 <pre>
 <?php
