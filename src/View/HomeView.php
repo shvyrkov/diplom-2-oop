@@ -30,7 +30,7 @@ class HomeView extends View
         $page = $selected['page']; // Номер страницы
         $total = Articles::all()->count(); // Всего товаров в БД
 
-        // Статьи для вывода на страницу
+        // Статей для вывода на страницу
         $articles = Articles::getArticles($limit, $page);
 
         // Создаем объект Pagination - постраничная навигация - см.конструктор класса

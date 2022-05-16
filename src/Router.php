@@ -59,11 +59,15 @@ class Router
     public function dispatch(string $url, string $method)
     {
         $uri = trim($url, '/');
-
+// else {
+echo "<pre>";
+var_dump($this->routes);
+echo "</pre>";
+//             }
         foreach ($this->routes as $route) { // Перебираем допустимые маршруты
             if ($route->match($uri, strtolower($method))) { // Если находим совпадающий,
                 return $route->run($uri); // то запускаем совпавший маршрут
-            }
+            } 
         }
 
         throw new NotFoundException("Страница не найдена", 404);
