@@ -101,11 +101,11 @@ class AdminPageController
     *
     * @return View
     */
-    public function adminCMS()
+    public function adminCMS($id = 0)
     {
         if (isset($_SESSION['user']['id']) && in_array($_SESSION['user']['role'], [ADMIN, CONTENT_MANAGER])) { // Доступ разрешен только админу и контент-менеджеру
 
-           return new AdminCMSView('admin-cms', ['title' => Menu::showTitle(Menu::getAdminMenu())]); // Вывод представления
+           return new AdminCMSView('admin-cms', ['title' => Menu::showTitle(Menu::getAdminMenu()), 'id' => $id]); // Вывод представления
         } else {
             header('Location: /'); // @TODO: Выводить текст: вы не авторизованы...?
         }

@@ -12,6 +12,7 @@ class Route
     /** @var string $method — HTTP-метод запроса.*/
     private  $method;
     /** @var string $path — URL-адрес маршрута.*/
+    // public  $path;
     private  $path;
     /** @var Closure $callback — callback-функция?*/
     private  $callback;

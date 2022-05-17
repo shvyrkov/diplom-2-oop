@@ -1,5 +1,6 @@
 <?php
 use App\Model\Methods;
+use App\Model\Articles;
 use App\Model\Users;
 
 include 'layout/admin_header.php';
@@ -9,6 +10,27 @@ include 'layout/admin_header.php';
     <br>
     <div class="signup-form"><!--sign up form-->
       <h2><?=$title ?></h2>
+      <h2>id = <?=$id ?></h2>
+      <?php
+if ($id) {
+  $article = Articles::where('id', $id)
+                ->get();
+// echo "<pre>";
+// var_dump($article[0]);
+// echo "</pre>";
+  $articleTitle = $article[0]->title;
+  $subtitle = $article[0]->subtitle;
+  $people = $article[0]->people;
+  $duration = $article[0]->duration;
+  $description = $article[0]->description;
+  $author = $article[0]->author;
+  $link = $article[0]->link;
+  // $method = $article[0]->method;
+  $content = $article[0]->content;
+  $image = $article[0]->image;
+  $thumbnail = $article[0]->thumbnail;
+}
+      ?>
 
       <form action="" enctype="multipart/form-data" id="loadArticle" method="post">
         <div class="row">
@@ -198,6 +220,10 @@ include 'layout/admin_header.php';
             </div>
             <div class="col-md-12"><br>
               <button class="btn btn-outline-primary" type="submit" name="submit" id="submit">Сохранить изменения</button>
+              <?php
+            if ($id) : ?>
+               <button type="submit" name="delete" class="btn btn-outline-danger">Удалить статью</button>
+            <?php endif ?>
             </div>
             
         </div><!-- row -->

@@ -54,11 +54,18 @@ $router->get('admin', [AdminPageController::class, 'admin']); // Маршрут 
 
 foreach (Menu::getAdminMenu() as $key => $value) { // Загрузка маршрутов для админки
     $router->get($key, [AdminPageController::class, $value['method']]); 
-    $router->get($key . 'page-*', [AdminPageController::class, $value['method']]); // Для пагинации(?)
+    $router->get($key . '/page-*', [AdminPageController::class, $value['method']]); // Для пагинации(?)
     $router->post($key, [AdminPageController::class, $value['method']]); 
-    $router->post($key . 'page-*', [AdminPageController::class, $value['method']]); // Для пагинации(?)
+    $router->post($key . '/page-*', [AdminPageController::class, $value['method']]); // Для пагинации(?)
 }
-
+//--------------
+// foreach (Articles::all() as $article) {
+    $router->get('admin-cms/*', [AdminPageController::class, 'adminCMS']); // 
+    // var_dump('admin-cms/' . $article->id);
+    $router->post('admin-cms/*', [AdminPageController::class, 'adminCMS']); 
+// }
+//----------
+    
 $router->get('posts/*', [StaticPageController::class, 'test']);
 $router->get('test_index', [StaticPageController::class, 'index']); // 
 $router->get('test/*/test2/*', [StaticPageController::class, 'test']);

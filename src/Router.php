@@ -60,9 +60,12 @@ class Router
     {
         $uri = trim($url, '/');
 // else {
-echo "<pre>";
-var_dump($this->routes);
-echo "</pre>";
+// echo "<pre>";
+// var_dump($this->routes);
+// foreach ($this->routes as $key => $route) {
+    // var_dump($route->path); //Все зарегистрированные маршруты
+// }
+// echo "</pre>";
 //             }
         foreach ($this->routes as $route) { // Перебираем допустимые маршруты
             if ($route->match($uri, strtolower($method))) { // Если находим совпадающий,
