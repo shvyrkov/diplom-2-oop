@@ -291,6 +291,10 @@ body{
 }
 
 .font-success {
+    color: darkgreen;
+}
+
+.font-fail {
     color: salmon;
 }
 

@@ -100,8 +100,6 @@ class LkView extends View
 
                         // Перегружаем кабинет с новыми данными
                         header('Location: /lk');
-
-                        return new View('lk', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
                     }
                  } else {
                     $errors[] = 'Ошибка обновления данных.';

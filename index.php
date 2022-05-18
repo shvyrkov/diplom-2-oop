@@ -51,6 +51,7 @@ $router->get('contacts', [StaticPageController::class, 'contacts']); // Испо
 $router->get('post', [PostController::class, 'post']); // PostController::post - обработка запроса
 
 $router->get('admin', [AdminPageController::class, 'admin']); // Маршрут для перехода в админку
+$router->get('article-delete/*', [AdminPageController::class, 'articleDelete']); // Вывод страницы-сообщения об удалении статьи.
 
 foreach (Menu::getAdminMenu() as $key => $value) { // Загрузка маршрутов для админки
     $router->get($key, [AdminPageController::class, $value['method']]); 
@@ -60,8 +61,7 @@ foreach (Menu::getAdminMenu() as $key => $value) { // Загрузка марш�
 }
 //--------------
 // foreach (Articles::all() as $article) {
-    $router->get('admin-cms/*', [AdminPageController::class, 'adminCMS']); // 
-    // var_dump('admin-cms/' . $article->id);
+    $router->get('admin-cms/*', [AdminPageController::class, 'adminCMS']); // Для редактирования статьи
     $router->post('admin-cms/*', [AdminPageController::class, 'adminCMS']); 
 // }
 //----------

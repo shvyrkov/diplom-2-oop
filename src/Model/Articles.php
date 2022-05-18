@@ -74,14 +74,14 @@ class Articles extends Model
     * 
     * @param string $id 
     * 
-    * @return array $articles - массив со статьями.
+    * @return array $article[0] - данные по статье.
     */
     public static function getArticleById($id = 1)
     {
-        $articles = Articles::where('id', '=' , $id)
+        $article = Articles::where('id', $id)
                 ->get();
 
-        return $articles;
+        return $article[0];
     }
 
     /**

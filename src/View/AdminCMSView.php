@@ -42,7 +42,21 @@ class AdminCMSView extends AdminView
         $errors = false;
         $success = false;
 
-        if (isset($_POST['submit'])) { // Обработка формы
+        extract($this->data); // ['title' => 'Index Page', 'id' => $id] -> $title = 'Index Page' - создается переменная для исп-я в html
+        $menu = Menu::getAdminMenu();
+
+        $templateFile = $this->getIncludeTemplate($this->view); // Полное имя файла
+
+        if (isset($_POST['exit'])) {
+            Users::exit();
+        }
+
+        if (isset($_POST['delete'])) { // Удаление статьи
+            $success = Articles::where('id', $id)->delete(); // Удаляет всё и из article-methods
+            header("Location: /article-delete/$success");
+        }
+
+        if (isset($_POST['submit'])) { // Обработка формы добавления/редактирования статьи
             $articleTitle = $_POST['articleTitle'] ?? '';
             $subtitle = $_POST['subtitle'] ?? '';
             $people = $_POST['people'] ?? '';
@@ -135,7 +149,16 @@ class AdminCMSView extends AdminView
             }
 
             if ($errors === false) { // Если ошибок нет, то добавляем данные.
-                $article = new Articles();
+                if ($id) { // Редактирование существующей статьи
+                    $article = Articles::getArticleById($id);
+
+                    if (!$image) { // Если фото не менялось, берем старое.
+                        $image = $article->image;
+                        $thumbnail = $article->thumbnail;
+                    }
+                } else { // Создание новой статьи
+                    $article = new Articles();
+                }
 
                 $article->title = $articleTitle;
                 $article->people = $people;
@@ -151,32 +174,31 @@ class AdminCMSView extends AdminView
                 $article->save();
 
                 if ($article->id) { // Добавление новых связей статья-метод
-                    foreach ($methods as $method) {
+                    $id = $article->id;
+
+                    // Удалить старые связи статья-метод, если они есть--------
+                    ArticleMethods::where('id_article', $id)->delete();
+
+                    foreach ($methods as $method) { // Внести новые связи статья-метод
                         ArticleMethods::upsert(
                             ['id_article' => $article->id,
                             'id_method' => $method],
                             [],
                             []);
                     }
-
                     $success = 'Статья успешно добавлена/изменена!';
+                } else {
+                    $success = 'Статья не была добавлена/изменена! Обратитесь к Администратору!';
                 }
             }
         } // Обработка формы
 
-        extract($this->data); // ['title' => 'Index Page'] -> $title = 'Index Page' - создается переменная для исп-я в html
-        $menu = Menu::getAdminMenu();
-
-        $templateFile = $this->getIncludeTemplate($this->view); // Полное имя файла
-
-        if (isset($_POST['exit'])) {
-            Users::exit();
-        }
 
         if (file_exists($templateFile)) {
             include $templateFile; // Вывод представления
         } else { // Если файл не найден
             throw new ApplicationException("$templateFile - шаблон не найден", 442); // Если запрашиваемого файла с шаблоном не найдено, то метод должен выбросить исключение ApplicationException, с таким текстом ошибки: "<имя файла шаблона> шаблон не найден". 
         }
+
     }
 }

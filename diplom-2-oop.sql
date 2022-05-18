@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Хост:                         127.0.0.1
--- Версия сервера:               5.5.62-log - MySQL Community Server (GPL)
--- Операционная система:         Win64
--- HeidiSQL Версия:              11.2.0.6213
+-- Версия сервера:               5.7.25 - MySQL Community Server (GPL)
+-- Операционная система:         Win32
+-- HeidiSQL Версия:              10.1.0.5464
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,7 +10,6 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 -- Дамп структуры для таблица diplom_2_oop.articles
 DROP TABLE IF EXISTS `articles`;
@@ -29,9 +28,9 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата публикации',
   `user_id` int(50) NOT NULL DEFAULT '1' COMMENT 'id пользователя, добавившего статью',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8 COMMENT='Статьи: название, картинка, дата публикации, краткое описание, полное содержание статьи';
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8 COMMENT='Статьи: название, картинка, дата публикации, краткое описание, полное содержание статьи';
 
--- Дамп данных таблицы diplom_2_oop.articles: ~117 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.articles: ~69 rows (приблизительно)
 DELETE FROM `articles`;
 /*!40000 ALTER TABLE `articles` DISABLE KEYS */;
 INSERT INTO `articles` (`id`, `title`, `subtitle`, `description`, `content`, `people`, `duration`, `author`, `link`, `thumbnail`, `image`, `date`, `user_id`) VALUES
@@ -87,21 +86,10 @@ INSERT INTO `articles` (`id`, `title`, `subtitle`, `description`, `content`, `pe
 	(58, 'test-16', 'test-16', 'test-16test-16', 'test-16', 'test-16', 'test-16', 'test-16', 'test-16', 'small-bee.jpg', 'bee.jpg', '2022-05-11 13:12:36', 1),
 	(59, 'test-16', 'test-16', 'test-16test-16', 'test-16', 'test-16', 'test-16', 'test-16', 'test-16', 'small-bee.jpg', 'bee.jpg', '2022-05-11 13:13:15', 1),
 	(60, 'test-16', 'test-16', 'test-16test-16', 'test-16', 'test-16', 'test-16', 'test-16', 'test-16', 'small-bee.jpg', 'bee.jpg', '2022-05-11 13:14:38', 1),
-	(61, 'test-17', '', 'test-17', '', 'test-17', 'test-17', '', '', 'small-para-pingvinov-1026x500 - Copy.jpg', 'para-pingvinov-1026x500 - Copy.jpg', '2022-05-11 13:28:58', 1),
-	(62, 'test-17', '', 'test-17', '', 'test-17', 'test-17', '', '', 'small-para-pingvinov-1026x500 - Copy.jpg', 'para-pingvinov-1026x500 - Copy.jpg', '2022-05-11 13:30:05', 1),
-	(63, 'test-17', '', 'test-17', '', 'test-17', 'test-17', '', '', 'small-para-pingvinov-1026x500 - Copy.jpg', 'para-pingvinov-1026x500 - Copy.jpg', '2022-05-11 13:30:56', 1),
-	(64, 'test-18', '', '444', '', '1', '2', '', '', 'cs-big.png', 'cs-big.png', '2022-05-11 13:32:34', 1),
-	(65, 'a', 'a', 'a', '', 'a', 'a', '', '', 'small-bee.jpg', 'bee.jpg', '2022-05-11 17:31:25', 1),
-	(66, 'a', 'a', 'a', '', 'a', 'a', '', '', 'small-bee.jpg', 'bee.jpg', '2022-05-11 17:32:07', 1),
-	(67, 'q', '', 'q', '', 'q', 'q', '', '', 'small-parrot.jpg', 'parrot.jpg', '2022-05-11 18:21:47', 1),
-	(68, 'a', '', 'a', '', 'a', 'a', '', '', 'small-rabbit.jpg', 'rabbit.jpg', '2022-05-11 18:26:21', 1),
-	(69, 'a', '', 'a', '', 'a', 'a', '', '', 'small-rabbit.jpg', 'rabbit.jpg', '2022-05-11 18:32:09', 1),
-	(70, 'ам', '', 'аff', 'h', 'а', 'а', 'fhh', '', 'small-deer.jpg', 'deer.jpg', '2022-05-12 10:13:02', 1),
-	(71, 'ам', '', 'аff', 'hdfghjk', 'а', 'а', 'fhh', '', 'small-rabbit.jpg', 'rabbit.jpg', '2022-05-12 10:15:21', 1),
-	(72, 'тест-18', 'тест-18', 'тест-18тест-18', 'тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18тест-18м', 'тест-18', 'тест-18', 'тест-18тест-18тест-18', 'тест-18тест-18тест-18тест-18тест-18тест-18', 'cs-big.png', 'cs-big.png', '2022-05-12 10:20:00', 1),
 	(73, 'тест-19', 'тест-19', 'тест-19тест-19', 'тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19', 'тест-19', 'тест-19', 'тест-19тест-19тест-19тест-198', 'тест-19тест-19', 'small-dog.png', 'dog.png', '2022-05-12 10:20:53', 1),
-	(74, 'тест-19', 'тест-19', 'тест-19тест-19', 'тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19', 'тест-19', 'тест-19', 'тест-19тест-19тест-19тест-198', 'тест-19тест-19', 'cs-big.png', 'cs-big.png', '2022-05-12 10:22:43', 1),
-	(75, 'тест-19', 'тест-19', 'тест-19тест-19', 'тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19', 'тест-19', 'тест-19', 'тест-19тест-19тест-19тест-198', 'тест-19тест-19', 'small-para-pingvinov-1026x500 - Copy.jpg', 'para-pingvinov-1026x500 - Copy.jpg', '2022-05-12 10:26:40', 1);
+	(80, 'tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22tesr-22tesr-22tesr-22tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22', 'tesr-22tesr-22', 'cs-big.png', 'cs-big.png', '2022-05-18 17:55:04', 1),
+	(81, 'tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22tesr-22tesr-22tesr-22tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22', 'tesr-22tesr-22', 'cs-big.png', 'cs-big.png', '2022-05-18 17:55:13', 1),
+	(82, 'tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-2xvxzcZCXZ2tesr-22tesr-22tesr-22tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22', 'tesr-22tesr-22', 'small-leopard.jpg', 'leopard.jpg', '2022-05-18 17:55:34', 1);
 /*!40000 ALTER TABLE `articles` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.article_methods
@@ -116,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `article_methods` (
   CONSTRAINT `FK2_id_method` FOREIGN KEY (`id_method`) REFERENCES `methods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица соответствия между статьями и типами методов, к которым они принадлежат.';
 
--- Дамп данных таблицы diplom_2_oop.article_methods: ~93 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.article_methods: ~99 rows (приблизительно)
 DELETE FROM `article_methods`;
 /*!40000 ALTER TABLE `article_methods` DISABLE KEYS */;
 INSERT INTO `article_methods` (`id_article`, `id_method`, `description`) VALUES
@@ -203,16 +191,14 @@ INSERT INTO `article_methods` (`id_article`, `id_method`, `description`) VALUES
 	(53, 6, NULL),
 	(54, 3, NULL),
 	(54, 4, NULL),
-	(65, 3, NULL),
-	(66, 4, NULL),
-	(67, 2, NULL),
-	(70, 4, NULL),
-	(70, 6, NULL),
-	(71, 5, NULL),
-	(71, 6, NULL),
-	(72, 4, NULL),
-	(72, 5, NULL),
-	(72, 7, NULL);
+	(60, 4, NULL),
+	(60, 6, NULL),
+	(60, 8, NULL),
+	(81, 5, NULL),
+	(81, 6, NULL),
+	(82, 1, NULL),
+	(82, 5, NULL),
+	(82, 6, NULL);
 /*!40000 ALTER TABLE `article_methods` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.comments
@@ -419,7 +405,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Настройки для приложения.';
 
--- Дамп данных таблицы diplom_2_oop.settings: ~1 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.settings: ~0 rows (приблизительно)
 DELETE FROM `settings`;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` (`id`, `name`, `value`, `description`) VALUES
@@ -449,7 +435,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscription`, `avatar`, `aboutMe`) VALUES
-	(1, 'yuri', 1, 'yu@mail.ru', '$2y$10$mTOdb2IHzNKhD8Hm3bKrwOkf1Mti1GYeC20BQ.oUAv9BaFuOF25Xa', NULL, 0, 'yuri.jpg', 'Это Юрий! Hello! '),
+	(1, 'yuri', 1, 'yu@mail.ru', '$2y$10$mTOdb2IHzNKhD8Hm3bKrwOkf1Mti1GYeC20BQ.oUAv9BaFuOF25Xa', NULL, 0, 'yuri.jpg', 'Это Юрий! Hello! 3'),
 	(2, 'nataliya ivanovna', 1, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'nat.jpg', 'Это Наталия'),
 	(3, 'leon', 3, 'leo@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'leon.jpg', 'Leonid'),
 	(4, 'nina', 3, 'nina@mail.ru', '$2y$10$JuZBFGhKypltSBnopzmVpObYixBVAzEGNk6wUDXjUdVDwupIX6/nG', NULL, 0, 'no-photo.jpg', 'Hello'),
@@ -467,6 +453,5 @@ INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscri
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

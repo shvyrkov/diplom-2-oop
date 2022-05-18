@@ -112,6 +112,21 @@ class AdminPageController
     }
 
     /**
+    * Вывод страницы-сообщения об удалении статьи.
+    *
+    * @return View
+    */
+    public function articleDelete($success = 0)
+    {
+        if (isset($_SESSION['user']['id']) && in_array($_SESSION['user']['role'], [ADMIN, CONTENT_MANAGER])) { // Доступ разрешен только админу и контент-менеджеру
+
+           return new AdminView('article-delete', ['title' => Menu::showTitle(Menu::getAdminMenu()), 'success' => $success]); // Вывод представления
+        } else {
+            header('Location: /'); // @TODO: Выводить текст: вы не авторизованы...?
+        }
+    }
+
+    /**
     * Успешная запись статьи
     *
     * @return View

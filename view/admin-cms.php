@@ -1,6 +1,7 @@
 <?php
 use App\Model\Methods;
 use App\Model\Articles;
+use App\Model\ArticleMethods;
 use App\Model\Users;
 
 include 'layout/admin_header.php';
@@ -10,26 +11,23 @@ include 'layout/admin_header.php';
     <br>
     <div class="signup-form"><!--sign up form-->
       <h2><?=$title ?></h2>
-      <h2>id = <?=$id ?></h2>
       <?php
-if ($id) {
-  $article = Articles::where('id', $id)
-                ->get();
-// echo "<pre>";
-// var_dump($article[0]);
-// echo "</pre>";
-  $articleTitle = $article[0]->title;
-  $subtitle = $article[0]->subtitle;
-  $people = $article[0]->people;
-  $duration = $article[0]->duration;
-  $description = $article[0]->description;
-  $author = $article[0]->author;
-  $link = $article[0]->link;
-  // $method = $article[0]->method;
-  $content = $article[0]->content;
-  $image = $article[0]->image;
-  $thumbnail = $article[0]->thumbnail;
-}
+      $articleMethods = [];
+
+      if ($id) { // Если это редактирование, то загружаем данные из БД
+        $articleMethods = ArticleMethods::getMethodsByArticleId($id); // Все связи статьи и методов.
+        $article = Articles::getArticleById($id); // Данные статьи
+        $articleTitle = $article->title;
+        $subtitle = $article->subtitle;
+        $people = $article->people;
+        $duration = $article->duration;
+        $description = $article->description;
+        $author = $article->author;
+        $link = $article->link;
+        $content = $article->content;
+        $image = $article->image;
+        $thumbnail = $article->thumbnail;
+      }
       ?>
 
       <form action="" enctype="multipart/form-data" id="loadArticle" method="post">
@@ -37,7 +35,6 @@ if ($id) {
             <?php 
             if ($success) {
               echo "<h4 class='font-success'>$success</h4>";
-              // echo '<button type="reset">Сбросить данные формы</button>';
             }
             ?>
             <div class="col-sm-8 col-sm-offset-4 padding-right">
@@ -198,12 +195,17 @@ if ($id) {
             <div class="container-fluid pl-3 pt-2 pb-2 method_menu">
                 <div class="row">
                 <?php
+
                 foreach (Methods::all() as $method) {  // Метод модели all получит все записи из связанной с моделью таблицы БД
                 ?>
                   <div class="col-6 col-sm-3 col-md">
                       <div  class="Mbt" style="background-image: url('<?='/' . IMG . '/' .$method->image; ?>'); background-position: left top; background-repeat: no-repeat; cursor:pointer"><?=$method->name ?>
                         <br>
-                        <input class="form-check-input" type="checkbox" name="methods[]" value="<?php printf('%s', $method->id ?? 9); ?>">
+                        <input class="form-check-input" type="checkbox" name="methods[]" value="<?php printf('%s', $method->id ?? 9); ?>"
+                        <?php if (in_array($method->id, $articleMethods)): ?>
+                          checked
+                        <?php endif ?>
+                        >
                       </div>
                   </div>
                 <?php
