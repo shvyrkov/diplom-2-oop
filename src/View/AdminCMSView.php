@@ -40,7 +40,8 @@ class AdminCMSView extends AdminView
         // $userId = $_SESSION['user']['id']; // @TODO: добавлять id создавшего статью? Новое поле в Articles?
 
         $errors = false;
-        $success = false;
+        $change = false;
+        $result = false;
 
         extract($this->data); // ['title' => 'Index Page', 'id' => $id] -> $title = 'Index Page' - создается переменная для исп-я в html
         $menu = Menu::getAdminMenu();
@@ -49,11 +50,6 @@ class AdminCMSView extends AdminView
 
         if (isset($_POST['exit'])) {
             Users::exit();
-        }
-
-        if (isset($_POST['delete'])) { // Удаление статьи
-            $success = Articles::where('id', $id)->delete(); // Удаляет всё и из article-methods
-            header("Location: /article-delete/$success");
         }
 
         if (isset($_POST['submit'])) { // Обработка формы добавления/редактирования статьи
@@ -172,27 +168,32 @@ class AdminCMSView extends AdminView
                 $article->thumbnail = $thumbnail ? $thumbnail : DEFAULT_ARTICLE_IMAGE;
 
                 $article->save();
+                $change = true; // Было изменение в БД
+                $id = $article->id;
 
-                if ($article->id) { // Добавление новых связей статья-метод
-                    $id = $article->id;
-
-                    // Удалить старые связи статья-метод, если они есть--------
-                    ArticleMethods::where('id_article', $id)->delete();
+                if ($id) { // Добавление новых связей статья-метод
+                    ArticleMethods::where('id_article', $id)->delete(); // Удалить старые связи статья-метод, если они есть
 
                     foreach ($methods as $method) { // Внести новые связи статья-метод
                         ArticleMethods::upsert(
-                            ['id_article' => $article->id,
+                            ['id_article' => $id,
                             'id_method' => $method],
                             [],
                             []);
                     }
-                    $success = 'Статья успешно добавлена/изменена!';
-                } else {
-                    $success = 'Статья не была добавлена/изменена! Обратитесь к Администратору!';
+
+                    $result = true;
                 }
+
+                header("Location: /admin-cms/$id/$change/$result");
             }
         } // Обработка формы
 
+        if (isset($_POST['delete'])) { // Удаление статьи
+            $result = Articles::where('id', $_POST['id'])->delete(); // Удаляет всё и из article-methods
+
+            header("Location: /article-delete/$result");
+        }
 
         if (file_exists($templateFile)) {
             include $templateFile; // Вывод представления

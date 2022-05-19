@@ -33,8 +33,11 @@ include 'layout/admin_header.php';
       <form action="" enctype="multipart/form-data" id="loadArticle" method="post">
         <div class="row">
             <?php 
-            if ($success) {
-              echo "<h4 class='font-success'>$success</h4>";
+            if ($change && $result) {
+              echo "<h4 class='font-success'>Статья успешно добавлена/изменена!</h4>";
+            } 
+            if($change && !$result) {
+                echo "<h4 class='font-fail'>Статья не была добавлена/изменена! Обратитесь к Администратору!</h4>";
             }
             ?>
             <div class="col-sm-8 col-sm-offset-4 padding-right">
@@ -224,7 +227,8 @@ include 'layout/admin_header.php';
               <button class="btn btn-outline-primary" type="submit" name="submit" id="submit">Сохранить изменения</button>
               <?php
             if ($id) : ?>
-               <button type="submit" name="delete" class="btn btn-outline-danger">Удалить статью</button>
+                <input type="text" hidden class="form-control" name="id" value="<?=$id; ?>">
+                <button type="submit" name="delete" class="btn btn-outline-danger">Удалить статью</button>
             <?php endif ?>
             </div>
             
