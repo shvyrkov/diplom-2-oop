@@ -11,7 +11,7 @@ include 'layout/header.php';
     <div class="card mt-3 article">
         <div class="row no-gutters">
             <div class="col-md-8 Method_Obl" >
-                <img src="<?php echo DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . $article[0]->image; ?>" class="card-img" alt="Photo">
+                <img src="<?php echo DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . $article->image; ?>" class="card-img" alt="Photo">
             </div>
             <div class="col-md-4 MethodOpis_Block">
                 <div class="card-body ">
@@ -24,25 +24,25 @@ include 'layout/header.php';
                         ?>
                     </div>
                     <div class="MMName"><?=$title ?></div>
-                    <div class="MVName"><?=$article[0]->subtitle ?></div>
-                    <div class="MPeople"><?=$article[0]->people ?></div>
-                    <div class="MHours"><?=$article[0]->duration ?></div>
-                    <div class="MIBlock"><?=$article[0]->description ?></div>
+                    <div class="MVName"><?=$article->subtitle ?></div>
+                    <div class="MPeople"><?=$article->people ?></div>
+                    <div class="MHours"><?=$article->duration ?></div>
+                    <div class="MIBlock"><?=$article->description ?></div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row px-5 pt-4 ShadowBig">
-        <div class="Redactor">Версия от <?=$article[0]->date ?> — автор 
+        <div class="Redactor">Версия от <?=$article->date ?> — автор 
             <?php
-            if ($article[0]->link != '#') {
+            if ($article->link != '#') {
             ?>
-            <a href="<?=$article[0]->link ?>">
+            <a href="<?=$article->link ?>">
             <?php
             }
-            echo $article[0]->author;
-            if ($article[0]->link != '#') { ?>
+            echo $article->author;
+            if ($article->link != '#') { ?>
             </a>
             <?php } ?>
         </div>
@@ -52,7 +52,7 @@ include 'layout/header.php';
             <div class="Ozg">Описание метода "<?=$title ?>"</div>
             <div class="Otxt">
                 <!-- <pre> -->
-                    <?=$article[0]->content ?>
+                    <?=$article->content ?>
                 <!-- </pre> -->
             </div>
         </div>

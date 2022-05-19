@@ -73,7 +73,7 @@ class ArticleView extends View
 
         // Статьи для вывода на страницу
         $article = Articles::getArticleById($id);
-        $title = $article[0]->title;
+        $title = $article->title;
 
         $comments = Comments::getCommentsByArticleId($id); // Комментарии к статье
 
