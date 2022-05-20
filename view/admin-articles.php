@@ -41,7 +41,7 @@ include 'layout/admin_header.php';
     <?php
     use App\Model\Articles;
 
-    // include 'layout/pagination.php';
+    include 'layout/admin-pagination.php';
     ?>
     <div class="row">
         <?php

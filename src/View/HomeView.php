@@ -21,12 +21,13 @@ class HomeView extends View
     */
         extract($this->data); // ['title' => 'Index Page'] -> $title = 'Index Page' - создается переменная для исп-я в html
         $menu = Menu::getUserMenu();
-
+// var_dump($articlesOnPage);
         $uri = $this->getURI(); // Получаем строку запроса без корня
         $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
         $selected = Pagination::goodsQuantity($page);
-        // $limit = $selected['limit']; // Количество товаров на странице по умолчанию (константа в класса Pagination или из представления)
         $limit = Articles::getArticlesQtyOnPage(); // Количество товаров на странице
+        // $limit = $selected['limit']; // Количество товаров на странице по умолчанию (константа в класса Pagination или из представления)
+        // $limit = $articlesOnPage; // Количество товаров на странице по умолчанию (константа в класса Pagination или из представления)
         $page = $selected['page']; // Номер страницы
         $total = Articles::all()->count(); // Всего товаров в БД
 

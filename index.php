@@ -19,6 +19,7 @@ $router = new Router(); // Объект Маршрутизатора
 $application = new Application($router); // Для запуска Eloquent
 
 $router->get('',      [HomeController::class, 'index']); // Маршрут для корня сайта (/) - метод index в App\Controllers\HomeController
+$router->get('*',      [HomeController::class, 'index']); // Пагинация: количество элементов на странице задается GET-параметром. 
 $router->get('page-*', [HomeController::class, 'index']); // Маршрут для page-1 - пагинация - метод index в App\Controllers\HomeController
 
 // Требуется запустить Eloquent. Как вариант - загружать методы из конфиг-файла

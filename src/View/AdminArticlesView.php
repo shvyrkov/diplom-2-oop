@@ -22,17 +22,17 @@ class AdminArticlesView extends AdminView
      /** метод должен выводить необходимый шаблон. Внутри метода данные свойства $data распаковать в переменные через extract(), а затем подключить страницу шаблона, получив полный путь к ней с помощью другого метода этого класса getIncludeTemplate().
     */
 
-        // $uri = $this->getURI(); // Получаем строку запроса без корня
-        // $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
-        // $selected = Pagination::goodsQuantity($page);
+        $uri = $this->getURI(); // Получаем строку запроса без корня
+        $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
+        $selected = Pagination::goodsQuantity($page);
         // // $limit = $selected['limit']; // Количество товаров на странице по умолчанию (константа в класса Pagination или из представления)
-        // $limit = Articles::getArticlesQtyOnPage(); // Количество товаров на странице
-        // $page = $selected['page']; // Номер страницы
-        // $total = Articles::all()->count(); // Всего товаров в БД
+        $limit = Articles::getArticlesQtyOnPage(); // Количество товаров на странице
+        $page = $selected['page']; // Номер страницы
+        $total = Articles::all()->count(); // Всего товаров в БД
 
         // Статей для вывода на страницу
-        // $articles = Articles::getArticles($limit, $page);
-        $articles = Articles::getArticles();
+        $articles = Articles::getArticles($limit, $page);
+// $articles = Articles::getArticles();
         // $articles = Articles::all();
 
         // Создаем объект Pagination - постраничная навигация - см.конструктор класса

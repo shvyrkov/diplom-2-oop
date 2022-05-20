@@ -14,9 +14,9 @@ class HomeController
      * 
      * @return object View - объект представления страницы
      */
-    public function index()
+    public function index($articlesOnPage = 4)
     {
-        $data = ['title' => Menu::showTitle(Menu::getUserMenu())];
+        $data = ['title' => Menu::showTitle(Menu::getUserMenu()), 'articlesOnPage' => $articlesOnPage];
 
         return new HomeView('homepage', $data); // Вывод представления
     }
