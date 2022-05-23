@@ -118,6 +118,14 @@ class StaticPageController
         foreach ($params as $param) {
             $string .= ' param_' . $i++ . ' = ' . $param;
         }
+// echo "<pre>";
+// echo "<br>_POST:<br>";
+// var_dump($_POST);
+// echo "<br>_GET:<br>";
+// var_dump($_GET);
+// echo "<br>SERVER:<br>";
+// var_dump($_SERVER);
+// echo "</pre>";
 
         return $string;
     }

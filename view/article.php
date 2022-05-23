@@ -5,7 +5,6 @@ use App\Model\Users;
 include 'layout/header.php';
 ?>
 
-
 <div class="container-fluid ">
 <!-- Горизонтальная карточка от Bootstrap-->    
     <div class="card mt-3 article">

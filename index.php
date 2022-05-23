@@ -19,7 +19,7 @@ $router = new Router(); // Объект Маршрутизатора
 $application = new Application($router); // Для запуска Eloquent
 
 $router->get('',      [HomeController::class, 'index']); // Маршрут для корня сайта (/) - метод index в App\Controllers\HomeController
-$router->get('*',      [HomeController::class, 'index']); // Пагинация: количество элементов на странице задается GET-параметром. 
+// $router->get('*',      [HomeController::class, 'index']); // Пагинация: количество элементов на странице задается GET-параметром. - НЕЛЬЗЯ ИСПОЛЬЗОВАТЬ "*", т.к. в рутер будут приниматься любые символы
 $router->get('page-*', [HomeController::class, 'index']); // Маршрут для page-1 - пагинация - метод index в App\Controllers\HomeController
 
 // Требуется запустить Eloquent. Как вариант - загружать методы из конфиг-файла
@@ -56,7 +56,9 @@ $router->get('article-delete/*', [AdminPageController::class, 'articleDelete']);
 
 foreach (Menu::getAdminMenu() as $key => $value) { // Загрузка маршрутов для админки
     $router->get($key, [AdminPageController::class, $value['method']]); 
+    $router->get($key . '?*=*', [AdminPageController::class, $value['method']]);  // Учесть GET-запрос в обработке url
     $router->get($key . '/page-*', [AdminPageController::class, $value['method']]); // Для пагинации(?)
+    $router->get($key . '/page-*?*=*', [AdminPageController::class, $value['method']]); // Учесть GET-запрос в обработке url
     $router->post($key, [AdminPageController::class, $value['method']]); 
     $router->post($key . '/page-*', [AdminPageController::class, $value['method']]); // Для пагинации(?)
 }

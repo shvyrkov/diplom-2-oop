@@ -21,9 +21,9 @@ class AdminArticlesView extends AdminView
     {
      /** метод должен выводить необходимый шаблон. Внутри метода данные свойства $data распаковать в переменные через extract(), а затем подключить страницу шаблона, получив полный путь к ней с помощью другого метода этого класса getIncludeTemplate().
     */
-
         $uri = $this->getURI(); // Получаем строку запроса без корня
-        $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
+        // $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
+        $page = ($uri == 'admin-articles') ? 1 : preg_replace('~admin-articles/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел /admin-articles, то - 1
         $selected = Pagination::goodsQuantity($page);
         // // $limit = $selected['limit']; // Количество товаров на странице по умолчанию (константа в класса Pagination или из представления)
         $limit = Articles::getArticlesQtyOnPage(); // Количество товаров на странице
@@ -36,8 +36,26 @@ class AdminArticlesView extends AdminView
         // $articles = Articles::all();
 
         // Создаем объект Pagination - постраничная навигация - см.конструктор класса
-        // $pagination = new Pagination($total, $page, $limit, 'page-');
+        $pagination = new Pagination($total, $page, $limit, 'page-');
+// echo "<pre>";
+// var_dump($uri == 'admin-articles');
+// echo "<br>preg_replace: ";
+// var_dump(preg_replace('~admin-articles/page-([0-9]+)~', '$1', $uri));
+// echo "<br>uri: ";
+// var_dump($uri);
+// echo "<br>page: ";
+// var_dump($page);
+// echo "<br>selected: ";
+// var_dump($selected);
+// echo "<br>limit: ";
+// var_dump($limit);
+// echo "<br>page: ";
+// var_dump($page);
+// echo "<br>total: ";
+// var_dump($total);
 
+
+// echo "</pre>";
 
         extract($this->data); // ['title' => 'Index Page'] -> $title = 'Index Page' - создается переменная для исп-я в html
         $menu = Menu::getAdminMenu();

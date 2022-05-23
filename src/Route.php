@@ -12,7 +12,8 @@ class Route
     /** @var string $method — HTTP-метод запроса.*/
     private  $method;
     /** @var string $path — URL-адрес маршрута.*/
-    private  $path;
+    // private  $path;
+    public  $path;
     /** @var Closure $callback — callback-функция?*/
     private  $callback;
 
@@ -59,8 +60,19 @@ class Route
     */
     public function match(string $uri, string $method): bool
     {
+// Учесть GET-запрос в обработке url:
+// echo "<pre>";
+// echo "<br>uri:"; // Строка запроса - 
+// var_dump($uri); // string(21) "admin-articles/page-4"
+// echo "<br>getPath:"; // Маршрут из списка -
+// var_dump($this->getPath()); // string(21) "admin-articles/page-*"
+// echo "<br>str_replace:";
+// var_dump('/^' . str_replace(['*', '/', '?', '='], ['\w+', '\/', '\?', '\='], $this->getPath()) . '$/'); // "/^admin-articles\/page-\w+$/"
+// echo "<br>";
+// echo "</pre>";
 
-        return ((preg_match('/^' . str_replace(['*', '/'], ['\w+', '\/'], $this->getPath()) . '$/', $uri)) && ($this->method == $method));
+        return ((preg_match('/^' . str_replace(['*', '/', '?', '='], ['\w+', '\/', '\?', '\='], $this->getPath()) . '$/', $uri)) && ($this->method == $method)); // + Учесть GET-запрос в обработке url
+        // return ((preg_match('/^' . str_replace(['*', '/'], ['\w+', '\/'], $this->getPath()) . '$/', $uri)) && ($this->method == $method));
         // return ((trim($this->getPath(), '/') === $uri) && ($this->method == $method));
     }
 

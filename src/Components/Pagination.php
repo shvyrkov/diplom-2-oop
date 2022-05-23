@@ -130,6 +130,7 @@ class Pagination
         if (!$text)
         // Указываем, что текст - цифра страницы
             $text = $page;
+// @TODO: удалять GET-запрос из $currentURI, если он есть
 
         $currentURI = rtrim($_SERVER['REQUEST_URI'], '/') . '/';
 // echo "currentURI: " . $currentURI . '<br>';
