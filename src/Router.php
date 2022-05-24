@@ -61,9 +61,11 @@ class Router
         $uri = trim($url, '/');
 // else {
 // echo "<pre>";
+// var_dump($url);
+// var_dump($uri);
 // var_dump($this->routes);
 // foreach ($this->routes as $key => $route) {
-    // var_dump($route->path); //Все зарегистрированные маршруты
+//     var_dump($route->path); //Все зарегистрированные маршруты
 // }
 // echo "</pre>";
 //             }

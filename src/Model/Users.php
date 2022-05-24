@@ -43,8 +43,6 @@ class Users extends Model
      */
     public static function checkUserData($email, $password)
     {
-        // $password = // @HASH
-
         $user = Users::where('email', $email)
                 ->get();
 
@@ -323,6 +321,27 @@ class Users extends Model
         return true;
     }
 
+    /**
+    * Получение пользователей из БД
+    * 
+    * @param int $limit [optional] Количество пользователей на странице
+    * @param int $page [optional] Номер страницы
+    * 
+    * @return array $articles - массив со пользователеми.
+    */
+    public static function getUsers($limit = 20, $page = 1)
+    {
+        $users = [];
+        $offset = ($page - 1) * $limit;
+
+        $users = Users::where('id', '>' , 0)
+                ->orderBy('id', 'desc')
+                ->offset($offset)
+                ->limit($limit)
+                ->get();
+
+        return $users;
+    }
 // --------------------- Test -----------------------------
     /**
     * Получение данных всех пользователей

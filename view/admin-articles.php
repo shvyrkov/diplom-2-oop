@@ -1,48 +1,12 @@
 <?php
+use App\Model\Articles;
+
 include 'layout/admin_header.php';
+include 'layout/admin_title.php';
+include 'layout/admin-pagination.php'; 
 ?>
-
-<div class="container">
-    <br>
-    <div class="row">
-
-        <div class="col-sm-8 col-sm-offset-4 padding-right">
-
-            <?php if (isset($errors) && is_array($errors)): ?>
-                <ul>
-                    <?php foreach ($errors as $error): ?>
-                        <li class="font-error"> <?php echo $error; ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
-
-            <div class="signup-form"><!--sign up form-->
-                <!-- <h2>Админка</h2> -->
-                <h2><?=$title ?></h2>
-<pre>
-<?php
-// use App\Components\Menu;
-// print_r($menu);
-// print_r($_SERVER);
-
-// echo "<br>";
-// var_dump(Menu::showTitle(Menu::getAdminMenu()));
-?>
-</pre>
-            </div><!--/sign up form-->
-            <br/>
-            <br/>
-        </div>
-    </div>
-</div><!-- container -->
-
 
 <div class="container-fluid my-4 mx-auto">
-    <?php
-    use App\Model\Articles;
-
-    include 'layout/admin-pagination.php';
-    ?>
     <div class="row">
         <?php
         foreach ($articles as $article) {

@@ -3,9 +3,6 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-// use App\Model\ArticleMethods;
-// use App\Model\Methods;
-// use App\Model\Settings;
 
 /**
  * Класс для работы со статьями
@@ -119,23 +116,23 @@ class Comments extends Model
     }
 
     /**
-    * Получение статей из БД
+    * Получение комментариев из БД
     * 
-    * @param int $limit [optional] Количество статей на странице
+    * @param int $limit [optional] Количество комментариев на странице
     * @param int $page [optional] Номер страницы
     * 
-    * @return array $comments - массив со статьями.
+    * @return array $comments - массив со комментариями.
     */
-    public static function getComments()
+    public static function getComments($limit = 20, $page = 1)
     // public static function getComments($limit = 4, $page = 1)
     {
         $comments = []; // массив со статьями
-        // $offset = ($page - 1) * $limit;
+        $offset = ($page - 1) * $limit;
 
         $comments = Comments::where('id', '>' , 0)
                 ->orderBy('date', 'desc') // в порядке убывания по дате публикации
-                // ->offset($offset)
-                // ->limit($limit)
+                ->offset($offset)
+                ->limit($limit)
                 ->get();
 
         return $comments;

@@ -88,6 +88,12 @@ class Pagination
                 // Иначе генерируем ссылку
                 $links .= $this->generateHtml($page);
             }
+            // } elseif ($page - 3 >= $this->current_page || $page + 3 <= $this->current_page) {
+            //     // Иначе генерируем ссылку на 3 до и 3 после текущей страницы
+            //     $links .= $this->generateHtml($page);
+            // } else {
+                // $links .= '...'; // @TODO: Должно быть: << < ... 3 4 5 |6| 7 8 9 ... > >>
+            // }
         }
 
         // Если ссылки создались
@@ -127,15 +133,17 @@ class Pagination
     private function generateHtml($page, $text = null)
     {
         // Если текст ссылки не указан
-        if (!$text)
+        if (!$text) {
         // Указываем, что текст - цифра страницы
             $text = $page;
+        }
 
         $currentURI = rtrim($_SERVER['REQUEST_URI'], '/') . '/';
-// echo "currentURI: " . $currentURI . '<br>';
-        $currentURI = preg_replace('~/page-[0-9]+~', '', $currentURI);
-// echo '$currentURI . $this->index . $page :' . $currentURI . $this->index . $page . ' - text: ' . $text;
-// echo "<br>";
+// echo "currentURI: " . $currentURI . '<br>'; // /admin-articles/page-3/
+        $currentURI = preg_replace('~/page-[0-9]+~', '', $currentURI); // Переход на др.стр. - /admin-articles/
+        $currentURI = preg_replace('~\?\w+=[0-9]+~', '', $currentURI); // Учёт GET-запроса
+// echo "preg_replace-currentURI: " . $currentURI . '<br>'; 
+
         // Формируем HTML код ссылки и возвращаем
         return
                 '<li class="page-item"><a class="page-link" href="' . $currentURI . $this->index . $page . '">' . $text . '</a></li>';
@@ -206,48 +214,75 @@ class Pagination
 /**
  * Настройка количества товаров на странице
  * 
- * @BUG: не проставляет 'selected' в составе контроллера
- * 
- * @TODO: передать метод в Components
- * 
  */
     public static function goodsQuantity($page)
     {
         // Массив для return
-        $selected = array();
+        $selected = [];
         
-        $selected['limit'] = $_SESSION['limit'] ?? 4; // default value
-        $selected['page'] = $page;
+        // $selected['limit'] = 20; // default value
+        $selected['limit'] = $_SESSION['limit'] ?? 20; // default value
+        $selected['page'] = $page; // Текущий номер страницы в пагинации
         
-        if (isset($_POST['itemsOnPageHeader']) ) {
-            $selected['limit'] = $_POST['itemsOnPageHeader']; // Получаем значение с верхнего 'select'
-        //echo '$_POST[\'itemsOnPageHeader\']: '.$_POST['itemsOnPageHeader'].'<br>';
-            $_SESSION['limit'] = $selected['limit'];
-            $selected['page'] = 1;
+        // Для $_GET
+        if (isset($_GET['itemsOnPageHeader']) ) {
+            $selected['limit'] = $_GET['itemsOnPageHeader']; // Получаем значение с верхнего 'select'
+        // echo '$_GET[\'itemsOnPageHeader\']: '.$_GET['itemsOnPageHeader'].'<br>';
+            $_SESSION['limit'] = $selected['limit']; // При изменении кол-ва статей на странице запоминаем его в $_SESSION
+            $selected['page'] = 1; // При изменении кол-ва статей на странице меняем номер страницы на ПЕРВУЮ
         }
         
-        if (isset($_POST['itemsOnPageFooter'])) {
-            $selected['limit'] = $_POST['itemsOnPageFooter']; // Получаем значение с нижнего 'select'
-        //echo '$_POST[\'itemsOnPageFooter\']: '.$_POST['itemsOnPageFooter'].'<br>';
-            $_SESSION['limit'] = $selected['limit'];
-            $selected['page'] = 1;
+        if (isset($_GET['itemsOnPageFooter'])) {
+            $selected['limit'] = $_GET['itemsOnPageFooter']; // Получаем значение с нижнего 'select'
+        // echo '$_GET[\'itemsOnPageFooter\']: '.$_GET['itemsOnPageFooter'].'<br>';
+            $_SESSION['limit'] = $selected['limit']; // При изменении кол-ва статей на странице запоминаем его в $_SESSION
+            $selected['page'] = 1; // При изменении кол-ва статей на странице меняем номер страницы на ПЕРВУЮ
         }
+        // Для $_POST
+        // if (isset($_POST['itemsOnPageHeader']) ) {
+        //     $selected['limit'] = $_POST['itemsOnPageHeader']; // Получаем значение с верхнего 'select'
+        // //echo '$_POST[\'itemsOnPageHeader\']: '.$_POST['itemsOnPageHeader'].'<br>';
+        //     $_SESSION['limit'] = $selected['limit'];
+        //     $selected['page'] = 1;
+        // }
+        
+        // if (isset($_POST['itemsOnPageFooter'])) {
+        //     $selected['limit'] = $_POST['itemsOnPageFooter']; // Получаем значение с нижнего 'select'
+        // //echo '$_POST[\'itemsOnPageFooter\']: '.$_POST['itemsOnPageFooter'].'<br>';
+        //     $_SESSION['limit'] = $selected['limit'];
+        //     $selected['page'] = 1;
+        // }
 
         // Устанавливаем атрибут 'selected' для 'option' в 'select'
-        if($selected['limit'] == 4) {
-            $selected['4'] = ' selected ';
+        if($selected['limit'] == 10) {
+            $selected['10'] = ' selected ';
         } else {
-            $selected['4'] = '';
+            $selected['10'] = '';
         }
-        if($selected['limit'] == 8) {
-            $selected['8'] = ' selected ';
+
+        if($selected['limit'] == 20) {
+            $selected['20'] = ' selected ';
         } else {
-            $selected['8'] = '';
+            $selected['20'] = '';
         }
-        if($selected['limit'] == 12) {
-            $selected['12'] = ' selected ';
+
+        if($selected['limit'] == 50) {
+            $selected['50'] = ' selected ';
         } else {
-            $selected['12'] = '';
+            $selected['50'] = '';
+        }
+
+        if($selected['limit'] == 200) {
+            $selected['200'] = ' selected ';
+        } else {
+            $selected['200'] = '';
+        }
+
+        if($selected['limit'] == 'all') { // @TODO: кол-во брать из Articles::all()->count()
+        // if($selected['limit'] == Articles::all()->count()) { // @TODO: кол-во брать из Articles::all()->count()
+            $selected['all'] = ' selected ';
+        } else {
+            $selected['all'] = '';
         }
         
         return $selected; //

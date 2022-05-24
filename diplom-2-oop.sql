@@ -28,9 +28,10 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата публикации',
   `user_id` int(50) NOT NULL DEFAULT '1' COMMENT 'id пользователя, добавившего статью',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8 COMMENT='Статьи: название, картинка, дата публикации, краткое описание, полное содержание статьи';
 
--- Дамп данных таблицы diplom_2_oop.articles: ~69 rows (приблизительно)
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 COMMENT='Статьи: название, картинка, дата публикации, краткое описание, полное содержание статьи';
+
+-- Дамп данных таблицы diplom_2_oop.articles: ~54 rows (приблизительно)
 DELETE FROM `articles`;
 /*!40000 ALTER TABLE `articles` DISABLE KEYS */;
 INSERT INTO `articles` (`id`, `title`, `subtitle`, `description`, `content`, `people`, `duration`, `author`, `link`, `thumbnail`, `image`, `date`, `user_id`) VALUES
@@ -88,8 +89,9 @@ INSERT INTO `articles` (`id`, `title`, `subtitle`, `description`, `content`, `pe
 	(60, 'test-16', 'test-16', 'test-16test-16', 'test-16', 'test-16', 'test-16', 'test-16', 'test-16', 'small-bee.jpg', 'bee.jpg', '2022-05-11 13:14:38', 1),
 	(73, 'тест-19', 'тест-19', 'тест-19тест-19', 'тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19тест-19', 'тест-19', 'тест-19', 'тест-19тест-19тест-19тест-198', 'тест-19тест-19', 'small-dog.png', 'dog.png', '2022-05-12 10:20:53', 1),
 	(80, 'tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22tesr-22tesr-22tesr-22tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22', 'tesr-22tesr-22', 'cs-big.png', 'cs-big.png', '2022-05-18 17:55:04', 1),
-	(81, 'tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22tesr-22tesr-22tesr-22tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22', 'tesr-22tesr-22', 'cs-big.png', 'cs-big.png', '2022-05-18 17:55:13', 1),
-	(82, 'tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-2xvxzcZCXZ2tesr-22tesr-22tesr-22tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22', 'tesr-22tesr-22', 'small-leopard.jpg', 'leopard.jpg', '2022-05-18 17:55:34', 1);
+	(82, 'test-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-2xvxzcZCXZ2tesr-22tesr-22tesr-22tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22', 'tesr-22tesr-22', 'small-leopard.jpg', 'leopard.jpg', '2022-05-18 17:55:34', 1),
+	(83, 'test-31', 'test-30', 'test-30', 'test-30test-30test-30', 'test-30', 'test-30', 'test-30', 'test-30', 'small-fox.jpg', 'fox.jpg', '2022-05-23 18:29:59', 1),
+	(84, 'test-32', '', 'test-32', 'test-32', 'test-32', 'test-32', 'test-32', '', 'cs-big.png', 'cs-big.png', '2022-05-23 18:31:41', 1);
 /*!40000 ALTER TABLE `articles` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.article_methods
@@ -104,7 +106,8 @@ CREATE TABLE IF NOT EXISTS `article_methods` (
   CONSTRAINT `FK2_id_method` FOREIGN KEY (`id_method`) REFERENCES `methods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица соответствия между статьями и типами методов, к которым они принадлежат.';
 
--- Дамп данных таблицы diplom_2_oop.article_methods: ~99 rows (приблизительно)
+
+-- Дамп данных таблицы diplom_2_oop.article_methods: ~86 rows (приблизительно)
 DELETE FROM `article_methods`;
 /*!40000 ALTER TABLE `article_methods` DISABLE KEYS */;
 INSERT INTO `article_methods` (`id_article`, `id_method`, `description`) VALUES
@@ -194,11 +197,11 @@ INSERT INTO `article_methods` (`id_article`, `id_method`, `description`) VALUES
 	(60, 4, NULL),
 	(60, 6, NULL),
 	(60, 8, NULL),
-	(81, 5, NULL),
-	(81, 6, NULL),
 	(82, 1, NULL),
-	(82, 5, NULL),
-	(82, 6, NULL);
+	(82, 8, NULL),
+	(82, 9, NULL),
+	(83, 6, NULL),
+	(83, 7, NULL);
 /*!40000 ALTER TABLE `article_methods` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.comments
@@ -223,7 +226,7 @@ DELETE FROM `comments`;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 INSERT INTO `comments` (`id`, `text`, `date`, `article_id`, `user_id`, `approve`, `deny`) VALUES
 	(1, 'comment\'s text 1: Стратегия: В какой-то момент, обычно на четвертом или пятом уровне, возникает поворотная точка.', '2022-03-29 19:26:50', 1, 1, 1, 0),
-	(2, 'comment\'s text 2', '2022-03-29 19:52:57', 1, 2, 0, 1),
+	(2, 'comment\'s text 2', '2022-03-29 19:52:57', 1, 2, 0, 0),
 	(3, 'comment\'s text 3: Исследуя же предлагаемые услуги или продукты, мы обнаруживаем основные особенности и различия.', '2022-03-29 19:57:47', 1, 2, 0, 1),
 	(4, 'comment\'s text 4: Исследуя же предлагаемые услуги или продукты, мы обнаруживаем основные особенности и различия.', '2022-04-01 19:58:26', 1, 1, 1, 0),
 	(5, 'comment\'s text 5: ', '2022-04-01 19:58:28', 1, 1, 0, 1),
@@ -255,14 +258,14 @@ INSERT INTO `comments` (`id`, `text`, `date`, `article_id`, `user_id`, `approve`
 	(115, 'Тест коммент к PEST-анализ 1', '2022-04-07 19:25:13', 16, 14, 0, 0),
 	(116, 'Тест коммент к PEST-анализ 1', '2022-04-07 19:25:23', 16, 14, 0, 0),
 	(117, 'Тест коммент к PEST-анализ 1', '2022-04-07 19:26:24', 16, 14, 0, 0),
-	(118, 'Тест коммент к PEST-анализ 1', '2022-04-07 19:26:25', 16, 14, 0, 0),
+	(118, 'Тест коммент к PEST-анализ 1', '2022-04-07 19:26:25', 16, 14, 1, 0),
 	(119, 'Тест коммент к PEST-анализ 1', '2022-04-07 19:26:29', 16, 14, 0, 1),
 	(120, 'Тест коммент к PEST-анализ 1', '2022-04-07 19:26:44', 16, 14, 0, 0),
 	(121, 'Тест коммент к PEST-анализ 1', '2022-04-07 19:26:53', 16, 14, 0, 1),
 	(122, 'Попробуй радугу коммент 1 ', '2022-04-07 19:28:53', 6, 14, 1, 0),
 	(123, 'Попробуй радугу коммент 1 ', '2022-04-07 19:29:02', 6, 14, 0, 0),
 	(124, 'Попробуй радугу коммент 1 ', '2022-04-07 19:29:25', 6, 14, 0, 0),
-	(125, 'Попробуй радугу коммент 1 ', '2022-04-07 19:29:33', 6, 14, 0, 0),
+	(125, 'Попробуй радугу коммент 1 ', '2022-04-07 19:29:33', 6, 14, 0, 1),
 	(126, 'Попробуй радугу коммент 1 ', '2022-04-07 19:36:56', 6, 14, 0, 0),
 	(127, 'Попробуй радугу коммент 1 ', '2022-04-07 19:37:23', 6, 14, 0, 0),
 	(128, 'Диаграмма Исикавы 1', '2022-04-07 19:40:52', 18, 14, 0, 0),
@@ -438,18 +441,18 @@ INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscri
 	(1, 'yuri', 1, 'yu@mail.ru', '$2y$10$mTOdb2IHzNKhD8Hm3bKrwOkf1Mti1GYeC20BQ.oUAv9BaFuOF25Xa', NULL, 0, 'yuri.jpg', 'Это Юрий! Hello! 3'),
 	(2, 'nataliya ivanovna', 1, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'nat.jpg', 'Это Наталия'),
 	(3, 'leon', 3, 'leo@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'leon.jpg', 'Leonid'),
-	(4, 'nina', 3, 'nina@mail.ru', '$2y$10$JuZBFGhKypltSBnopzmVpObYixBVAzEGNk6wUDXjUdVDwupIX6/nG', NULL, 0, 'no-photo.jpg', 'Hello'),
-	(6, 'qwe', 2, 'aa@aa.jj', '123456', NULL, 0, 'no-photo.jpg', ''),
+	(4, 'nina', 2, 'nina@mail.ru', '$2y$10$JuZBFGhKypltSBnopzmVpObYixBVAzEGNk6wUDXjUdVDwupIX6/nG', NULL, 0, 'no-photo.jpg', 'Hello'),
+	(6, 'qwe', 3, 'aa@aa.jj', '123456', NULL, 0, 'no-photo.jpg', ''),
 	(7, 'qqq', 3, 'aaa@ddd.ru', '$2y$10$tC41mjnduueRBZJvhv1CIuSqjthKuuTGZRWtUI8PU4hmcUExkuTS6', NULL, 1, 'no-photo.jpg', ''),
 	(8, 'hhh', 3, 'jjj@ddd.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'no-photo.jpg', ''),
 	(9, 'Iren1', 3, 'iren1@mail.ru', '$2y$10$xL1IP.8Gg2o3LgNDg1rHNeG/A80VYeHPfPS6y/15sVeBcduQeEYX2', NULL, 1, 'no-photo.jpg', ''),
 	(10, 'Iren', 3, 'iren@mail.ru', '123456', NULL, 0, 'no-photo.jpg', ''),
 	(11, 'Irena', 3, 'irena@mail.ru', '$2y$10$kKe1a4gRNVJANyk/OBeRWeaCaHyNxhbBN9s8PeX2vrpW9o50cMc3C', NULL, 0, 'Irena.png', 'Hi'),
-	(12, 'yuri-12', 3, 'yu-12@mail.ru', '$2y$10$UVF4FljXlD2dQQsVprgVcuxyokubHpwX7IIh/whgMQWiLdVIuFvGW', NULL, 0, 'no-photo.jpg', 'Это тест-2234567'),
+	(12, 'yuri-12', 3, 'yu-12@mail.ru', '$2y$10$UVF4FljXlD2dQQsVprgVcuxyokubHpwX7IIh/whgMQWiLdVIuFvGW', NULL, 1, 'no-photo.jpg', 'Это тест-2234567'),
 	(13, 'leon12', 3, 'leo1@mail.ru', '$2y$10$xCbo/keNt7I0IQZI7JRqfeM.xAmpTVqL19lIaIAcGPIPec9LDXu6a', NULL, 0, 'no-photo.jpg', 'it\'s me'),
 	(14, 'qw', 3, 'q@w.ry', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'qw.png', 'Hello, people!'),
-	(15, 'Nicole', 3, 'nici@xc.ry', '$2y$10$IhFs2OIAtuL.eHFJJmZI8.TXG8l/xWsGFz.A.jJ4AiNQmYGJej8bm', NULL, 0, 'no-photo.jpg', 'hfbm,'),
-	(16, 'zuko', 3, 'zx@qq.kk', '$2y$10$6ox46q38666BPHq1YtVK7.E9N6sR7kxFpMLQpgZJKtkf3Z.VeEHF2', NULL, 1, 'zukag.jpg', 'ajkhihk');
+	(15, 'Nicole', 2, 'nici@xc.ry', '$2y$10$IhFs2OIAtuL.eHFJJmZI8.TXG8l/xWsGFz.A.jJ4AiNQmYGJej8bm', NULL, 1, 'no-photo.jpg', 'hfbm,'),
+	(16, 'zuko', 2, 'zx@qq.kk', '$2y$10$6ox46q38666BPHq1YtVK7.E9N6sR7kxFpMLQpgZJKtkf3Z.VeEHF2', NULL, 1, 'zukag.jpg', 'ajkhihk');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

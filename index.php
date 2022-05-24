@@ -19,7 +19,9 @@ $router = new Router(); // Объект Маршрутизатора
 $application = new Application($router); // Для запуска Eloquent
 
 $router->get('',      [HomeController::class, 'index']); // Маршрут для корня сайта (/) - метод index в App\Controllers\HomeController
-// $router->get('*',      [HomeController::class, 'index']); // Пагинация: количество элементов на странице задается GET-параметром. 
+
+// $router->get('*',      [HomeController::class, 'index']); // Пагинация: количество элементов на странице задается GET-параметром. - НЕЛЬЗЯ ИСПОЛЬЗОВАТЬ "*", т.к. в рутер будут приниматься любые символы
+
 $router->get('page-*', [HomeController::class, 'index']); // Маршрут для page-1 - пагинация - метод index в App\Controllers\HomeController
 
 // Требуется запустить Eloquent. Как вариант - загружать методы из конфиг-файла
@@ -55,18 +57,19 @@ $router->get('admin', [AdminPageController::class, 'admin']); // Маршрут 
 $router->get('article-delete/*', [AdminPageController::class, 'articleDelete']); // Вывод страницы-сообщения об удалении статьи.
 
 foreach (Menu::getAdminMenu() as $key => $value) { // Загрузка маршрутов для админки
-    $router->get($key, [AdminPageController::class, $value['method']]); 
-    $router->get($key . '/page-*', [AdminPageController::class, $value['method']]); // Для пагинации(?)
+    $router->get($key, [AdminPageController::class, $value['method']]); // 1-я страница
+    $router->get($key . '?*=*', [AdminPageController::class, $value['method']]);  // 1-я страница - учесть GET-запрос в обработке url
+    $router->get($key . '/page-*', [AdminPageController::class, $value['method']]); // page-* - страница пагинации
+    $router->get($key . '/page-*?*=*', [AdminPageController::class, $value['method']]); // Учесть GET-запрос в обработке url на page-* - странице пагинации
     $router->post($key, [AdminPageController::class, $value['method']]); 
+    $router->post($key . '?*=*', [AdminPageController::class, $value['method']]);  // 1-я страница - учесть GET-запрос в обработке url
     $router->post($key . '/page-*', [AdminPageController::class, $value['method']]); // Для пагинации(?)
+    $router->post($key . '/page-*?*=*', [AdminPageController::class, $value['method']]); // Учесть GET-запрос в обработке url на page-* - странице пагинации
 }
-//--------------
-// foreach (Articles::all() as $article) {
-    $router->get('admin-cms/*', [AdminPageController::class, 'adminCMS']); // Для редактирования статьи
-    $router->post('admin-cms/*', [AdminPageController::class, 'adminCMS']); 
-// }
-//----------
-    
+
+$router->get('admin-cms/*', [AdminPageController::class, 'adminCMS']); // Для редактирования статьи
+$router->post('admin-cms/*', [AdminPageController::class, 'adminCMS']); 
+
 $router->get('posts/*', [StaticPageController::class, 'test']);
 $router->get('test_index', [StaticPageController::class, 'index']); // 
 $router->get('test/*/test2/*', [StaticPageController::class, 'test']);
