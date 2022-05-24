@@ -40,7 +40,22 @@ class AdminUsersView extends AdminView
             }
         }
 
-        $users = Users::all(); // Пользователи
+        $total = Users::all()->count(); // Всего пользователей в БД
+        $uri = $this->getURI(); // Получаем строку запроса без корня
+        $page = ($uri == 'admin-users') ? 1 : preg_replace('~admin-users/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел /admin-articles, то - 1
+        $selected = Pagination::goodsQuantity($page); // Настройка количества товаров на странице
+        $page = $selected['page']; // Номер страницы
+
+        if ($selected['limit'] == 'all' || $selected['limit'] > $total) {
+            $limit = $total;
+        } else {
+            $limit = $selected['limit']; // Количество статей на странице в админке 
+        }
+
+        // Создаем объект Pagination - постраничная навигация - см.конструктор класса
+        $pagination = new Pagination($total, $page, $limit, 'page-');
+
+        $users = Users::getUsers($limit, $page); // Пользователи
         $roles = Roles::all(); // Роли пользователей
 
         if (isset($_POST['exit'])) { // Выход пользователя из сессии.

@@ -55,7 +55,7 @@ class Articles extends Model
     * 
     * @return array $articles - массив со статьями.
     */
-    public static function getArticles($limit = 4, $page = 1)
+    public static function getArticles($limit = 20, $page = 1)
     {
         $articles = []; // массив со статьями
         $offset = ($page - 1) * $limit;

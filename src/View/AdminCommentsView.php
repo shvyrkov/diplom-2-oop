@@ -4,6 +4,7 @@ namespace App\View;
 
 use App\Exceptions\ApplicationException;
 use App\Components\Menu;
+use App\Components\Pagination;
 use App\Model\Users;
 use App\Model\Comments;
 
@@ -41,7 +42,23 @@ class AdminCommentsView extends AdminView
             }
         }
 
-        $comments = Comments::getComments();
+        $total = Comments::all()->count(); // Всего товаров в БД
+        $uri = $this->getURI(); // Получаем строку запроса без корня
+        // $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
+        $page = ($uri == 'admin-comments') ? 1 : preg_replace('~admin-comments/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел /admin-articles, то - 1
+        $selected = Pagination::goodsQuantity($page); // Настройка количества товаров на странице
+        $page = $selected['page']; // Номер страницы
+
+        if ($selected['limit'] == 'all' || $selected['limit'] > $total) {
+            $limit = $total;
+        } else {
+            $limit = $selected['limit']; // Количество статей на странице в админке 
+        }
+
+        // Создаем объект Pagination - постраничная навигация - см.конструктор класса
+        $pagination = new Pagination($total, $page, $limit, 'page-');
+
+        $comments = Comments::getComments($limit, $page);
 
         if (isset($_POST['exit'])) {
             Users::exit();

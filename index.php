@@ -55,12 +55,14 @@ $router->get('admin', [AdminPageController::class, 'admin']); // Маршрут 
 $router->get('article-delete/*', [AdminPageController::class, 'articleDelete']); // Вывод страницы-сообщения об удалении статьи.
 
 foreach (Menu::getAdminMenu() as $key => $value) { // Загрузка маршрутов для админки
-    $router->get($key, [AdminPageController::class, $value['method']]); 
-    $router->get($key . '?*=*', [AdminPageController::class, $value['method']]);  // Учесть GET-запрос в обработке url
-    $router->get($key . '/page-*', [AdminPageController::class, $value['method']]); // Для пагинации(?)
-    $router->get($key . '/page-*?*=*', [AdminPageController::class, $value['method']]); // Учесть GET-запрос в обработке url
+    $router->get($key, [AdminPageController::class, $value['method']]); // 1-я страница
+    $router->get($key . '?*=*', [AdminPageController::class, $value['method']]);  // 1-я страница - учесть GET-запрос в обработке url
+    $router->get($key . '/page-*', [AdminPageController::class, $value['method']]); // page-* - страница пагинации
+    $router->get($key . '/page-*?*=*', [AdminPageController::class, $value['method']]); // Учесть GET-запрос в обработке url на page-* - странице пагинации
     $router->post($key, [AdminPageController::class, $value['method']]); 
+    $router->post($key . '?*=*', [AdminPageController::class, $value['method']]);  // 1-я страница - учесть GET-запрос в обработке url
     $router->post($key . '/page-*', [AdminPageController::class, $value['method']]); // Для пагинации(?)
+    $router->post($key . '/page-*?*=*', [AdminPageController::class, $value['method']]); // Учесть GET-запрос в обработке url на page-* - странице пагинации
 }
 
 $router->get('admin-cms/*', [AdminPageController::class, 'adminCMS']); // Для редактирования статьи

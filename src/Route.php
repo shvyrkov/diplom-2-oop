@@ -71,9 +71,7 @@ class Route
 // echo "<br>";
 // echo "</pre>";
 
-        return ((preg_match('/^' . str_replace(['*', '/', '?', '='], ['\w+', '\/', '\?', '\='], $this->getPath()) . '$/', $uri)) && ($this->method == $method)); // + Учесть GET-запрос в обработке url
-        // return ((preg_match('/^' . str_replace(['*', '/'], ['\w+', '\/'], $this->getPath()) . '$/', $uri)) && ($this->method == $method));
-        // return ((trim($this->getPath(), '/') === $uri) && ($this->method == $method));
+        return ((preg_match('/^' . str_replace(['*', '/', '?', '='], ['\w+', '\/', '\?', '\='], $this->getPath()) . '$/', $uri)) && ($this->method == $method)); // Учитывает GET-запрос в обработке url
     }
 
     /**

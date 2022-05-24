@@ -16,15 +16,15 @@ include $_SERVER['DOCUMENT_ROOT'] . VIEW_DIR .'layout/header.php';
 </div>
 
 <?php
-echo "<pre>";
+// echo "<pre>";
 // echo "error.php - e: ";
 // var_dump($e);
 // echo "error.php _POST: <br>";
 // var_dump($_POST);
-echo "<br>_GET:<br>";
-var_dump($_GET);
-echo "<br>SERVER:<br>";
-var_dump($_SERVER);
-echo "</pre>";
+// echo "<br>_GET:<br>";
+// var_dump($_GET);
+// echo "<br>SERVER:<br>";
+// var_dump($_SERVER);
+// echo "</pre>";
 
 include $_SERVER['DOCUMENT_ROOT'] . VIEW_DIR . 'layout/footer.php';
