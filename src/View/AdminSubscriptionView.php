@@ -24,7 +24,7 @@ class AdminSubscriptionView extends AdminView
         $subscription = '';
         $errors = false;
 
-        if (isset($_POST['submit'])) { // Измененине роли пользователя
+        if (isset($_POST['submit'])) { // Измененине подписки на рассылку пользователя
             $userId = $_POST['id'];
             $subscription = $_POST['subscription'] ?? 0;
 

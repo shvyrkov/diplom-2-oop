@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата публикации',
   `user_id` int(50) NOT NULL DEFAULT '1' COMMENT 'id пользователя, добавившего статью',
   PRIMARY KEY (`id`)
-
 ) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 COMMENT='Статьи: название, картинка, дата публикации, краткое описание, полное содержание статьи';
 
 -- Дамп данных таблицы diplom_2_oop.articles: ~54 rows (приблизительно)
@@ -105,7 +104,6 @@ CREATE TABLE IF NOT EXISTS `article_methods` (
   CONSTRAINT `FK1_id_article` FOREIGN KEY (`id_article`) REFERENCES `articles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK2_id_method` FOREIGN KEY (`id_method`) REFERENCES `methods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица соответствия между статьями и типами методов, к которым они принадлежат.';
-
 
 -- Дамп данных таблицы diplom_2_oop.article_methods: ~86 rows (приблизительно)
 DELETE FROM `article_methods`;
@@ -315,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `email` varchar(50) NOT NULL,
   `text` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Высланные оповещения по подписке на рассылку.';
 
 -- Дамп данных таблицы diplom_2_oop.posts: ~3 rows (приблизительно)
 DELETE FROM `posts`;
@@ -395,7 +393,7 @@ INSERT INTO `roles` (`id`, `name`, `description`) VALUES
 	(1, 'administrator', 'Администратор – полный доступ к админке'),
 	(2, 'content_manager', 'Контент менеджер – может изменять/создавать статьи и модерирует комментарии к ним'),
 	(3, 'user', 'Зарегистрированный пользователь – может оставлять комментарии'),
-	(4, 'unreg_user?', 'Незарегистрированный пользователь – может просматривать статьи в блоге, подписаться, авторизоваться и зарегистрироваться.');
+	(4, 'unreg_user', 'Незарегистрированный пользователь – может просматривать статьи в блоге, подписаться, авторизоваться и зарегистрироваться.');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.settings
@@ -419,10 +417,10 @@ INSERT INTO `settings` (`id`, `name`, `value`, `description`) VALUES
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(50) NOT NULL AUTO_INCREMENT,
-  `name` varchar(250) NOT NULL,
-  `role` int(5) NOT NULL DEFAULT '3',
-  `email` varchar(250) NOT NULL,
-  `password` varchar(250) NOT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `role` int(5) NOT NULL DEFAULT '4',
+  `email` varchar(250) DEFAULT NULL,
+  `password` varchar(250) DEFAULT NULL,
   `link` varchar(500) DEFAULT NULL COMMENT 'Ссылка на страницу автора в соц.сети',
   `subscription` int(1) NOT NULL DEFAULT '0' COMMENT 'Подписка на оповещение по e-mail',
   `avatar` varchar(250) NOT NULL DEFAULT 'no-photo.jpg' COMMENT 'Имя файла аватарки',
@@ -432,15 +430,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `name` (`name`),
   KEY `FK1_role` (`role`),
   CONSTRAINT `FK1_role` FOREIGN KEY (`role`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы diplom_2_oop.users: ~15 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.users: ~30 rows (приблизительно)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscription`, `avatar`, `aboutMe`) VALUES
-	(1, 'yuri', 1, 'yu@mail.ru', '$2y$10$mTOdb2IHzNKhD8Hm3bKrwOkf1Mti1GYeC20BQ.oUAv9BaFuOF25Xa', NULL, 0, 'yuri.jpg', 'Это Юрий! Hello! 3'),
-	(2, 'nataliya ivanovna', 1, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'nat.jpg', 'Это Наталия'),
-	(3, 'leon', 3, 'leo@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'leon.jpg', 'Leonid'),
+	(1, 'yuri', 1, 'yu@mail.ru', '$2y$10$mTOdb2IHzNKhD8Hm3bKrwOkf1Mti1GYeC20BQ.oUAv9BaFuOF25Xa', NULL, 1, 'yuri.jpg', 'Это Юрий! Hello! 3'),
+	(2, 'nataliya ivanovna', 1, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'nat.jpg', 'Это Наталия'),
+	(3, 'leon', 3, 'leo@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'leon.jpg', 'Leonid'),
 	(4, 'nina', 2, 'nina@mail.ru', '$2y$10$JuZBFGhKypltSBnopzmVpObYixBVAzEGNk6wUDXjUdVDwupIX6/nG', NULL, 0, 'no-photo.jpg', 'Hello'),
 	(6, 'qwe', 3, 'aa@aa.jj', '123456', NULL, 0, 'no-photo.jpg', ''),
 	(7, 'qqq', 3, 'aaa@ddd.ru', '$2y$10$tC41mjnduueRBZJvhv1CIuSqjthKuuTGZRWtUI8PU4hmcUExkuTS6', NULL, 1, 'no-photo.jpg', ''),
@@ -452,7 +450,23 @@ INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscri
 	(13, 'leon12', 3, 'leo1@mail.ru', '$2y$10$xCbo/keNt7I0IQZI7JRqfeM.xAmpTVqL19lIaIAcGPIPec9LDXu6a', NULL, 0, 'no-photo.jpg', 'it\'s me'),
 	(14, 'qw', 3, 'q@w.ry', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'qw.png', 'Hello, people!'),
 	(15, 'Nicole', 2, 'nici@xc.ry', '$2y$10$IhFs2OIAtuL.eHFJJmZI8.TXG8l/xWsGFz.A.jJ4AiNQmYGJej8bm', NULL, 1, 'no-photo.jpg', 'hfbm,'),
-	(16, 'zuko', 2, 'zx@qq.kk', '$2y$10$6ox46q38666BPHq1YtVK7.E9N6sR7kxFpMLQpgZJKtkf3Z.VeEHF2', NULL, 1, 'zukag.jpg', 'ajkhihk');
+	(16, 'zuko', 2, 'zx@qq.kk', '$2y$10$6ox46q38666BPHq1YtVK7.E9N6sR7kxFpMLQpgZJKtkf3Z.VeEHF2', NULL, 1, 'zukag.jpg', 'ajkhihk'),
+	(17, NULL, 4, 'zz1@zz.rr', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(18, NULL, 4, 'zz2@zz.rr', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(19, NULL, 4, 'zz3@zz.rr', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(20, 'яя', 4, 'zz@zz.rr', '$2y$10$wk7bMW65xjqIb7mNrJeV5.KJpDGX8OAbLxm05UE1jkDNRPir6C0hG', NULL, 0, 'no-photo.jpg', NULL),
+	(21, 'nn', 3, 'nn@xx.uu', '$2y$10$njQpH75EIE1eLmCWoq9C5.FxEQyQ59lEIepD6v/gT4XV3cNDK7yUK', NULL, 1, 'no-photo.jpg', NULL),
+	(22, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(23, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(24, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(25, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(26, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(27, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(28, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(29, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(30, NULL, 4, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(31, NULL, 4, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(32, NULL, 4, 'xxx@vvv.mm', NULL, NULL, 1, 'no-photo.jpg', NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

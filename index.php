@@ -19,10 +19,13 @@ $router = new Router(); // Объект Маршрутизатора
 $application = new Application($router); // Для запуска Eloquent
 
 $router->get('',      [HomeController::class, 'index']); // Маршрут для корня сайта (/) - метод index в App\Controllers\HomeController
-
-// $router->get('*',      [HomeController::class, 'index']); // Пагинация: количество элементов на странице задается GET-параметром. - НЕЛЬЗЯ ИСПОЛЬЗОВАТЬ "*", т.к. в рутер будут приниматься любые символы
+$router->post('',      [HomeController::class, 'index']); // Для подписки на рассылку
 
 $router->get('page-*', [HomeController::class, 'index']); // Маршрут для page-1 - пагинация - метод index в App\Controllers\HomeController
+$router->post('page-*', [HomeController::class, 'index']); // Для подписки на рассылку
+
+$router->get('subscription', [HomeController::class, 'subscription']); // Подписка на рассылку
+$router->post('subscription', [HomeController::class, 'subscription']); // Подписка на рассылку
 
 // Требуется запустить Eloquent. Как вариант - загружать методы из конфиг-файла
 foreach (Methods::all() as $method) {  // Метод модели all получит все записи из связанной с моделью таблицы БД

@@ -3,7 +3,7 @@
         <div class="col-sm-4 " align="right">
             <h5 class="font_grey">Количество на странице: </h5>
         </div>
-       <div class="col-sm-1 ">
+       <div class="col-sm-1 " align="right">
             <form class="itemsHeader" name="itemsHeader" action="" method="get">
                 <select id="itemsOnPageHeader" name="itemsOnPageHeader" onchange="changeItemsQuantityHeader();">
                     <option value="10" <?=$selected['10'] ?> >10</option>

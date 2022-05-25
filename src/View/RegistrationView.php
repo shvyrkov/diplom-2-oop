@@ -67,7 +67,7 @@ class RegistrationView extends View
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
             if ($errors === false) { // Если ошибок нет, то регистрируем пользователя.
-                Users::register($name, $email, $passwordHash); 
+                Users::register($email, USER, $name, $passwordHash); 
                 
             // Проверяем зарегистрировался ли пользователь
                 $user = Users::checkUserData($email, $password);

@@ -159,10 +159,10 @@ class Users extends Model
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function register($name, $email, $password)
+    public static function register($email, $role = null, $name = null, $password = null)
     {
         Users::insert(
-            ['name' => $name, 'email' => $email, 'password' => $password]
+            ['email' => $email, 'role' => $role, 'name' => $name, 'password' => $password]
         );
 
         return true;
@@ -187,7 +187,7 @@ class Users extends Model
     }
 
     /**
-     * Получаем данные пользователя по $email - @TODELETE:?
+     * Получаем данные пользователя по $email
      * 
      * @param string $email
      * 
@@ -308,7 +308,7 @@ class Users extends Model
     /**
      * Изменение подписки пользователя 
      * 
-     * @param string $id <p>id-пользователя в БД</p>
+     * @param string $id <p>id-пользователя в БД, null - если пользователя нет(?)</p>
      * @param string $subscription <p>Подписан ли пользователь на рассылку (0 - нет, 1 - да)</p>
      * 
      * @return boolean <p>Результат выполнения метода</p>
@@ -317,6 +317,12 @@ class Users extends Model
     {
         Users::where('id', $id)
             ->update(['subscription' => $subscription]);
+
+        // Users::upsert(
+        //     ['id' => $id, 'subscription' => $subscription],
+        //     ['id'],
+        //     ['subscription']
+        // );
 
         return true;
     }
@@ -353,7 +359,6 @@ class Users extends Model
         $users = [];
         $users = Users::where('id', '>' , 0)
             ->join('roles', 'users.role', '=', 'roles.id')
-            // ->select('users.*', 'contacts.phone', 'orders.price')
             ->get();
 
         return $users;

@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\View\HomeView;
+use App\View\View;
 use App\View\MethodView;
 use App\Components\Menu;
 
@@ -34,6 +35,20 @@ class HomeController
 
         return new MethodView('method', $data); // Вывод представления
     }
+
+    /**
+     * Подписка на рассылку
+     * 
+     * @return object View - объект представления страницы
+     */
+    public function subscription()
+    {
+        $data = ['title' => Menu::showTitle(Menu::getUserMenu())];
+
+        return new View('subscription', $data); // Вывод представления
+        // return new AdminSubscriptionView('admin-subscription', ['title' => Menu::showTitle(Menu::getAdminMenu())]);
+    }
+
 /**
 * Метод принимает значения $params из строки запроса и выдает их обратно в виде строки опред-го вида...
 *

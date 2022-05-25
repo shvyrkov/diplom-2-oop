@@ -10,16 +10,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Post extends Model
 {
- /**
-     * Показать список всех пользователей приложения.
+    /**
+     * Первичный ключ таблицы articles.
      *
-     * @return \Illuminate\Http\Response
+     * @var string
      */
-    // public static function getMethodTypes()
-    // {
-        // $users = DB::select('select * from methods_types'); // НЕ работает !!!
+    protected $primaryKey = 'id';
 
-        // return $users;
-        // return view('user.index', ['users' => $users]);
-    // }
+    public $timestamps = false;
 }
