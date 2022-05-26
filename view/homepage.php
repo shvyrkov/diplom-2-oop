@@ -1,4 +1,6 @@
 <?php
+use App\Model\Articles;
+
 include 'layout/header.php';
 ?>
 
@@ -22,42 +24,26 @@ include 'layout/header.php';
 </div>
 
 <div class="container-fluid my-4 mx-auto">
-    <?php
-    use App\Model\Articles;
+<?php
+include 'layout/pagination.php';
 
-echo "<pre>"; // -----------------------TEST--------------------------------------------
-
-echo "</pre>"; // ----------------------TEST--------------------------------------------
-
-    include 'layout/pagination.php';
-
-    ?>
-    
-<div class="col-sm-4 " align="center">
-    <pre>
-    <?php
-    print_r($_SESSION['user'] ?? ['Неавторизован']);
-    ?>
-    </pre>
-</div>
-
-        <?php if (!($_SESSION['user']['subscription'] ?? 0)) : // Если пользователь неподписан или неавторизован ?>
-            <div class="row ">
-                <div class="col-sm-4 " align="center">
-                    <form action="subscription" method="POST">
-                    <?php
-                    if (!isset($_SESSION['user'])) : // Пользователь неавторизован - запрос e-mail?>
-                        <label>Пользователь неавторизован</label>
-                        <!-- <input  type="email" name="userEmail" value="" > -->
-                    <? endif; ?>
-                        <label>Пользователь неподписан</label>
-                        <input  type="text" name="userId" value="<?=$_SESSION['user']['id'] ?? 0 ?>" >
-                        <button type="submit" name="subscription" value="1" class="btn btn-primary">Подписаться на рассылку.</button>
-                    </form>
-                    <br>
-                </div>
-            </div>
-        <? endif; ?>
+if (!($_SESSION['user']['subscription'] ?? 0)) : // Если пользователь неподписан или неавторизован ?>
+    <div class="row ">
+        <div class="col-sm-4 " align="center">
+            <form action="subscription" method="POST">
+            <?php
+            if (!isset($_SESSION['user'])) : // Пользователь неавторизован - запрос e-mail?>
+                <!-- <label>Пользователь неавторизован</label> -->
+                <!-- <input  type="email" name="userEmail" value="" > -->
+            <? endif; ?>
+                <!-- <label>Пользователь неподписан</label> -->
+                <!-- <input  type="text" name="userId" value="<?=$_SESSION['user']['id'] ?? 0 ?>" > -->
+                <button type="submit" name="subscribeAuthUser" value="1" class="btn btn-primary">Подписаться на рассылку.</button>
+            </form>
+            <br>
+        </div>
+    </div>
+<? endif; ?>
 
     <div class="row">
         <?php

@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\View\HomeView;
 use App\View\View;
 use App\View\MethodView;
+use App\View\SubscriptionView;
 use App\Components\Menu;
 
 class HomeController
@@ -45,7 +46,7 @@ class HomeController
     {
         $data = ['title' => Menu::showTitle(Menu::getUserMenu())];
 
-        return new View('subscription', $data); // Вывод представления
+        return new SubscriptionView('subscription', $data); // Вывод представления
         // return new AdminSubscriptionView('admin-subscription', ['title' => Menu::showTitle(Menu::getAdminMenu())]);
     }
 

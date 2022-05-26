@@ -14,7 +14,34 @@ include 'layout/header.php';
     </div>
   </div>
 </div>
-<?php if (!isset($_SESSION['user'])) { ?>
+<?php 
+// echo "<pre>";
+// echo '<br>!isset($_SESSION["user"]["subscription"]: ';
+// var_dump(!isset($_SESSION['user']['subscription']));
+// echo '<br>isset($_SESSION["user"]: ';
+// var_dump(isset($_SESSION['user']));
+
+// echo "<br>user: ";
+// if (is_object($user)) {
+//     var_dump($user->subscription);
+// } else {
+//     var_dump($user);
+// }
+// echo "<br>result: ";
+// var_dump($result);
+// echo "<br>errors: ";
+// var_dump($errors );
+// echo "</pre>";
+// Условия вывода поля e-mail:
+  // Пользователь неавторизован - !isset($_SESSION['user'])
+  // и неподписан - $result
+  // или ошибка - $errors
+
+if (!isset($_SESSION['user']) // Пользователь неавторизован 
+    && !$result               // и подписка не прошла (и для авторизованных) - $result
+    || $errors                // или ошибка
+) { 
+?>
   <div class="container">
     <div class="row">
         <div class="col-sm-10 col-sm-offset-4 padding-right">
@@ -31,14 +58,15 @@ include 'layout/header.php';
                   " id="email" name="email" required placeholder="name@example.com" value="<?php printf('%s', $email ?? ''); ?>">
                   <span class="font-error">
                     <?php
-                    printf(' %s', $errors['checkEmail'] ?? '');
-                    printf(' %s', $errors['checkEmailExists'] ?? '');
+                    // printf(' %s', $errors['checkEmail'] ?? '');
+                    // printf(' %s', $errors['checkEmail'] ?? '');
+                    // printf(' %s', $errors['checkEmailExists'] ?? '');
                     ?>
                   </span>
                 </div>
 
                 <div class="mb-3">
-                  <button type="submit" name="subscription" value="1" class="btn btn-primary">Подписаться на рассылку.</button>
+                  <button type="submit" name="subscribeNotAuthUser" class="btn btn-primary">Подписаться на рассылку.</button>
                 </div>
               </form>
             </div><!--/sign up form-->

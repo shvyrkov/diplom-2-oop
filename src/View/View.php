@@ -60,72 +60,7 @@ class View implements Renderable
     */
         extract($this->data); // ['title' => 'Index Page'] -> $title = 'Index Page' - создается переменная для исп-я в html
         $menu = Menu::getUserMenu();
-
         $templateFile = $this->getIncludeTemplate($this->view); // Полное имя файла
-
-        if (isset($_POST['subscription'])) {
-            $result = false;
-            $errors = false;
-            $user = false;
-            $id = $_SESSION['user']['id'] ?? '';
-
-            if ($id) { // Если пользователь авторизован, то подписываем его на рассылку
-                $result = Users::changeSubscription($id, 1);
-            } else { // Если пользователь НЕавторизован, то 
-                $email = $_POST['email'] ?? '';
-                // Валидация e-mail
-                if (!$email) {
-                    $errors[] = 'Не все поля заполнены';
-                }
-
-                if (!Users::checkEmail($email)) { //  Проверка правильности ввода e-mail
-                    $errors['checkEmail'] = ' - неправильный email';
-                }
-
-                if (Users::checkEmailExists($email) ) { //  Есть пользователь
-                    $user = Users::getUserByEmail($email);
-
-                    if ($user->name) { // уже авторизованный 
-                        $errors['checkEmailExists'] = ' - такой email уже используется, авторизуйтесь пожалуйста.';
-                    } elseif ($user->subscription) { // НЕавторизованный, но подписанный пользователь
-                        $errors['checkEmailExists'] = ' - Вы уже подписаны на рассылку.';
-                    }
-                }
-
-                if ($errors === false) { // Если ошибок нет, то регистрируем и подписываем на рассылку пользователя.
-                    if (!$user) {
-                        $user = new Users(); // Если пользователя нет, то регистрируем его 
-                    }
-
-                    $user->email = $email;
-                    $user->role = NO_USER; // как NO_USER
-                    $user->subscription = 1; // и подписываем его на рассылку
-                    $user->save();
-                    $id = $user->id;
-
-                    $user = Users::getUserById($id); // Запрашиваем данные подписанного пользователя из БД
-
-                    if ($user->subscription) { // Если у него есть подписка, то всё Ок.
-                        // $result = true;
-                    }
-                }
-            }
-
-            if ($result) { // Только для авторизоанного пользователя запрашиваем новые данные -А НАДО?------
-                $user = Users::getUserById($id);
-            }
-
-            if ($user === false) {
-                // Если данные не получены - показываем ошибку
-                $errors[] = 'Ошибка получения данных.';
-            } else {
-                // Если данные правильные, запоминаем пользователя в сессии
-                Users::auth($user);
-
-                // Перегружаем сайт с новыми данными
-                header('Location: /subscription');
-            }
-        }
 
         if (isset($_POST['exit'])) {
             Users::exit();

@@ -6,6 +6,7 @@ use App\Exceptions\ApplicationException;
 use App\Components\Menu;
 use App\Components\Pagination;
 use App\Model\Articles;
+use App\Model\Users;
 
 /**
 * Класс View — шаблонизатор приложения, реализует интерфейс Renderable. Используется для подключения view страницы.
@@ -21,6 +22,7 @@ class HomeView extends View
     */
         extract($this->data); // ['title' => 'Index Page'] -> $title = 'Index Page' - создается переменная для исп-я в html
         $menu = Menu::getUserMenu();
+        // Pagination
         $uri = $this->getURI(); // Получаем строку запроса без корня
         $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы - только из корня ('/')
         $selected = Pagination::goodsQuantity($page);
@@ -54,10 +56,10 @@ class HomeView extends View
 
         $templateFile = $this->getIncludeTemplate($this->view); // Полное имя файла
 
-            if (file_exists($templateFile)) {
-                include $templateFile; // Вывод представления
-            } else { // Если файл не найден
-                throw new ApplicationException("$templateFile - шаблон не найден", 441); // Если запрашиваемого файла с шаблоном не найдено, то метод должен выбросить исключение ApplicationException, с таким текстом ошибки: "<имя файла шаблона> шаблон не найден". 
-            }
+        if (file_exists($templateFile)) {
+            include $templateFile; // Вывод представления
+        } else { // Если файл не найден
+            throw new ApplicationException("$templateFile - шаблон не найден", 441); // Если запрашиваемого файла с шаблоном не найдено, то метод должен выбросить исключение ApplicationException, с таким текстом ошибки: "<имя файла шаблона> шаблон не найден". 
+        }
     }
 }
