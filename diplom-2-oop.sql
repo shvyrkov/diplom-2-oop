@@ -309,19 +309,20 @@ INSERT INTO `methods` (`id`, `name`, `image`, `uri`) VALUES
 DROP TABLE IF EXISTS `posts`;
 CREATE TABLE IF NOT EXISTS `posts` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `text` varchar(50) NOT NULL,
+  `email` varchar(250) NOT NULL,
+  `subject` varchar(250) NOT NULL COMMENT 'Заголовок письма',
+  `message` varchar(1000) NOT NULL COMMENT 'Содержимое письма',
+  `link` varchar(500) NOT NULL COMMENT 'Ссылка на статью',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Высланные оповещения по подписке на рассылку.';
 
 -- Дамп данных таблицы diplom_2_oop.posts: ~3 rows (приблизительно)
 DELETE FROM `posts`;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` (`id`, `name`, `email`, `text`) VALUES
-	(1, 'yu', 'yu@mail.ru', 'text-1'),
-	(2, 'nat', 'nat@mail.ru', 'text-2'),
-	(3, 'leo', 'leo@ya.ru', 'leo-text');
+INSERT INTO `posts` (`id`, `email`, `subject`, `message`, `link`) VALUES
+	(1, 'yu', 'yu@mail.ru', 'text-1', ''),
+	(2, 'nat', 'nat@mail.ru', 'text-2', ''),
+	(3, 'leo', 'leo@ya.ru', 'leo-text', '');
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.rights
@@ -430,14 +431,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `name` (`name`),
   KEY `FK1_role` (`role`),
   CONSTRAINT `FK1_role` FOREIGN KEY (`role`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы diplom_2_oop.users: ~30 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.users: ~55 rows (приблизительно)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscription`, `avatar`, `aboutMe`) VALUES
 	(1, 'yuri', 1, 'yu@mail.ru', '$2y$10$mTOdb2IHzNKhD8Hm3bKrwOkf1Mti1GYeC20BQ.oUAv9BaFuOF25Xa', NULL, 1, 'yuri.jpg', 'Это Юрий! Hello! 3'),
-	(2, 'nataliya ivanovna', 1, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'nat.jpg', 'Это Наталия'),
+	(2, 'nataliya ivanovna', 1, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'nat.jpg', 'Это Наталия'),
 	(3, 'leon', 3, 'leo@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'leon.jpg', 'Leonid'),
 	(4, 'nina', 2, 'nina@mail.ru', '$2y$10$JuZBFGhKypltSBnopzmVpObYixBVAzEGNk6wUDXjUdVDwupIX6/nG', NULL, 0, 'no-photo.jpg', 'Hello'),
 	(6, 'qwe', 3, 'aa@aa.jj', '123456', NULL, 0, 'no-photo.jpg', ''),
@@ -466,7 +467,31 @@ INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscri
 	(29, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(30, NULL, 4, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(31, NULL, 4, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(32, NULL, 4, 'xxx@vvv.mm', NULL, NULL, 1, 'no-photo.jpg', NULL);
+	(32, NULL, 4, 'xxx@vvv.mm', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(33, NULL, 4, 'aa@dd.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(34, NULL, 4, 'kk@dd.ll', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(35, NULL, 4, 'rr@ff.ll', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(36, NULL, 4, 'll@cc.mm', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(37, NULL, 4, 'aa@xx.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(38, NULL, 4, 'aa@ss.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(39, NULL, 4, 'ee@gg.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(40, NULL, 4, 'ww@dd.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(41, NULL, 4, 'ss@dd.nn', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(42, NULL, 4, 'qq@bb.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(43, NULL, 4, 'tt@rr.bb', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(44, NULL, 4, 'aa@se.yy', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(45, NULL, 4, 'aa@ss.tt', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(46, NULL, 4, 'gg@ss.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(47, NULL, 4, 'ghh@bb.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(48, NULL, 4, 'ss@ss.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(49, NULL, 4, 'ee@ss.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(50, NULL, 4, 'tt@ww.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(51, NULL, 4, 'dd@ss.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(52, NULL, 4, 'ww@dd.ii', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(53, NULL, 4, 'pp@ss.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(54, NULL, 4, 'ff@cc.yy', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(55, NULL, 4, 'kk@ded.lkl', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(56, NULL, 4, 'ee@vv.jj', NULL, NULL, 1, 'no-photo.jpg', NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

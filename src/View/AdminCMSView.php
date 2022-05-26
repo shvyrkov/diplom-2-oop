@@ -47,10 +47,6 @@ class AdminCMSView extends AdminView
 
         $templateFile = $this->getIncludeTemplate($this->view); // Полное имя файла
 
-        if (isset($_POST['exit'])) {
-            Users::exit();
-        }
-
         if (isset($_POST['delete'])) { // Удаление статьи
             $success = Articles::where('id', $id)->delete(); // Удаляет всё и из article-methods
             header("Location: /article-delete/$success");
@@ -149,6 +145,8 @@ class AdminCMSView extends AdminView
             }
 
             if ($errors === false) { // Если ошибок нет, то добавляем данные.
+                $newArticle = false;
+
                 if ($id) { // Редактирование существующей статьи
                     $article = Articles::getArticleById($id);
 
@@ -158,6 +156,9 @@ class AdminCMSView extends AdminView
                     }
                 } else { // Создание новой статьи
                     $article = new Articles();
+
+// TODO: рассылка при добавлении новой статьи: флаг $newArticle
+                    $newArticle = true;
                 }
 
                 $article->title = $articleTitle;
@@ -187,6 +188,14 @@ class AdminCMSView extends AdminView
                             []);
                     }
                     $success = 'Статья успешно добавлена/изменена!';
+// TODO: рассылка при добавлении новой статьи: вызвать Post::mailing($id)
+                    if ($newArticle) {
+                        foreach ($users as $key => $user) { // Все, кто подписан - TODO: сделать метод на запрос
+
+                            Post::mailing($email, $subject, $message, $link, $unsubscribe);
+                        }
+                        
+                    }
                 } else {
                     $success = 'Статья не была добавлена/изменена! Обратитесь к Администратору!';
                 }
