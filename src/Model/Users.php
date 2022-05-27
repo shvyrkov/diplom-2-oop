@@ -272,6 +272,23 @@ class Users extends Model
 
         return false;
     }
+    /**
+    * Получение данных пользователя
+    * 
+    * @return array $users - массив с пользователями, подписанными на рассылку
+    */
+    public static function getSubscridedUsers()
+    {
+        $users = Users::where('subscription', 1)
+                ->get();
+
+        if (isset($users)) {
+
+             return $users;
+        }
+
+        return false;
+    }
 
     /**
      * Изменение роли пользователя 

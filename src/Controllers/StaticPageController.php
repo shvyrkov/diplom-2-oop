@@ -9,6 +9,7 @@ use App\View\RegistrationView;
 use App\View\LkView;
 use App\View\AdminView;
 use App\View\PasswordView;
+use App\View\UnsubscribeView;
 
 class StaticPageController
 {
@@ -41,6 +42,16 @@ class StaticPageController
     public function exit()
     {
         return new View('exit', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
+    }
+
+    /**
+    * Выход
+    *
+    * @return View
+    */
+    public function unsubscribe()
+    {
+        return new UnsubscribeView('unsubscribe', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
     }
 
     /**

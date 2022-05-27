@@ -18,6 +18,12 @@ require_once __DIR__ . '/bootstrap.php';
 $router = new Router(); // Объект Маршрутизатора
 $application = new Application($router); // Для запуска Eloquent
 
+// Требуется запустить Eloquent. Как вариант - загружать методы из конфиг-файла
+foreach (Methods::all() as $method) {  // Метод модели all получит все записи из связанной с моделью таблицы БД
+    $router->get($method->uri,      [HomeController::class, 'method']); 
+    $router->get($method->uri . '/page-*',      [HomeController::class, 'method']); 
+}
+
 $router->get('',      [HomeController::class, 'index']); // Маршрут для корня сайта (/) - метод index в App\Controllers\HomeController
 $router->post('',      [HomeController::class, 'index']); // Для подписки на рассылку
 
@@ -27,10 +33,9 @@ $router->post('page-*', [HomeController::class, 'index']); // Для подпи�
 $router->get('subscription', [HomeController::class, 'subscription']); // Подписка на рассылку
 $router->post('subscription', [HomeController::class, 'subscription']); // Подписка на рассылку
 
-// Требуется запустить Eloquent. Как вариант - загружать методы из конфиг-файла
-foreach (Methods::all() as $method) {  // Метод модели all получит все записи из связанной с моделью таблицы БД
-    $router->get($method->uri,      [HomeController::class, 'method']); 
-}
+$router->get('unsubscribe', [StaticPageController::class, 'unsubscribe']); // Отписка от рассылки
+$router->post('unsubscribe', [StaticPageController::class, 'unsubscribe']); // Отписка от рассылки
+
 
 $router->get('article/*', [StaticPageController::class, 'article']); // Маршрут для выбранной статьи
 $router->post('article/*', [StaticPageController::class, 'article']); // Маршрут для выбранной статьи
@@ -54,7 +59,11 @@ $router->post('password', [StaticPageController::class, 'password']); // Исп�
 
 $router->get('about', [StaticPageController::class, 'about']); // Маршрут для about
 $router->get('contacts', [StaticPageController::class, 'contacts']); // Используем метод contacts класса StaticPageController
+
 $router->get('post', [PostController::class, 'post']); // PostController::post - обработка запроса
+$router->get('post?*=*', [PostController::class, 'post']);  // 1-я страница - учесть GET-запрос в обработке url
+$router->get('post/page-*', [PostController::class, 'post']); // page-* - страница пагинации
+$router->get('post/page-*?*=*', [PostController::class, 'post']); // Учесть GET-запрос в обработке url на page-* - странице пагинации
 
 $router->get('admin', [AdminPageController::class, 'admin']); // Маршрут для перехода в админку
 $router->get('article-delete/*', [AdminPageController::class, 'articleDelete']); // Вывод страницы-сообщения об удалении статьи.

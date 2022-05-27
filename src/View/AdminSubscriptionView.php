@@ -57,10 +57,6 @@ class AdminSubscriptionView extends AdminView
         // Статей для вывода на страницу
         $users = Users::getUsers($limit, $page);
 
-        if (isset($_POST['exit'])) { // Выход пользователя из сессии.
-            Users::exit();
-        }
-
         extract($this->data); // ['title' => 'Index Page'] -> $title = 'Index Page' - создается переменная для исп-я в html
         $menu = Menu::getAdminMenu();
 

@@ -15,18 +15,22 @@ include 'layout/header.php';
   </div>
 </div>
 <?php 
-if (!isset($_SESSION['user']) // Пользователь неавторизован 
-    && !$result               // и подписка не прошла (и для авторизованных) - $result
-    || $errors                // или ошибка
+// echo "<pre>";
+// print_r($_SERVER);
+// echo "</pre>";
+if (!$result // отдписка не прошла + первичный переход по ссылке из письма рассылки
+    || $errors // или ошибка
 ) { 
 ?>
   <div class="container">
     <div class="row">
         <div class="col-sm-10 col-sm-offset-4 padding-right">
+            <br/>
+            <br/>
             <div class="signup-form"><!--sign up form-->
               <form action="" method="post">
                 <div class="mb-3">
-                  <label for="email" class="form-label">Введите Ваш e-mail для получения уведомлений о появлении новой статьи на сайте:</label>
+                  <label for="email" class="form-label">Введите Ваш e-mail для прекращения получения уведомлений:</label>
                   <input type="email" class="form-control
                   <?php
                   if($errors['checkEmail'] || $errors['checkEmailExists']) {
@@ -42,9 +46,8 @@ if (!isset($_SESSION['user']) // Пользователь неавторизов
                     ?>
                   </span>
                 </div>
-
                 <div class="mb-3">
-                  <button type="submit" name="subscribeNotAuthUser" class="btn btn-primary">Подписаться на рассылку.</button>
+                  <button type="submit" name="unsubscribe" class="btn btn-primary">Отписаться от рассылки.</button>
                 </div>
               </form>
             </div><!--/sign up form-->
@@ -55,7 +58,7 @@ if (!isset($_SESSION['user']) // Пользователь неавторизов
   </div>
 <?php } else { ?>
   <div class="container">
-      <h3>Вы подписаны на рассылку!</h3>
+      <h3>Вы отписались от рассылки!</h3>
   </div>
 <?php
 }

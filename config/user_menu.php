@@ -19,7 +19,7 @@ return [
                        'sort' => 2,
                       ],
         'post' => [
-                     'title' => 'Почта',
+                     'title' => 'Рассылка',
                      'path' => '/post',
                      'sort' => 3,
                   ],

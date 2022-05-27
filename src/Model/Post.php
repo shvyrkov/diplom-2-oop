@@ -34,7 +34,7 @@ class Post extends Model
     {
         // Запись в БД
         $mail = Post::insert(
-            ['email' => $email, 'subject' => $subject, 'message' => $message, 'link' => $link, 'unsubscribe' => $unsubscribe]
+            ['email' => $email, 'subject' => $subject, 'message' => $message, 'link' => $link, 'unsubscribe' => $unsubscribe]);
 
     // @TODO: Запись в log-файл
     // @TODO: E-mail рассылка
@@ -47,4 +47,25 @@ class Post extends Model
         return false;
     }
 
+    /**
+    * Получение писем рассылки из БД
+    * 
+    * @param int $limit [optional] Количество на странице
+    * @param int $page [optional] Номер страницы
+    * 
+    * @return array $mails - массив с письмами рассылки.
+    */
+    public static function getMails($limit = 20, $page = 1)
+    {
+        $mails = [];
+        $offset = ($page - 1) * $limit;
+
+        $mails = Post::where('id', '>' , 0)
+                ->orderBy('date', 'desc')
+                ->offset($offset)
+                ->limit($limit)
+                ->get();
+
+        return $mails;
+    }
 }

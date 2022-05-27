@@ -4,10 +4,7 @@ namespace App\View;
 
 use App\Exceptions\ApplicationException;
 use App\Components\Menu;
-use App\Components\SimpleImage;
 use App\Model\Users;
-use App\Model\Roles;
-use \SplFileInfo;
 
 /**
 * Класс LkView — управление выводом view страницы.

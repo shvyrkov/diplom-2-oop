@@ -10,6 +10,7 @@ use App\Model\Users;
 use App\Model\Articles;
 use App\Model\ArticleMethods;
 use App\Model\Methods;
+use App\Model\Post;
 use App\View\AdminCMSView;
 use \SplFileInfo;
 use \Imagick;
@@ -156,9 +157,7 @@ class AdminCMSView extends AdminView
                     }
                 } else { // Создание новой статьи
                     $article = new Articles();
-
-// TODO: рассылка при добавлении новой статьи: флаг $newArticle
-                    $newArticle = true;
+                    $newArticle = true; // Рассылка при добавлении новой статьи: флаг $newArticle
                 }
 
                 $article->title = $articleTitle;
@@ -188,11 +187,24 @@ class AdminCMSView extends AdminView
                             []);
                     }
                     $success = 'Статья успешно добавлена/изменена!';
-// TODO: рассылка при добавлении новой статьи: вызвать Post::mailing($id)
+                    // Рассылка при добавлении новой статьи
                     if ($newArticle) {
+                        $users = Users::getSubscridedUsers(); // Пользователи, подписанные на рассылку
+
+                        $subject = 'На сайте добавлена новая статья: "' . $article->title . '".'; // Заголовок письма: На сайте добавлена новая запись: “#Название новой статьи#”
+                        $message = 'Новая статья: ' // Содержимое письма
+                            . $article->title
+                            . ', Краткое описание статьи: '
+                            . $article->description; // Краткое описание статьи
+                        // $link = '/diplom-2-oop/article/' . $article->id;
+                        $link = DIRECTORY_SEPARATOR . $_SERVER["HTTP_HOST"] . DIRECTORY_SEPARATOR . ARTICLE . DIRECTORY_SEPARATOR . $article->id; // Ссылка на страницу новой статьи
+                        $unsubscribe = UNSUBSCRIBE; // Ссылка на страницу отписки
+                        // $unsubscribe = UNSUBSCRIBE . '?email='; // Для передачи email пользователя ??????
+
                         foreach ($users as $key => $user) { // Все, кто подписан - TODO: сделать метод на запрос
 
-                            Post::mailing($email, $subject, $message, $link, $unsubscribe);
+                            // Post::mailing($user->email, $subject, $message, $link, $unsubscribe . $user->email);
+                            Post::mailing($user->email, $subject, $message, $link, $unsubscribe);
                         }
                         
                     }
