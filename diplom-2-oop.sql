@@ -28,9 +28,9 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата публикации',
   `user_id` int(50) NOT NULL DEFAULT '1' COMMENT 'id пользователя, добавившего статью',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 COMMENT='Статьи: название, картинка, дата публикации, краткое описание, полное содержание статьи';
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8 COMMENT='Статьи: название, картинка, дата публикации, краткое описание, полное содержание статьи';
 
--- Дамп данных таблицы diplom_2_oop.articles: ~54 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.articles: ~66 rows (приблизительно)
 DELETE FROM `articles`;
 /*!40000 ALTER TABLE `articles` DISABLE KEYS */;
 INSERT INTO `articles` (`id`, `title`, `subtitle`, `description`, `content`, `people`, `duration`, `author`, `link`, `thumbnail`, `image`, `date`, `user_id`) VALUES
@@ -90,7 +90,17 @@ INSERT INTO `articles` (`id`, `title`, `subtitle`, `description`, `content`, `pe
 	(80, 'tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22tesr-22tesr-22tesr-22tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22', 'tesr-22tesr-22', 'cs-big.png', 'cs-big.png', '2022-05-18 17:55:04', 1),
 	(82, 'test-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-2xvxzcZCXZ2tesr-22tesr-22tesr-22tesr-22', 'tesr-22', 'tesr-22', 'tesr-22tesr-22', 'tesr-22tesr-22', 'small-leopard.jpg', 'leopard.jpg', '2022-05-18 17:55:34', 1),
 	(83, 'test-31', 'test-30', 'test-30', 'test-30test-30test-30', 'test-30', 'test-30', 'test-30', 'test-30', 'small-fox.jpg', 'fox.jpg', '2022-05-23 18:29:59', 1),
-	(84, 'test-32', '', 'test-32', 'test-32', 'test-32', 'test-32', 'test-32', '', 'cs-big.png', 'cs-big.png', '2022-05-23 18:31:41', 1);
+	(84, 'test-32', '', 'test-32', 'test-32', 'test-32', 'test-32', 'test-32', '', 'cs-big.png', 'cs-big.png', '2022-05-23 18:31:41', 1),
+	(85, 'тест-33-mail', 'тест-33-mail', 'тест-33-mailтест-33-mail', 'тест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mail', 'тест-33-mail', 'тест-33-mail', 'тест-33-mailтест-33-mailтест-33-mail', 'тест-33-mailтест-33-mailтест-33-mailтест-33-mail', 'cs-big.png', 'cs-big.png', '2022-05-27 13:10:22', 1),
+	(86, 'тест-33-mail', 'тест-33-mail', 'тест-33-mailтест-33-mail', 'тест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mail', 'тест-33-mail', 'тест-33-mail', 'тест-33-mailтест-33-mailтест-33-mail', 'тест-33-mailтест-33-mailтест-33-mailтест-33-mail', 'cs-big.png', 'cs-big.png', '2022-05-27 13:10:49', 1),
+	(87, 'тест-33-mail', 'тест-33-mail', 'тест-33-mailтест-33-mail', 'тест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mail', 'тест-33-mail', 'тест-33-mail', 'тест-33-mailтест-33-mailтест-33-mail', 'тест-33-mailтест-33-mailтест-33-mailтест-33-mail', 'cs-big.png', 'cs-big.png', '2022-05-27 13:11:27', 1),
+	(88, 'тест-33-mail', 'тест-33-mail', 'тест-33-mailтест-33-mail', 'тест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mail', 'тест-33-mail', 'тест-33-mail', 'тест-33-mailтест-33-mailтест-33-mail', 'тест-33-mailтест-33-mailтест-33-mailтест-33-mail', 'cs-big.png', 'cs-big.png', '2022-05-27 13:12:55', 1),
+	(89, 'тест-33-mail', 'тест-33-mail', 'тест-33-mailтест-33-mail', 'тест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mailтест-33-mail', 'тест-33-mail', 'тест-33-mail', 'тест-33-mailтест-33-mailтест-33-mail', 'тест-33-mailтест-33-mailтест-33-mailтест-33-mail', 'cs-big.png', 'cs-big.png', '2022-05-27 13:14:18', 1),
+	(90, 'Post-34', '', 'Post-34Post-34', 'Post-34Post-34Post-34Post-34', 'Post-34', 'Post-34', 'Post-34Post-34', '', 'cs-big.png', 'cs-big.png', '2022-05-27 13:22:42', 1),
+	(91, 'Mail-35', '', 'Mail-35Mail-35', 'Mail-35Mail-35Mail-35Mail-35', '2', '3', 'Mail-35Mail-35Mail-35', '', 'cs-big.png', 'cs-big.png', '2022-05-27 13:26:22', 1),
+	(92, 'Mail-36', 'cc', 'Mail-36Mail-36', 'Mail-36Mail-36Mail-36Mail-36Mail-36Mail-36', '4', '5', 'Mail-36Mail-36Mail-36', 'Mail-36Mail-36Mail-36Mail-36', 'cs-big.png', 'cs-big.png', '2022-05-27 13:27:44', 1),
+	(93, 'Mail-37', '', 'Mail-37------Mail-37', 'Mail-37Mail-37Mail-37Mail-37', '5', '6', 'Mail-37Mail-37', '', 'cs-big.png', 'cs-big.png', '2022-05-27 13:53:56', 1),
+	(94, 'Mail-38', '', 'Mail-38xxxxxxxxx', 'Mail-38Mail-38', '6', '7', 'Mail-38Mail-38', '', 'cs-big.png', 'cs-big.png', '2022-05-27 15:58:33', 1);
 /*!40000 ALTER TABLE `articles` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.article_methods
@@ -105,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `article_methods` (
   CONSTRAINT `FK2_id_method` FOREIGN KEY (`id_method`) REFERENCES `methods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица соответствия между статьями и типами методов, к которым они принадлежат.';
 
--- Дамп данных таблицы diplom_2_oop.article_methods: ~86 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.article_methods: ~113 rows (приблизительно)
 DELETE FROM `article_methods`;
 /*!40000 ALTER TABLE `article_methods` DISABLE KEYS */;
 INSERT INTO `article_methods` (`id_article`, `id_method`, `description`) VALUES
@@ -199,7 +209,29 @@ INSERT INTO `article_methods` (`id_article`, `id_method`, `description`) VALUES
 	(82, 8, NULL),
 	(82, 9, NULL),
 	(83, 6, NULL),
-	(83, 7, NULL);
+	(83, 7, NULL),
+	(85, 5, NULL),
+	(85, 6, NULL),
+	(85, 7, NULL),
+	(86, 5, NULL),
+	(86, 6, NULL),
+	(86, 7, NULL),
+	(87, 5, NULL),
+	(87, 6, NULL),
+	(87, 7, NULL),
+	(88, 5, NULL),
+	(88, 6, NULL),
+	(88, 7, NULL),
+	(89, 5, NULL),
+	(89, 6, NULL),
+	(89, 7, NULL),
+	(90, 6, NULL),
+	(91, 4, NULL),
+	(91, 5, NULL),
+	(92, 3, NULL),
+	(92, 5, NULL),
+	(93, 2, NULL),
+	(94, 3, NULL);
 /*!40000 ALTER TABLE `article_methods` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.comments
@@ -313,16 +345,42 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `subject` varchar(250) NOT NULL COMMENT 'Заголовок письма',
   `message` varchar(1000) NOT NULL COMMENT 'Содержимое письма',
   `link` varchar(500) NOT NULL COMMENT 'Ссылка на статью',
+  `unsubscribe` varchar(500) NOT NULL COMMENT 'Ссылка для отписки от рассылки',
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Высланные оповещения по подписке на рассылку.';
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8 COMMENT='Высланные оповещения по подписке на рассылку.';
 
--- Дамп данных таблицы diplom_2_oop.posts: ~3 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.posts: ~17 rows (приблизительно)
 DELETE FROM `posts`;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` (`id`, `email`, `subject`, `message`, `link`) VALUES
-	(1, 'yu', 'yu@mail.ru', 'text-1', ''),
-	(2, 'nat', 'nat@mail.ru', 'text-2', ''),
-	(3, 'leo', 'leo@ya.ru', 'leo-text', '');
+INSERT INTO `posts` (`id`, `email`, `subject`, `message`, `link`, `unsubscribe`, `date`) VALUES
+	(68, 'iren1@mail.ru', 'На сайте добавлена новая запись: "Mail-36".', 'Новая статья: Mail-36, Краткое описание статьи: Mail-36Mail-36', '\\diplom-2-oop\\article\\92', '\\diplom-2-oop\\unsubscribe', '0000-00-00 00:00:00'),
+	(69, 'yu-12@mail.ru', 'На сайте добавлена новая запись: "Mail-36".', 'Новая статья: Mail-36, Краткое описание статьи: Mail-36Mail-36', '\\diplom-2-oop\\article\\92', '\\diplom-2-oop\\unsubscribe', '0000-00-00 00:00:00'),
+	(70, 'nici@xc.ry', 'На сайте добавлена новая запись: "Mail-36".', 'Новая статья: Mail-36, Краткое описание статьи: Mail-36Mail-36', '\\diplom-2-oop\\article\\92', '\\diplom-2-oop\\unsubscribe', '0000-00-00 00:00:00'),
+	(71, 'zz1@zz.rr', 'На сайте добавлена новая запись: "Mail-36".', 'Новая статья: Mail-36, Краткое описание статьи: Mail-36Mail-36', '\\diplom-2-oop\\article\\92', '\\diplom-2-oop\\unsubscribe', '0000-00-00 00:00:00'),
+	(72, 'zz3@zz.rr', 'На сайте добавлена новая запись: "Mail-36".', 'Новая статья: Mail-36, Краткое описание статьи: Mail-36Mail-36', '\\diplom-2-oop\\article\\92', '\\diplom-2-oop\\unsubscribe', '0000-00-00 00:00:00'),
+	(73, 'ww@dd.jj', 'На сайте добавлена новая запись: "Mail-36".', 'Новая статья: Mail-36, Краткое описание статьи: Mail-36Mail-36', '\\diplom-2-oop\\article\\92', '\\diplom-2-oop\\unsubscribe', '0000-00-00 00:00:00'),
+	(74, 'ss@dd.nn', 'На сайте добавлена новая запись: "Mail-36".', 'Новая статья: Mail-36, Краткое описание статьи: Mail-36Mail-36', '\\diplom-2-oop\\article\\92', '\\diplom-2-oop\\unsubscribe', '0000-00-00 00:00:00'),
+	(75, 'yu@mail.ru', 'На сайте добавлена новая статья: "Mail-37".', 'Новая статья: Mail-37, Краткое описание статьи: Mail-37------Mail-37', '\\diplom-2-oop\\article\\93', '\\diplom-2-oop\\unsubscribe', '2022-05-27 13:53:56'),
+	(76, 'nat@mail.ru', 'На сайте добавлена новая статья: "Mail-37".', 'Новая статья: Mail-37, Краткое описание статьи: Mail-37------Mail-37', '\\diplom-2-oop\\article\\93', '\\diplom-2-oop\\unsubscribe', '2022-05-27 13:53:56'),
+	(77, 'aaa@ddd.ru', 'На сайте добавлена новая статья: "Mail-37".', 'Новая статья: Mail-37, Краткое описание статьи: Mail-37------Mail-37', '\\diplom-2-oop\\article\\93', '\\diplom-2-oop\\unsubscribe', '2022-05-27 13:53:56'),
+	(78, 'iren1@mail.ru', 'На сайте добавлена новая статья: "Mail-37".', 'Новая статья: Mail-37, Краткое описание статьи: Mail-37------Mail-37', '\\diplom-2-oop\\article\\93', '\\diplom-2-oop\\unsubscribe', '2022-05-27 13:53:56'),
+	(79, 'yu-12@mail.ru', 'На сайте добавлена новая статья: "Mail-37".', 'Новая статья: Mail-37, Краткое описание статьи: Mail-37------Mail-37', '\\diplom-2-oop\\article\\93', '\\diplom-2-oop\\unsubscribe', '2022-05-27 13:53:56'),
+	(80, 'nici@xc.ry', 'На сайте добавлена новая статья: "Mail-37".', 'Новая статья: Mail-37, Краткое описание статьи: Mail-37------Mail-37', '\\diplom-2-oop\\article\\93', '\\diplom-2-oop\\unsubscribe', '2022-05-27 13:53:56'),
+	(81, 'zz1@zz.rr', 'На сайте добавлена новая статья: "Mail-37".', 'Новая статья: Mail-37, Краткое описание статьи: Mail-37------Mail-37', '\\diplom-2-oop\\article\\93', '\\diplom-2-oop\\unsubscribe', '2022-05-27 13:53:56'),
+	(82, 'zz3@zz.rr', 'На сайте добавлена новая статья: "Mail-37".', 'Новая статья: Mail-37, Краткое описание статьи: Mail-37------Mail-37', '\\diplom-2-oop\\article\\93', '\\diplom-2-oop\\unsubscribe', '2022-05-27 13:53:56'),
+	(83, 'ww@dd.jj', 'На сайте добавлена новая статья: "Mail-37".', 'Новая статья: Mail-37, Краткое описание статьи: Mail-37------Mail-37', '\\diplom-2-oop\\article\\93', '\\diplom-2-oop\\unsubscribe', '2022-05-27 13:53:56'),
+	(84, 'ss@dd.nn', 'На сайте добавлена новая статья: "Mail-37".', 'Новая статья: Mail-37, Краткое описание статьи: Mail-37------Mail-37', '\\diplom-2-oop\\article\\93', '\\diplom-2-oop\\unsubscribe', '2022-05-27 13:53:56'),
+	(85, 'yu@mail.ru', 'На сайте добавлена новая статья: "Mail-38".', 'Новая статья: Mail-38, Краткое описание статьи: Mail-38xxxxxxxxx', '\\diplom-2-oop\\article\\94', '\\diplom-2-oop\\unsubscribe', '2022-05-27 15:58:33'),
+	(86, 'nat@mail.ru', 'На сайте добавлена новая статья: "Mail-38".', 'Новая статья: Mail-38, Краткое описание статьи: Mail-38xxxxxxxxx', '\\diplom-2-oop\\article\\94', '\\diplom-2-oop\\unsubscribe', '2022-05-27 15:58:33'),
+	(87, 'aaa@ddd.ru', 'На сайте добавлена новая статья: "Mail-38".', 'Новая статья: Mail-38, Краткое описание статьи: Mail-38xxxxxxxxx', '\\diplom-2-oop\\article\\94', '\\diplom-2-oop\\unsubscribe', '2022-05-27 15:58:33'),
+	(88, 'iren1@mail.ru', 'На сайте добавлена новая статья: "Mail-38".', 'Новая статья: Mail-38, Краткое описание статьи: Mail-38xxxxxxxxx', '\\diplom-2-oop\\article\\94', '\\diplom-2-oop\\unsubscribe', '2022-05-27 15:58:33'),
+	(89, 'yu-12@mail.ru', 'На сайте добавлена новая статья: "Mail-38".', 'Новая статья: Mail-38, Краткое описание статьи: Mail-38xxxxxxxxx', '\\diplom-2-oop\\article\\94', '\\diplom-2-oop\\unsubscribe', '2022-05-27 15:58:33'),
+	(90, 'nici@xc.ry', 'На сайте добавлена новая статья: "Mail-38".', 'Новая статья: Mail-38, Краткое описание статьи: Mail-38xxxxxxxxx', '\\diplom-2-oop\\article\\94', '\\diplom-2-oop\\unsubscribe', '2022-05-27 15:58:33'),
+	(91, 'zz1@zz.rr', 'На сайте добавлена новая статья: "Mail-38".', 'Новая статья: Mail-38, Краткое описание статьи: Mail-38xxxxxxxxx', '\\diplom-2-oop\\article\\94', '\\diplom-2-oop\\unsubscribe', '2022-05-27 15:58:33'),
+	(92, 'zz3@zz.rr', 'На сайте добавлена новая статья: "Mail-38".', 'Новая статья: Mail-38, Краткое описание статьи: Mail-38xxxxxxxxx', '\\diplom-2-oop\\article\\94', '\\diplom-2-oop\\unsubscribe', '2022-05-27 15:58:33'),
+	(93, 'ww@dd.jj', 'На сайте добавлена новая статья: "Mail-38".', 'Новая статья: Mail-38, Краткое описание статьи: Mail-38xxxxxxxxx', '\\diplom-2-oop\\article\\94', '\\diplom-2-oop\\unsubscribe', '2022-05-27 15:58:33'),
+	(94, 'ss@dd.nn', 'На сайте добавлена новая статья: "Mail-38".', 'Новая статья: Mail-38, Краткое описание статьи: Mail-38xxxxxxxxx', '\\diplom-2-oop\\article\\94', '\\diplom-2-oop\\unsubscribe', '2022-05-27 15:58:33');
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.rights
@@ -433,7 +491,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   CONSTRAINT `FK1_role` FOREIGN KEY (`role`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы diplom_2_oop.users: ~55 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.users: ~21 rows (приблизительно)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscription`, `avatar`, `aboutMe`) VALUES
@@ -441,57 +499,23 @@ INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscri
 	(2, 'nataliya ivanovna', 1, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'nat.jpg', 'Это Наталия'),
 	(3, 'leon', 3, 'leo@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'leon.jpg', 'Leonid'),
 	(4, 'nina', 2, 'nina@mail.ru', '$2y$10$JuZBFGhKypltSBnopzmVpObYixBVAzEGNk6wUDXjUdVDwupIX6/nG', NULL, 0, 'no-photo.jpg', 'Hello'),
-	(6, 'qwe', 3, 'aa@aa.jj', '123456', NULL, 0, 'no-photo.jpg', ''),
 	(7, 'qqq', 3, 'aaa@ddd.ru', '$2y$10$tC41mjnduueRBZJvhv1CIuSqjthKuuTGZRWtUI8PU4hmcUExkuTS6', NULL, 1, 'no-photo.jpg', ''),
 	(8, 'hhh', 3, 'jjj@ddd.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'no-photo.jpg', ''),
 	(9, 'Iren1', 3, 'iren1@mail.ru', '$2y$10$xL1IP.8Gg2o3LgNDg1rHNeG/A80VYeHPfPS6y/15sVeBcduQeEYX2', NULL, 1, 'no-photo.jpg', ''),
-	(10, 'Iren', 3, 'iren@mail.ru', '123456', NULL, 0, 'no-photo.jpg', ''),
 	(11, 'Irena', 3, 'irena@mail.ru', '$2y$10$kKe1a4gRNVJANyk/OBeRWeaCaHyNxhbBN9s8PeX2vrpW9o50cMc3C', NULL, 0, 'Irena.png', 'Hi'),
 	(12, 'yuri-12', 3, 'yu-12@mail.ru', '$2y$10$UVF4FljXlD2dQQsVprgVcuxyokubHpwX7IIh/whgMQWiLdVIuFvGW', NULL, 1, 'no-photo.jpg', 'Это тест-2234567'),
 	(13, 'leon12', 3, 'leo1@mail.ru', '$2y$10$xCbo/keNt7I0IQZI7JRqfeM.xAmpTVqL19lIaIAcGPIPec9LDXu6a', NULL, 0, 'no-photo.jpg', 'it\'s me'),
 	(14, 'qw', 3, 'q@w.ry', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'qw.png', 'Hello, people!'),
 	(15, 'Nicole', 2, 'nici@xc.ry', '$2y$10$IhFs2OIAtuL.eHFJJmZI8.TXG8l/xWsGFz.A.jJ4AiNQmYGJej8bm', NULL, 1, 'no-photo.jpg', 'hfbm,'),
-	(16, 'zuko', 2, 'zx@qq.kk', '$2y$10$6ox46q38666BPHq1YtVK7.E9N6sR7kxFpMLQpgZJKtkf3Z.VeEHF2', NULL, 1, 'zukag.jpg', 'ajkhihk'),
+	(16, 'zuko', 2, 'zx@qq.kk', '$2y$10$6ox46q38666BPHq1YtVK7.E9N6sR7kxFpMLQpgZJKtkf3Z.VeEHF2', NULL, 0, 'zukag.jpg', 'ajkhihk'),
 	(17, NULL, 4, 'zz1@zz.rr', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(18, NULL, 4, 'zz2@zz.rr', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(18, NULL, 4, 'zz2@zz.rr', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(19, NULL, 4, 'zz3@zz.rr', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(20, 'яя', 4, 'zz@zz.rr', '$2y$10$wk7bMW65xjqIb7mNrJeV5.KJpDGX8OAbLxm05UE1jkDNRPir6C0hG', NULL, 0, 'no-photo.jpg', NULL),
-	(21, 'nn', 3, 'nn@xx.uu', '$2y$10$njQpH75EIE1eLmCWoq9C5.FxEQyQ59lEIepD6v/gT4XV3cNDK7yUK', NULL, 1, 'no-photo.jpg', NULL),
-	(22, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(23, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(24, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(25, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(26, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(27, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(28, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(29, NULL, 3, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(30, NULL, 4, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(31, NULL, 4, NULL, NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(32, NULL, 4, 'xxx@vvv.mm', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(33, NULL, 4, 'aa@dd.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(34, NULL, 4, 'kk@dd.ll', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(35, NULL, 4, 'rr@ff.ll', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(36, NULL, 4, 'll@cc.mm', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(37, NULL, 4, 'aa@xx.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(38, NULL, 4, 'aa@ss.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(39, NULL, 4, 'ee@gg.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(39, NULL, 4, 'ee@gg.kk', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(40, NULL, 4, 'ww@dd.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
 	(41, NULL, 4, 'ss@dd.nn', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(42, NULL, 4, 'qq@bb.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(43, NULL, 4, 'tt@rr.bb', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(44, NULL, 4, 'aa@se.yy', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(45, NULL, 4, 'aa@ss.tt', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(46, NULL, 4, 'gg@ss.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(47, NULL, 4, 'ghh@bb.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(48, NULL, 4, 'ss@ss.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(49, NULL, 4, 'ee@ss.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(50, NULL, 4, 'tt@ww.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(51, NULL, 4, 'dd@ss.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(52, NULL, 4, 'ww@dd.ii', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(53, NULL, 4, 'pp@ss.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(54, NULL, 4, 'ff@cc.yy', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(55, NULL, 4, 'kk@ded.lkl', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(56, NULL, 4, 'ee@vv.jj', NULL, NULL, 1, 'no-photo.jpg', NULL);
+	(55, NULL, 4, 'kk@ded.lkl', NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(56, NULL, 4, 'ee@vv.jj', NULL, NULL, 0, 'no-photo.jpg', NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
