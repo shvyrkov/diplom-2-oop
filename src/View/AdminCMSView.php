@@ -11,22 +11,21 @@ use App\Model\Articles;
 use App\Model\ArticleMethods;
 use App\Model\Methods;
 use App\Model\Post;
-use App\View\AdminCMSView;
 use \SplFileInfo;
-use \Imagick;
+
 
 /**
-* Класс View — шаблонизатор приложения, реализует интерфейс Renderable. Используется для подключения view страницы.
-*/
+ * Класс View — шаблонизатор приложения, реализует интерфейс Renderable. Используется для подключения view страницы.
+ */
 class AdminCMSView extends AdminView
 {
     /**
-    * Метод выводит необходимый шаблон.
-    */
+     * Метод выводит необходимый шаблон.
+     */
     public function render()
     {
-     /** метод должен выводить необходимый шаблон. Внутри метода данные свойства $data распаковать в переменные через extract(), а затем подключить страницу шаблона, получив полный путь к ней с помощью другого метода этого класса getIncludeTemplate().
-    */
+        /** метод должен выводить необходимый шаблон. Внутри метода данные свойства $data распаковать в переменные через extract(), а затем подключить страницу шаблона, получив полный путь к ней с помощью другого метода этого класса getIncludeTemplate().
+         */
         $articleTitle = '';
         $subtitle = '';
         $people = '';
@@ -107,7 +106,7 @@ class AdminCMSView extends AdminView
 
             if (is_array($methods)) {
                 foreach ($methods as $method) {
-                    if (!in_array($method, $methodsArr) ) {
+                    if (!in_array($method, $methodsArr)) {
                         $errors['method'] = 'Ошибка ввода типа метода. Обратитесь к Администратору.';
                     }
                 }
@@ -181,10 +180,13 @@ class AdminCMSView extends AdminView
 
                     foreach ($methods as $method) { // Внести новые связи статья-метод
                         ArticleMethods::upsert(
-                            ['id_article' => $article->id,
-                            'id_method' => $method],
+                            [
+                                'id_article' => $article->id,
+                                'id_method' => $method
+                            ],
                             [],
-                            []);
+                            []
+                        );
                     }
                     $success = 'Статья успешно добавлена/изменена!';
                     // Рассылка при добавлении новой статьи
@@ -206,7 +208,6 @@ class AdminCMSView extends AdminView
                             // Post::mailing($user->email, $subject, $message, $link, $unsubscribe . $user->email);
                             Post::mailing($user->email, $subject, $message, $link, $unsubscribe);
                         }
-                        
                     }
                 } else {
                     $success = 'Статья не была добавлена/изменена! Обратитесь к Администратору!';
@@ -214,12 +215,10 @@ class AdminCMSView extends AdminView
             }
         } // Обработка формы
 
-
         if (file_exists($templateFile)) {
             include $templateFile; // Вывод представления
         } else { // Если файл не найден
             throw new ApplicationException("$templateFile - шаблон не найден", 442); // Если запрашиваемого файла с шаблоном не найдено, то метод должен выбросить исключение ApplicationException, с таким текстом ошибки: "<имя файла шаблона> шаблон не найден". 
         }
-
     }
 }

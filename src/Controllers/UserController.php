@@ -1,178 +1,149 @@
 <?php
+
 namespace App\Controllers;
 
 use App\View\View;
 use App\Components\Menu;
+use App\View\LoginView;
+use App\View\RegistrationView;
+use App\View\LkView;
+use App\View\PasswordView;
+use App\View\UnsubscribeView;
+use App\View\SubscriptionView;
 
 /**
- * Класс UserController - контроллер для работы с пользователями
+ * Класс UserController - контроллер для работы с пользователем
  */
+
 class UserController
 {
     /**
-     * Регистрация пользователя - создание записи в БД
+     * Вывод страницы авторизации пользователя
      *
-     * @return bool in case of successful operation
-     */ 
+     * @return object LoginView - объект представления страницы авторизации пользователя
+     */
+    public function login()
+    {
+        return new LoginView('login', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
+    }
+
+    /**
+     * Выход из сессии
+     *
+     * @return object View - объект представления страницы после выхода пользователя из приложения
+     */
+    public function exit()
+    {
+        return new View('exit', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
+    }
+
+    /**
+     * Подписка на рассылку для неподписанных пользователей.
+     *
+     * @return UnsubscribeView - объект представления страницы подписки на рассылку для неподписанных пользователей.
+     */
+    public function unsubscribe()
+    {
+        return new UnsubscribeView('unsubscribe', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
+    }
+
+    /**
+     * Подписка на рассылку
+     * 
+     * @return object SubscriptionView - объект представления страницы подписки на рассылку
+     */
+    public function subscription()
+    {
+        $data = ['title' => Menu::showTitle(Menu::getUserMenu())];
+
+        return new SubscriptionView('subscription', $data); // Вывод представления
+    }
+
+    /**
+     * Вывод страницы регистрации пользователя
+     *
+     * @return RegistrationView - объект представления страницы регистрации нового пользователя
+     */
     public function registration()
     {
-        // Инициализация переменных, чтобы не было ошибок
-        $name = '';
-        $email = '';
-        $password = '';
-        $password_1 = '';
-        $password_2 = '';
-        //$code_sent = ''; // Код для проверки e-mail
-        $result = false;
-        
-        if (isset($_POST['submit'])) { // Ввод регистрационных данных
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $password_1 = $_POST['password_1'];
-            $password_2 = $_POST['password_2'];
-            
-            $errors = false; // Для хранения ошибок неправильного ввода
-            
-        // Проверка ошибок ввода
-            if (!User::checkName($name)) {
-                $errors[] = 'Имя не должно быть короче 2-х символов';
-            }
-            
-            if (!User::checkEmail($email)) { //  Проверка правильности ввода e-mail
-                $errors[] = 'Неправильный email';
-            }
-            
-            if (!User::checkPassword($password_1)) {
-                $errors[] = 'Пароль не должен быть короче 6-ти символов';
-            }
-            
-            if (!User::comparePasswords($password_1, $password_2)) {
-                $errors[] = 'Пароли не совпадают';
-            }
-            
-            if (User::checkEmailExists($email)) {
-                $errors[] = 'Такой email уже используется';
-            }
-            
-        // Если ошибок нет, то переходим на страницу подтверждения e-mail пользователя.
-            if ($errors == false) {
-                //  Отсылка кода на e-mail пользователя
-                $code_sent = User::validateUserEmail($email);
-
-                // Запоминаем данные пользователя в сессии
-                $_SESSION['name'] = $name; 
-                $_SESSION['email'] = $email;
-                $_SESSION['password'] = $password_1;
-                $_SESSION['code_sent'] = $code_sent;
-                
-        // Переход на страницу подтверждения e-mail
-                require_once(ROOT . '/views/user/email_confirmation.php'); 
-            } else {
-        // Если ошибки есть, то опять на страницу регистрации с выводом ошибок.
-                require_once(ROOT . '/views/user/register.php');
-            }
-
-        } // submit
-        
-        if (isset($_POST['submit_email'])) { // Подтверждение e-mail
-            
-            $code_sent = $_SESSION['code_sent']; // Код отправленный пользователю
-            $email_confirmation = $_POST['email_confirmation']; // Код введенный пользователем
-            
-            $errors = false; // Для хранения ошибок неправильного ввода
-
-    // Проверка совпадения кодов
-            if ($email_confirmation != $code_sent) {
-                $errors[] = 'Неверный код';
-        // Если ошибки есть, то опять на страницу ввода кода подтверждения с выводом ошибок.
-                require_once(ROOT . '/views/user/email_confirmation.php');
-            }
-            
-    // Если ошибок нет, то регистрируем пользователя.
-            if ($errors == false) { 
-                
-                $name = $_SESSION['name']; 
-                $email = $_SESSION['email'];
-                $password = $_SESSION['password'];
-            
-                $result = User::register($name, $email, $password); 
-            
-            // Проверяем зарегистрировался ли пользователь
-                $user = User::checkUserData($email, $password);
-                
-                if ($user == false) {
-                    // Если данные неправильные - показываем ошибку
-                    $errors[] = 'Регистрация не прошла.';
-                    // Если регистрация на прошла - опять на страницу регистрациии
-                } else {
-                    // Если данные правильные, запоминаем пользователя в сессии
-                    User::auth($user);
-                    
-                    // Удаляем суперглобальные переменные после удачной регистрации
-                    unset ($_SESSION['name']);
-                    unset ($_SESSION['email']);
-                    unset ($_SESSION['password']);
-                    unset ($_SESSION['code_sent']);
-                }
-            }
-        } // submit_email
-
-        require_once(ROOT . '/views/user/register.php');
-
-        return true; 
+        return new RegistrationView('registration', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
     }
-    
+
     /**
-     * Авторизация пользователя (вход  в личный кабинет)
+     * Вывод страницы личного кабинета пользователя
      *
-     * @return bool in case of successful operation
-     */ 
-    public function actionLogin()
-    {
-        $email = '';
-        $password = '';
-        
-        if (isset($_POST['submit'])) {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-            
-            $errors = false;
-                        
-            // Валидация полей
-            if (!User::checkEmail($email)) {
-                $errors[] = 'Неправильный email';
-            }            
-
-            // Проверяем существует ли пользователь
-            $user = User::checkUserData($email, $password);
-            
-            if ($user == false) {
-                // Если данные неправильные - показываем ошибку
-                $errors[] = 'Неправильные данные для входа на сайт.<br>
-                            Возможно нажата клавиша CapsLock или несоответствующая раскладка клавиатуры';
-            } else {
-                // Если данные правильные, запоминаем пользователя (сессия)
-                User::auth($user);
-                
-                // Перенаправляем пользователя в закрытую часть - кабинет 
-                header('Location: /'.HOME.'/cabinet/');
-            }
-
-        }
-
-        require_once(ROOT . '/views/user/login.php');
-
-        return true;
-    }
-    
-    /**
-     * Выход из аккаунта - удаление данных о пользователе из сессии
+     * @return LkView - объект представления страницы личного кабинета пользователя
      */
-    public function actionLogout()
+    public function lk()
     {
-        unset($_SESSION['user']);
-        unset($_SESSION['user_name']);
-        header('Location: /'.HOME.'/'); // Перенаправление на главную страницу сайта 
+        if (isset($_SESSION['user']['id'])) {
+
+            return new LkView('lk', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
+        } else {
+            header('Location: /login'); // @TODO: Выводить текст: вы не авторизованы...?
+        }
     }
-    
-} // Class
+
+    /**
+     * Вывод страницы для изменения пароля пользователя
+     *
+     * @return PasswordView- объект представления страницы изменения пароля пользователя
+     */
+    public function password()
+    {
+        if (isset($_SESSION['user']['id'])) {
+
+            return new PasswordView('password', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
+        } else {
+            header('Location: /login'); // @TODO: Выводить текст: вы не авторизованы...?
+        }
+    }
+
+    /**
+     * @TEST: Метод принимает значения $params из строки запроса и выдает их обратно в виде строки опред-го вида...
+     *
+     */
+    public function test(...$params)
+    {
+        $string = "Test Page With : ";
+        $i = 1;
+
+        foreach ($params as $param) {
+            $string .= ' param_' . $i++ . ' = ' . $param;
+        }
+        // echo "<pre>";
+        // echo "<br>_POST:<br>";
+        // var_dump($_POST);
+        // echo "<br>_GET:<br>";
+        // var_dump($_GET);
+        // echo "<br>SERVER:<br>";
+        // var_dump($_SERVER);
+        // echo "</pre>";
+
+        return $string;
+    }
+
+    /**
+     * @TEST: Метод принимает значения $params из строки запроса и выдает их обратно в виде строки опред-го вида...
+     *
+     */
+    public function index(...$params)
+    {
+        $params = [ // ???
+
+            'title' => 'Главная', // Название пункта меню
+            'path' => '/', // Ссылка на страницу, куда ведет этот пункт меню
+            'class' => HomeController::class, // ?
+            'method' => 'index', // ?
+            'sort' => 0, // Индекс сортировки (?)
+
+        ];
+
+        return new View($params['path'], [
+            'title' => 'Контакты',
+            'link_1' => '/', 'linkText_1' => 'На главную',
+            'link_2' => '/about', 'linkText_2' => 'О нас',
+            'link_3' => '/post', 'linkText_3' => 'Почта'
+        ]); // Вывод представления
+    }
+}

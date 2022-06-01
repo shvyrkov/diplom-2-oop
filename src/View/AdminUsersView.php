@@ -6,21 +6,20 @@ use App\Exceptions\ApplicationException;
 use App\Components\Menu;
 use App\Model\Users;
 use App\Model\Roles;
-use App\View\AdminUsersView;
 use App\Components\Pagination;
 
 /**
-* Класс View — шаблонизатор приложения, реализует интерфейс Renderable. Используется для подключения view страницы.
-*/
+ * Класс View — шаблонизатор приложения, реализует интерфейс Renderable. Используется для подключения view страницы.
+ */
 class AdminUsersView extends AdminView
 {
     /**
-    * Метод выводит необходимый шаблон.
-    */
+     * Метод выводит необходимый шаблон.
+     */
     public function render()
     {
-     /** метод должен выводить необходимый шаблон. Внутри метода данные свойства $data распаковать в переменные через extract(), а затем подключить страницу шаблона, получив полный путь к ней с помощью другого метода этого класса getIncludeTemplate().
-    */
+        /** метод должен выводить необходимый шаблон. Внутри метода данные свойства $data распаковать в переменные через extract(), а затем подключить страницу шаблона, получив полный путь к ней с помощью другого метода этого класса getIncludeTemplate().
+         */
 
         $userId = '';
         $role = '';
@@ -41,7 +40,7 @@ class AdminUsersView extends AdminView
         }
 
         $total = Users::all()->count(); // Всего пользователей в БД
-        $uri = $this->getURI(); // Получаем строку запроса без корня
+        $uri = $this->getURI() ?? ''; // Получаем строку запроса без корня
         $page = ($uri == 'admin-users') ? 1 : preg_replace('~admin-users/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел /admin-articles, то - 1
         $selected = Pagination::goodsQuantity($page); // Настройка количества товаров на странице
         $page = $selected['page']; // Номер страницы
