@@ -3,7 +3,7 @@
 return [
    'admin-users' => [ // Ссылка без '/', а также Имя файла представления - admin-users.php
       'title' => 'Управление пользователями', // Название пункта меню
-      'path' => '/admin-users', // Ссылка на страницу, куда ведет этот пункт меню
+      'path' => 'admin-users', // Ссылка на страницу, куда ведет этот пункт меню
       'accessLevel' => ADMIN, // Уровень доступа
       'class' => UserController::class, // Класс контроллера
       'method' => 'adminUsers', // Метод в классе контроллера для обработки страницы 
@@ -11,7 +11,7 @@ return [
    ],
    'admin-articles' => [ // Имя файла представления - admin-articles.php
       'title' => 'Управление статьями',
-      'path' => '/admin-articles',
+      'path' => 'admin-articles',
       'accessLevel' => CONTENT_MANAGER, // Уровень доступа
       'class' => ArticleController::class, // Класс контроллера
       'method' => 'adminArticles', // Метод в классе контроллера для обработки страницы 
@@ -19,7 +19,7 @@ return [
    ],
    'admin-subscription' => [
       'title' => 'Управление подписками',
-      'path' => '/admin-subscription',
+      'path' => 'admin-subscription',
       'accessLevel' => ADMIN, // Уровень доступа
       'class' => UserController::class, // Класс контроллера
       'method' => 'adminSubscription', // Метод в классе контроллера для обработки страницы 
@@ -27,7 +27,7 @@ return [
    ],
    'admin-comments' => [
       'title' => 'Управление комментариями',
-      'path' => '/admin-comments',
+      'path' => 'admin-comments',
       'accessLevel' => CONTENT_MANAGER, // Уровень доступа
       'class' => ArticleController::class, // Класс контроллера
       'method' => 'adminComments', // Метод в классе контроллера для обработки страницы 
@@ -35,7 +35,7 @@ return [
    ],
    'admin-cms' => [
       'title' => 'Управление статичными страницами',
-      'path' => '/admin-cms',
+      'path' => 'admin-cms',
       'accessLevel' => CONTENT_MANAGER, // Уровень доступа
       'class' => ArticleController::class, // Класс контроллера
       'method' => 'adminCMS', // Метод в классе контроллера для обработки страницы 
@@ -43,7 +43,7 @@ return [
    ],
    'admin-settings' => [
       'title' => 'Дополнительные настройки',
-      'path' => '/admin-settings',
+      'path' => 'admin-settings',
       'accessLevel' => ADMIN, // Уровень доступа
       'class' => SiteController::class, // Класс контроллера
       'method' => 'additionalSettings', // Метод в классе контроллера для обработки страницы 
@@ -51,7 +51,7 @@ return [
    ],
    'lk' => [
       'title' => 'Личный кабинет',
-      'path' => '/lk',
+      'path' => 'lk',
       'accessLevel' => USER, // Уровень доступа
       'class' => UserController::class, // Класс контроллера
       'method' => 'lk', // Метод в классе контроллера для обработки страницы 
