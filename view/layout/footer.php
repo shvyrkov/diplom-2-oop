@@ -5,14 +5,14 @@
         <div class="SitePodpisFooter">Методы, инструменты, технологии...</div>
       </footer>
     </div> -->
-    
-    <div class="container-fluid MenuLineDown" >
+
+    <div class="container-fluid MenuLineDown">
       <div class="bottom">
-          &copy; <?=date('Y')?> e-mail: facilitators.library@yandex.ru
+        &copy; <?= date('Y') ?> e-mail: facilitators.library@yandex.ru
       </div>
     </div>
 
-<!--     <br>
+    <!--     <br>
     <footer class="page-footer">
       <div class="container">
         <address class="page-footer__copyright">
@@ -22,5 +22,5 @@
       </div>
     </footer> -->
 
-<?php
-include 'base/footer.php';
+    <?php
+    include 'base/footer.php';
