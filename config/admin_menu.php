@@ -1,4 +1,9 @@
 <?php
+
+use App\Controllers\Admin\ArticleController;
+use App\Controllers\Admin\SiteController;
+use App\Controllers\Admin\UserController;
+
 // Данные для меню пользователя.
 return [
    'admin-users' => [ // Ссылка без '/', а также Имя файла представления - admin-users.php

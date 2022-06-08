@@ -27,11 +27,6 @@ foreach (Methods::all() as $method) {  // Метод модели all получ
 }
 
 // --- Страницы сайта -----
-// foreach (Menu::getUserMenu() as $key => $value) {
-//     $router->get($value['path'], ["App\Controllers\\" . $value['class'], $value['method']]); // Маршрут для корня сайта (/) - метод index в App\Controllers\SiteController
-//     $router->post($value['path'], ["App\Controllers\\" . $value['class'], $value['method']]); // Для подписки на рассылку
-// }
-
 $router->get('',      [SiteController::class, 'index']); // Маршрут для корня сайта (/) - метод index в App\Controllers\SiteController
 $router->post('',      [SiteController::class, 'index']); // Для подписки на рассылку
 
@@ -79,24 +74,18 @@ $router->get('admin', [AdminUserController::class, 'admin']); // Маршрут 
 $router->get('article-delete/*', [AdminArticleController::class, 'articleDelete']); // Вывод страницы-сообщения об удалении статьи.
 
 foreach (Menu::getAdminMenu() as $key => $value) { // Загрузка маршрутов для админки
-    $router->get($value['path'], ["App\Controllers\Admin\\" . $value['class'], $value['method']]); // 1-я страница
-    $router->get($value['path'] . '?*=*', ["App\Controllers\Admin\\" . $value['class'], $value['method']]);  // 1-я страница - учесть GET-запрос в обработке url
-    $router->get($value['path'] . '/page-*', ["App\Controllers\Admin\\" . $value['class'], $value['method']]); // page-* - страница пагинации
-    $router->get($value['path'] . '/page-*?*=*', ["App\Controllers\Admin\\" . $value['class'], $value['method']]); // Учесть GET-запрос в обработке url на page-* - странице пагинации
-    $router->post($value['path'], ["App\Controllers\Admin\\" . $value['class'], $value['method']]); // 1-я страница
-    $router->post($value['path'] . '?*=*', ["App\Controllers\Admin\\" . $value['class'], $value['method']]);  // 1-я страница - учесть GET-запрос в обработке url
-    $router->post($value['path'] . '/page-*', ["App\Controllers\Admin\\" . $value['class'], $value['method']]); // page-* - страница пагинации
-    $router->post($value['path'] . '/page-*?*=*', ["App\Controllers\Admin\\" . $value['class'], $value['method']]); // Учесть GET-запрос в обработке url на page-* - странице пагинации
+    $router->get($value['path'], [$value['class'], $value['method']]); // 1-я страница
+    $router->get($value['path'] . '?*=*', [$value['class'], $value['method']]);  // 1-я страница - учесть GET-запрос в обработке url
+    $router->get($value['path'] . '/page-*', [$value['class'], $value['method']]); // page-* - страница пагинации
+    $router->get($value['path'] . '/page-*?*=*', [$value['class'], $value['method']]); // Учесть GET-запрос в обработке url на page-* - странице пагинации
+    $router->post($value['path'], [$value['class'], $value['method']]); // 1-я страница
+    $router->post($value['path'] . '?*=*', [$value['class'], $value['method']]);  // 1-я страница - учесть GET-запрос в обработке url
+    $router->post($value['path'] . '/page-*', [$value['class'], $value['method']]); // page-* - страница пагинации
+    $router->post($value['path'] . '/page-*?*=*', [$value['class'], $value['method']]); // Учесть GET-запрос в обработке url на page-* - странице пагинации
 }
 
 $router->get('admin-cms/*', [AdminArticleController::class, 'adminCMS']); // Для редактирования статьи
 $router->post('admin-cms/*', [AdminArticleController::class, 'adminCMS']);
-
-// --- @TEST ----------
-$router->get('posts/*', [ArticleController::class, 'test']); // @TEST
-$router->get('test_index', [ArticleController::class, 'index']); // @TEST
-$router->get('test/*/test2/*', [ArticleController::class, 'test']); // @TEST
-$router->get('test/*/*/*', [ArticleController::class, 'test']); // @TEST: Строка /test/qwerty/asdfg/115555 будет обработана методом ArticleController::test
 
 // Создание объекта приложения
 $application = new Application($router); // Передаем объект Маршрутизатора с маршрутами в объект Приложения

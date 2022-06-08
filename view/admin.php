@@ -6,9 +6,9 @@ include 'layout/admin_header.php';
     <br>
     <div class="row">
         <div class="col-sm-8 col-sm-offset-4 padding-right">
-            <?php if (isset($errors) && is_array($errors)): ?>
+            <?php if (isset($errors) && is_array($errors)) : ?>
                 <ul>
-                    <?php foreach ($errors as $error): ?>
+                    <?php foreach ($errors as $error) : ?>
                         <li class="font-error"> <?php echo $error; ?></li>
                     <?php endforeach; ?>
                 </ul>
@@ -25,7 +25,7 @@ include 'layout/admin_header.php';
                 }
             ?>
                 <div>
-                    <a class="btn btn-outline-primary" href="<?=$item['path'] ?>" role="button"><?=$item['title'] ?></a>
+                    <a class="btn btn-outline-primary" href="<?= $item['path'] ?>" role="button"><?= $item['title'] ?></a>
                 </div>
             <?php
             }

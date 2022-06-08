@@ -1,4 +1,9 @@
 <?php
+
+use App\Controllers\PostController;
+use App\Controllers\SiteController;
+use App\Controllers\UserController;
+
 // Данные для меню пользователя.
 return [
    'main' => [
