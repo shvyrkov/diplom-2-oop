@@ -8,7 +8,6 @@ namespace App\Components;
 
 class Pagination
 {
-
     /** 
      * @var Количество ссылок навигации на страницу
      */
@@ -73,40 +72,29 @@ class Pagination
 
         // Получаем ограничения для цикла
         $limits = $this->limits();
-// var_dump($limits);
         $html = '<ul class="pagination justify-content-end">';
         // Генерируем ссылки
         for ($page = $limits[0]; $page <= $limits[1]; $page++) {
-// echo "<br>";
-// var_dump($page);
             // Если текущая это текущая страница, ссылки нет и добавляется класс active
             if ($page == $this->current_page) {
                 $links .= '<li class="page-item active"><a class="page-link" href="#">' . $page . '</a></li>';
-// echo "<br>";
-// var_dump($links);
             } else {
                 // Иначе генерируем ссылку
                 $links .= $this->generateHtml($page);
             }
-            // } elseif ($page - 3 >= $this->current_page || $page + 3 <= $this->current_page) {
-            //     // Иначе генерируем ссылку на 3 до и 3 после текущей страницы
-            //     $links .= $this->generateHtml($page);
-            // } else {
-                // $links .= '...'; // @TODO: Должно быть: << < ... 3 4 5 |6| 7 8 9 ... > >>
-            // }
         }
 
         // Если ссылки создались
         if (!is_null($links)) {
-            
+
             // Если текущая страница не первая
             if ($this->current_page > 1) {
                 // Ссылка на предыдущую страницу
-                $links = $this->generateHtml($this->current_page - 1, '&lt;'). $links;
+                $links = $this->generateHtml($this->current_page - 1, '&lt;') . $links;
                 // Создаём ссылку "На первую страницу"
                 $links = $this->generateHtml(1, '&lt;&lt;') . $links;
             }
-                
+
             // Если текущая страница не первая
             if ($this->current_page < $this->amount) {
                 // Ссылка на последующую страницу
@@ -134,19 +122,16 @@ class Pagination
     {
         // Если текст ссылки не указан
         if (!$text) {
-        // Указываем, что текст - цифра страницы
+            // Указываем, что текст - цифра страницы
             $text = $page;
         }
 
         $currentURI = rtrim($_SERVER['REQUEST_URI'], '/') . '/';
-// echo "currentURI: " . $currentURI . '<br>'; // /admin-articles/page-3/
         $currentURI = preg_replace('~/page-[0-9]+~', '', $currentURI); // Переход на др.стр. - /admin-articles/
         $currentURI = preg_replace('~\?\w+=[0-9]+~', '', $currentURI); // Учёт GET-запроса
-// echo "preg_replace-currentURI: " . $currentURI . '<br>'; 
-
         // Формируем HTML код ссылки и возвращаем
         return
-                '<li class="page-item"><a class="page-link" href="' . $currentURI . $this->index . $page . '">' . $text . '</a></li>';
+            '<li class="page-item"><a class="page-link" href="' . $currentURI . $this->index . $page . '">' . $text . '</a></li>';
     }
 
     /**
@@ -164,7 +149,7 @@ class Pagination
 
         // Если впереди есть как минимум $this->max страниц
         if ($start + $this->max <= $this->amount)
-        // Назначаем конец цикла вперёд на $this->max страниц или просто на минимум
+            // Назначаем конец цикла вперёд на $this->max страниц или просто на минимум
             $end = $start > 1 ? $start + $this->max : $this->max;
         else {
             // Конец - общее количество страниц
@@ -191,10 +176,10 @@ class Pagination
         if ($this->current_page > 0) {
             // Если текунщая страница меньше общего количества страниц
             if ($this->current_page > $this->amount)
-            // Устанавливаем страницу на последнюю
+                // Устанавливаем страницу на последнюю
                 $this->current_page = $this->amount;
         } else
-        # Устанавливаем страницу на первую
+            # Устанавливаем страницу на первую
             $this->current_page = 1;
     }
 
@@ -205,86 +190,66 @@ class Pagination
      */
     private function amount()
     {
-        // Делим и возвращаем
-        //return round($this->total / $this->limit); // Было - КОСЯК !!! 
         // Округление в большую (!!!) сторону до целого числа
         return ceil($this->total / $this->limit);
     }
-    
-/**
- * Настройка количества товаров на странице
- * 
- */
+
+    /**
+     * Настройка количества товаров на странице
+     * 
+     */
     public static function goodsQuantity($page)
     {
         // Массив для return
         $selected = [];
-        
-        // $selected['limit'] = 20; // default value
+
         $selected['limit'] = $_SESSION['limit'] ?? 20; // default value
         $selected['page'] = $page; // Текущий номер страницы в пагинации
-        
+
         // Для $_GET
-        if (isset($_GET['itemsOnPageHeader']) ) {
+        if (isset($_GET['itemsOnPageHeader'])) {
             $selected['limit'] = $_GET['itemsOnPageHeader']; // Получаем значение с верхнего 'select'
-        // echo '$_GET[\'itemsOnPageHeader\']: '.$_GET['itemsOnPageHeader'].'<br>';
             $_SESSION['limit'] = $selected['limit']; // При изменении кол-ва статей на странице запоминаем его в $_SESSION
             $selected['page'] = 1; // При изменении кол-ва статей на странице меняем номер страницы на ПЕРВУЮ
         }
-        
+
         if (isset($_GET['itemsOnPageFooter'])) {
             $selected['limit'] = $_GET['itemsOnPageFooter']; // Получаем значение с нижнего 'select'
-        // echo '$_GET[\'itemsOnPageFooter\']: '.$_GET['itemsOnPageFooter'].'<br>';
             $_SESSION['limit'] = $selected['limit']; // При изменении кол-ва статей на странице запоминаем его в $_SESSION
             $selected['page'] = 1; // При изменении кол-ва статей на странице меняем номер страницы на ПЕРВУЮ
         }
-        // Для $_POST
-        // if (isset($_POST['itemsOnPageHeader']) ) {
-        //     $selected['limit'] = $_POST['itemsOnPageHeader']; // Получаем значение с верхнего 'select'
-        // //echo '$_POST[\'itemsOnPageHeader\']: '.$_POST['itemsOnPageHeader'].'<br>';
-        //     $_SESSION['limit'] = $selected['limit'];
-        //     $selected['page'] = 1;
-        // }
-        
-        // if (isset($_POST['itemsOnPageFooter'])) {
-        //     $selected['limit'] = $_POST['itemsOnPageFooter']; // Получаем значение с нижнего 'select'
-        // //echo '$_POST[\'itemsOnPageFooter\']: '.$_POST['itemsOnPageFooter'].'<br>';
-        //     $_SESSION['limit'] = $selected['limit'];
-        //     $selected['page'] = 1;
-        // }
 
         // Устанавливаем атрибут 'selected' для 'option' в 'select'
-        if($selected['limit'] == 10) {
+        if ($selected['limit'] == 10) {
             $selected['10'] = ' selected ';
         } else {
             $selected['10'] = '';
         }
 
-        if($selected['limit'] == 20) {
+        if ($selected['limit'] == 20) {
             $selected['20'] = ' selected ';
         } else {
             $selected['20'] = '';
         }
 
-        if($selected['limit'] == 50) {
+        if ($selected['limit'] == 50) {
             $selected['50'] = ' selected ';
         } else {
             $selected['50'] = '';
         }
 
-        if($selected['limit'] == 200) {
+        if ($selected['limit'] == 200) {
             $selected['200'] = ' selected ';
         } else {
             $selected['200'] = '';
         }
 
-        if($selected['limit'] == 'all') { // @TODO: кол-во брать из Articles::all()->count()
-        // if($selected['limit'] == Articles::all()->count()) { // @TODO: кол-во брать из Articles::all()->count()
+        if ($selected['limit'] == 'all') {
             $selected['all'] = ' selected ';
         } else {
             $selected['all'] = '';
         }
-        
-        return $selected; //
+
+        return $selected;
     }
 }

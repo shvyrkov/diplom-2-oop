@@ -44,16 +44,16 @@ class Users extends Model
     public static function checkUserData($email, $password)
     {
         $user = Users::where('email', $email)
-                ->get();
+            ->get();
 
         if (isset($user[0])) {
-            $passwordVerification = password_verify($password , $user[0]['password']);
+            $passwordVerification = password_verify($password, $user[0]['password']);
 
             if ($passwordVerification) {
 
-                 return $user[0];
-             }
-         }
+                return $user[0];
+            }
+        }
 
         return false;
     }
@@ -120,7 +120,7 @@ class Users extends Model
     public static function checkEmailExists($email)
     {
         $user = Users::where('email', '=', $email)
-                ->get();
+            ->get();
 
         if (isset($user[0])) {
 
@@ -140,7 +140,7 @@ class Users extends Model
     public static function checkNameExists($name)
     {
         $user = Users::where('name', '=', $name)
-                ->get();
+            ->get();
 
         if (isset($user[0])) {
 
@@ -196,12 +196,12 @@ class Users extends Model
     public static function getUserByEmail($email)
     {
         $user = Users::where('email', '=', $email)
-                ->get();
+            ->get();
 
         if (isset($user[0])) {
 
-             return $user[0];
-         } 
+            return $user[0];
+        }
 
         return false;
     }
@@ -209,7 +209,7 @@ class Users extends Model
     /**
      * Запоминаем пользователя в переменной сессии
      * 
-     * @param array $user - массив данных пользователя
+     * @param object $user - объект данных пользователя
      */
     public static function auth($user)
     {
@@ -228,19 +228,19 @@ class Users extends Model
      */
     public static function exit()
     {
-        // unset($_SESSION); // Не работает, только если указать ключ
         session_unset(); // Уничтожаем данные сессии
         session_destroy(); // Уничтожаем сессию
     }
 
     /**
-    * Функция перевода байтов в Mb, kB или b в зависимости от их количества
-    *
-    * @param int $bytes - количество байт
-    * 
-    * @return string $bytes - количество байт, переведенное в Mb, kB или b в зависимости от их количества
-    */
-    public static function formatSize($bytes) {
+     * Функция перевода байтов в Mb, kB или b в зависимости от их количества
+     *
+     * @param int $bytes - количество байт
+     * 
+     * @return string $bytes - количество байт, переведенное в Mb, kB или b в зависимости от их количества
+     */
+    public static function formatSize($bytes)
+    {
 
         if ($bytes >= 1048576) {
             $bytes = number_format($bytes / 1048576, 2) . ' Mb';
@@ -254,37 +254,37 @@ class Users extends Model
     }
 
     /**
-    * Получение данных пользователя
-    * 
-    * @param string $id 
-    * 
-    * @return array $user - массив с данными пользователя
-    */
+     * Получение данных пользователя
+     * 
+     * @param string $id 
+     * 
+     * @return array $user - массив с данными пользователя
+     */
     public static function getUserById($id = 1)
     {
-        $user = Users::where('id', '=' , $id)
-                ->get();
+        $user = Users::where('id', '=', $id)
+            ->get();
 
         if (isset($user[0])) {
 
-             return $user[0];
+            return $user[0];
         }
 
         return false;
     }
     /**
-    * Получение данных пользователя
-    * 
-    * @return array $users - массив с пользователями, подписанными на рассылку
-    */
+     * Получение данных пользователя
+     * 
+     * @return array $users - массив с пользователями, подписанными на рассылку
+     */
     public static function getSubscridedUsers()
     {
         $users = Users::where('subscription', 1)
-                ->get();
+            ->get();
 
         if (isset($users)) {
 
-             return $users;
+            return $users;
         }
 
         return false;
@@ -335,50 +335,28 @@ class Users extends Model
         Users::where('id', $id)
             ->update(['subscription' => $subscription]);
 
-        // Users::upsert(
-        //     ['id' => $id, 'subscription' => $subscription],
-        //     ['id'],
-        //     ['subscription']
-        // );
-
         return true;
     }
 
     /**
-    * Получение пользователей из БД
-    * 
-    * @param int $limit [optional] Количество пользователей на странице
-    * @param int $page [optional] Номер страницы
-    * 
-    * @return array $articles - массив со пользователеми.
-    */
+     * Получение пользователей из БД
+     * 
+     * @param int $limit [optional] Количество пользователей на странице
+     * @param int $page [optional] Номер страницы
+     * 
+     * @return array $articles - массив со пользователеми.
+     */
     public static function getUsers($limit = 20, $page = 1)
     {
         $users = [];
         $offset = ($page - 1) * $limit;
 
-        $users = Users::where('id', '>' , 0)
-                ->orderBy('id', 'desc')
-                ->offset($offset)
-                ->limit($limit)
-                ->get();
-
-        return $users;
-    }
-// --------------------- Test -----------------------------
-    /**
-    * Получение данных всех пользователей
-    * 
-    * @return array $users - массив с данными пользователей
-    */
-    public static function getAllUsers()
-    {
-        $users = [];
-        $users = Users::where('id', '>' , 0)
-            ->join('roles', 'users.role', '=', 'roles.id')
+        $users = Users::where('id', '>', 0)
+            ->orderBy('id', 'desc')
+            ->offset($offset)
+            ->limit($limit)
             ->get();
 
         return $users;
     }
-
 }

@@ -8,19 +8,6 @@ namespace App\Components;
 class Menu
 {
     /**
-     * Метод возвращает типы методов из БД ??? @TODELETE
-     *
-     * @return array
-     */
-    public static function getMethodTypes()
-    {
-        $menuPath = []; // 
-        // @TODO: получить типы методов из БД через Eloquent
-
-        return $menuPath;
-    }
-
-    /**
      * Метод возвращает меню пользователя
      *
      * @return array

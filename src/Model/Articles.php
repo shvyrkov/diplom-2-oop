@@ -22,12 +22,12 @@ class Articles extends Model
     public $timestamps = false;
 
     /**
-    * Получение типов методов, к которым принадлежит статья (замена JOIN для Eloquent)
-    *
-    * @var - int - $articleId - id-статьи в БД
-    *
-    * @return array $methodTypes - массив методов, к которым принадлежит статья.
-    */
+     * Получение типов методов, к которым принадлежит статья (замена JOIN для Eloquent)
+     *
+     * @var - int - $articleId - id-статьи в БД
+     *
+     * @return array $methodTypes - массив методов, к которым принадлежит статья.
+     */
     public static function getMethods($articleId = 0)
     {
         $methods = []; // методы, к которым принадлежит статья
@@ -39,7 +39,6 @@ class Articles extends Model
                     if ($articleMethod->id_method == $method->id) {
                         $methods[] = $method;
                     }
-                    
                 }
             }
         }
@@ -48,49 +47,49 @@ class Articles extends Model
     }
 
     /**
-    * Получение статей из БД
-    * 
-    * @param int $limit [optional] Количество статей на странице
-    * @param int $page [optional] Номер страницы
-    * 
-    * @return array $articles - массив со статьями.
-    */
+     * Получение статей из БД
+     * 
+     * @param int $limit [optional] Количество статей на странице
+     * @param int $page [optional] Номер страницы
+     * 
+     * @return array $articles - массив со статьями.
+     */
     public static function getArticles($limit = 20, $page = 1)
     {
         $articles = []; // массив со статьями
         $offset = ($page - 1) * $limit;
 
-        $articles = Articles::where('id', '>' , 0)
-                ->orderBy('date', 'desc') // в порядке убывания по дате публикации
-                ->offset($offset)
-                ->limit($limit)
-                ->get();
+        $articles = Articles::where('id', '>', 0)
+            ->orderBy('date', 'desc') // в порядке убывания по дате публикации
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
 
         return $articles;
     }
 
     /**
-    * Получение статьи из БД по id
-    * 
-    * @param string $id 
-    * 
-    * @return array $article[0] - данные по статье.
-    */
+     * Получение статьи из БД по id
+     * 
+     * @param string $id 
+     * 
+     * @return array $article[0] - данные по статье.
+     */
     public static function getArticleById($id = 1)
     {
         $article = Articles::where('id', $id)
-                ->get();
+            ->get();
 
         return $article[0];
     }
 
     /**
-    * Получение статьи по типу метода
-    * 
-    * @param string $methodId
-    * 
-    * @return array $articles - массив со статьями.
-    */
+     * Получение статьи по типу метода
+     * 
+     * @param string $methodId
+     * 
+     * @return array $articles - массив со статьями.
+     */
     public static function getArticlesByMethod($methodId = 4)
     {
         $articles = []; // статьи, которые принадлежат данному методу
@@ -110,14 +109,14 @@ class Articles extends Model
     }
 
     /**
-    * Получение количества статей на странице
-    * 
-    * @return int $articlesQtyOnPage
-    */
+     * Получение количества статей на странице
+     * 
+     * @return int $articlesQtyOnPage
+     */
     public static function getArticlesQtyOnPage()
     {
-        $articlesQtyOnPage = Settings::where('name', '=' , 'article_quantity_on_page')
-                ->get('value');
+        $articlesQtyOnPage = Settings::where('name', '=', 'article_quantity_on_page')
+            ->get('value');
 
         return $articlesQtyOnPage[0]->value;
     }

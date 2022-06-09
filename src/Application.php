@@ -1,11 +1,11 @@
 <?php
+
 namespace App;
 
 use App\View\Renderable;
 use App\Exceptions\ApplicationException;
 use App\Exceptions\HttpException;
 use App\View\View;
-use App\Model\Menu;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
@@ -15,8 +15,8 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 class Application
 {
     /**
-    * @var Router $router — объект класса маршрутизатора.
-    */
+     * @var Router $router — объект класса маршрутизатора.
+     */
     private  $router;
 
     public function __construct(Router $router)
@@ -26,12 +26,12 @@ class Application
     }
 
     /**
-    * Метод должен проверить тип исключения. 
-    * Если исключение реализует интерфейс Renderable, то должен быть вызван метод render() этого исключения. 
-    * Если это HttpException, то этот метод самостоятельно должен установить с помощью функции http_response_code() HTTP-статус ответа страницы, код которого является кодом исключения (или 500, если у исключения нулевой код), а также он должен вывести текст ошибки, подключив шаблон ошибки errors/error.php с помощью класса View.
-    *
-    * @param ApplicationException $e - исключение
-    */
+     * Метод должен проверить тип исключения. 
+     * Если исключение реализует интерфейс Renderable, то должен быть вызван метод render() этого исключения. 
+     * Если это HttpException, то этот метод самостоятельно должен установить с помощью функции http_response_code() HTTP-статус ответа страницы, код которого является кодом исключения (или 500, если у исключения нулевой код), а также он должен вывести текст ошибки, подключив шаблон ошибки errors/error.php с помощью класса View.
+     *
+     * @param ApplicationException $e - исключение
+     */
     private function renderException(ApplicationException $e)
     {
         if ($e instanceof Renderable) {
@@ -55,14 +55,18 @@ class Application
             }
         } else { // ApplicationException - not renderable
             try {
-                $view = new View('errors/errors', 
-                    ['title' => 'Ошибка: ' . $e->getCode() . '.<br>', 
-                    'e' => 'ApplicationException: ' . $e->getMessage(), 
-                    // 'trace' => $e->getTrace(), 
-                    'traceAsString' => $e->getTraceAsString(),
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine(),
-                    'linkText' => 'На главную']);
+                $view = new View(
+                    'errors/errors',
+                    [
+                        'title' => 'Ошибка: ' . $e->getCode() . '.<br>',
+                        'e' => 'ApplicationException: ' . $e->getMessage(),
+                        // 'trace' => $e->getTrace(), 
+                        'traceAsString' => $e->getTraceAsString(),
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
+                        'linkText' => 'На главную'
+                    ]
+                );
                 $view->render();
             } catch (ApplicationException $e) {
                 echo $e->getMessage();
@@ -71,11 +75,11 @@ class Application
     }
 
     /**
-    * Метод run выводит результат работы метода dispatch() маршрутизатора, передавая ему в качестве параметра URL-адрес текущей страницы и HTTP-метод запроса.
-    *
-    * @param string $url - URL-адрес текущей страницы
-    * @param string $method - HTTP-метод запроса
-    */
+     * Метод run выводит результат работы метода dispatch() маршрутизатора, передавая ему в качестве параметра URL-адрес текущей страницы и HTTP-метод запроса.
+     *
+     * @param string $url - URL-адрес текущей страницы
+     * @param string $method - HTTP-метод запроса
+     */
     public function run(string $url, string $method)
     {
         try {
@@ -86,17 +90,16 @@ class Application
             } else { // иначе - вывод результата с помощью оператора echo 
                 echo $view;
             }
-
-        } catch(ApplicationException $e) { // перехват исключения ApplicationException и его потомков (NotFoundException и HttpException)
+        } catch (ApplicationException $e) { // перехват исключения ApplicationException и его потомков (NotFoundException и HttpException)
             // echo "page not found";
             $this->renderException($e);
         }
     }
 
     /**
-    * Метод конфигурирует подключение к базе данных: создайте новый экземпляр класса, указав корректные настройки подключения к базе данных, и вызовите методы setAsGlobal() и bootEloquent(), точно так же, как это делается в описании на Github. Создавать и регистрировать EventManager не нужно, если вы не будете загружать конфигурационные файлы проекта.
+     * Метод конфигурирует подключение к базе данных: создайте новый экземпляр класса, указав корректные настройки подключения к базе данных, и вызовите методы setAsGlobal() и bootEloquent(), точно так же, как это делается в описании на Github. Создавать и регистрировать EventManager не нужно, если вы не будете загружать конфигурационные файлы проекта.
 
-    */
+     */
     private function initialize()
     {
         $capsule = new Capsule;
@@ -115,16 +118,5 @@ class Application
 
         $capsule->setAsGlobal();
         $capsule->bootEloquent(); // Запуск ORM Eloquent
-
-// Test-----------------------------------------------------------------
-    // $results = Capsule::select('select * from post', [1]);
-        // Чтобы передать данные из config-файла куда-то (здесь - Представление), надо сделать Класс и его экземпляр, куда всё и передать. Т.е. здесь - Объект Header
-        // $menu = new Menu();
-        // $main_title = $config->get('user_menu.main.title', 'Данные не найдены'); // Ok - "Библиотека фасилитатора"
-        // $menuList = $menu->getUserMenu2($main_title); // Передача по 1 значению - бред.
-        // echo "Application: ";
-        // var_dump($menuList); // Ok - Application: array(1) { [0]=> string(45) "Библиотека фасилитатора" }
-        // echo "<br>";
-//---------------------------------------------------------------------
     }
 }

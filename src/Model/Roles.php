@@ -3,7 +3,6 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-// use Illuminate\Support\Facades\DB;
 
 /**
  * 
@@ -16,7 +15,6 @@ class Roles extends Model
      * @var string
      */
     protected $primaryKey = 'id';
-    
-    public $timestamps = false;
 
+    public $timestamps = false;
 }

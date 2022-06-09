@@ -80,7 +80,7 @@ class UserController
 
             return new LkView('lk', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
         } else {
-            header('Location: /login'); // @TODO: Выводить текст: вы не авторизованы...?
+            header('Location: /login');
         }
     }
 
@@ -95,55 +95,7 @@ class UserController
 
             return new PasswordView('password', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
         } else {
-            header('Location: /login'); // @TODO: Выводить текст: вы не авторизованы...?
+            header('Location: /login');
         }
-    }
-
-    /**
-     * @TEST: Метод принимает значения $params из строки запроса и выдает их обратно в виде строки опред-го вида...
-     *
-     */
-    public function test(...$params)
-    {
-        $string = "Test Page With : ";
-        $i = 1;
-
-        foreach ($params as $param) {
-            $string .= ' param_' . $i++ . ' = ' . $param;
-        }
-        // echo "<pre>";
-        // echo "<br>_POST:<br>";
-        // var_dump($_POST);
-        // echo "<br>_GET:<br>";
-        // var_dump($_GET);
-        // echo "<br>SERVER:<br>";
-        // var_dump($_SERVER);
-        // echo "</pre>";
-
-        return $string;
-    }
-
-    /**
-     * @TEST: Метод принимает значения $params из строки запроса и выдает их обратно в виде строки опред-го вида...
-     *
-     */
-    public function index(...$params)
-    {
-        $params = [ // ???
-
-            'title' => 'Главная', // Название пункта меню
-            'path' => '/', // Ссылка на страницу, куда ведет этот пункт меню
-            'class' => HomeController::class, // ?
-            'method' => 'index', // ?
-            'sort' => 0, // Индекс сортировки (?)
-
-        ];
-
-        return new View($params['path'], [
-            'title' => 'Контакты',
-            'link_1' => '/', 'linkText_1' => 'На главную',
-            'link_2' => '/about', 'linkText_2' => 'О нас',
-            'link_3' => '/post', 'linkText_3' => 'Почта'
-        ]); // Вывод представления
     }
 }

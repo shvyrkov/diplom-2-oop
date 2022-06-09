@@ -8,13 +8,13 @@ namespace App;
 final class Config
 {
     /** 
-    * @var Singleton 
-    */
+     * @var Singleton 
+     */
     private static $instance;
 
     /**
-    * @var array - многомерный ассоциативный массив с конфигурацией приложения.
-    */
+     * @var array - многомерный ассоциативный массив с конфигурацией приложения.
+     */
     private $configurations = [];
 
     private function __construct()
@@ -32,24 +32,24 @@ final class Config
     }
 
     /** 
-    * Метод возвращает значение запрошенной конфигурации, внутри него примените созданную ранее вспомогательную функцию array_get().
-    * @param string $config - строка конфигурации типа 'db.mysql.host'
-    * @param mixed $default - сообщение, выдываемое, если искомая конфигурация не найдена.
-    *
-    * @return string - значение запрошенной конфигурации
-    */
+     * Метод возвращает значение запрошенной конфигурации, внутри него примените созданную ранее вспомогательную функцию array_get().
+     * @param string $config - строка конфигурации типа 'db.mysql.host'
+     * @param mixed $default - сообщение, выдываемое, если искомая конфигурация не найдена.
+     *
+     * @return string - значение запрошенной конфигурации
+     */
     public function get(string $config, $default = null)
     {
         return array_get($this->configurations, $config, $default);
     }
 
     /** 
-    * Метод загружает все конфигурационные файлы проекта из директории config, расположенной в корне проекта, и сохранять массивы из них в свойстве класса $configurations. Название файла является первым ключом в свойстве конфигураций. 
-    * Метод вызывается в конструкторе этого класса.
-    */
+     * Метод загружает все конфигурационные файлы проекта из директории config, расположенной в корне проекта, и сохранять массивы из них в свойстве класса $configurations. Название файла является первым ключом в свойстве конфигураций. 
+     * Метод вызывается в конструкторе этого класса.
+     */
     private function load()
     {
-        if (! is_dir(CONFIG_DIR)) { // Проверка наличия директории с конфигурацией
+        if (!is_dir(CONFIG_DIR)) { // Проверка наличия директории с конфигурацией
 
             return;
         }
@@ -67,6 +67,10 @@ final class Config
         }
     }
 
-    private function __clone() {}
-    private function __wakeup() {}
+    private function __clone()
+    {
+    }
+    private function __wakeup()
+    {
+    }
 }

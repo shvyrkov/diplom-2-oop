@@ -7,21 +7,6 @@ include 'layout/header.php';
 
 <div class="container">
     <h1><?= $title ?></h1>
-    <!-- <h1>Библиотека Фасилитатора — Главная</h1> -->
-    <!-- ---------------------TEST--------------------- -->
-    <!-- <br>
-    <a href="test/items/test2/100">Test page 1</a>
-    <br>    
-    <a href="test/items_3/test_3/444">Test page 2</a>
-    <br>    
-    <a href="test/qwerty/asdfg/115555">Test page 3</a>
-    <br>
-    <a href="test/qwerty/asdfg/115555?test=11">Test page 4</a>
-    <br>
-    <a href="posts/my_post_01/">posts test page</a>
-    <br> -->
-
-    <!-- ---------------------TEST--------------------- -->
 </div>
 
 <div class="container-fluid my-4 mx-auto">
@@ -69,9 +54,8 @@ include 'layout/header.php';
         <?php
         }
         ?>
-    </div><!-- row -->
+    </div>
 </div>
-<!--Container-fluid-->
 
 <?php
 include 'layout/footer.php';

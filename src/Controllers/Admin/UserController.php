@@ -21,7 +21,7 @@ class UserController
             return new AdminView('admin', ['title' => 'Админка']); // Вывод представления
             // return new AdminView('admin', ['title' => Menu::showTitle(Menu::getAdminMenu())]); // Вывод представления
         } else {
-            header('Location: /'); // @TODO: Выводить текст: вы не авторизованы...?
+            header('Location: /');
         }
     }
 
@@ -39,7 +39,7 @@ class UserController
 
             return new AdminView('admin', ['title' => Menu::showTitle(Menu::getAdminMenu())]);
         } else {
-            header('Location: /'); // @TODO: Выводить текст: вы не авторизованы...
+            header('Location: /');
         }
     }
 
@@ -57,7 +57,7 @@ class UserController
 
             return new AdminView('admin', ['title' => Menu::showTitle(Menu::getAdminMenu())]);
         } else {
-            header('Location: /'); // @TODO: Выводить текст: вы не авторизованы...
+            header('Location: /');
         }
     }
 }

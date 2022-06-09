@@ -3,7 +3,6 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Model\ArticleMethods;
 
 /**
  * Таблица settings
@@ -34,5 +33,4 @@ class Settings extends Model
 
         return true;
     }
-
 }

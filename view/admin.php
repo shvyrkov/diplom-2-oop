@@ -15,7 +15,7 @@ include 'layout/admin_header.php';
             <?php endif; ?>
 
             <?php
-            foreach ($menu as $item) {
+            foreach ($menu as $item) :
                 if ($item['accessLevel'] < $_SESSION['user']['role']) { // Если уровень доступа не разрешен 
                     continue; // То пункт меню не выводится
                 }
@@ -27,9 +27,7 @@ include 'layout/admin_header.php';
                 <div>
                     <a class="btn btn-outline-primary" href="<?= $item['path'] ?>" role="button"><?= $item['title'] ?></a>
                 </div>
-            <?php
-            }
-            ?>
+            <?php endforeach ?>
         </div>
     </div><!-- row -->
 </div>

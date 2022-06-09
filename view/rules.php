@@ -3,7 +3,6 @@ include 'layout/header.php';
 ?>
 
 <div class="container">
-    <!-- <h1><?=$title ?></h1> -->
     <h2>Правила сайта</h2>
     <hr>
     <div>

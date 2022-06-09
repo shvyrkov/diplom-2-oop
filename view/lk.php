@@ -11,7 +11,6 @@ include 'layout/header.php';
     <div class="row">
       <div class="col-sm-6 col-sm-offset-4 padding-right">
         <div class="signup-form">
-          <!--sign up form-->
           <div class="mb-3">
             <label for="name_lk" class="form-label">Имя</label>
             <input type="text" class="form-control 
@@ -81,7 +80,6 @@ include 'layout/header.php';
             <?php } ?>
           </div>
         </div>
-        <!--sign up form-->
       </div>
       <div class="col-sm-1 col-sm-offset-4 padding-right">
       </div>

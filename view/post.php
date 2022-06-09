@@ -1,14 +1,11 @@
 <?php
-use App\Model\Post;
-use App\Model\Users;
-
 include 'layout/header.php';
 ?>
 <div class="container">
-    <h1><?=$title ?></h1>
+  <h1><?= $title ?></h1>
 </div>
 <?php
-include 'layout/admin-pagination.php'; 
+include 'layout/admin-pagination.php';
 ?>
 <div class="container">
   <br>
@@ -28,20 +25,20 @@ include 'layout/admin-pagination.php';
         <?php
         foreach ($mails as $key => $mail) {
         ?>
-        <tr>
-          <td><?=$mail['email'] ?></td>
-          <td><?=$mail['subject'] ?></td>
-          <td><?=$mail['message'] ?></td>
-          <td><?=$mail['date'] ?></td>
-          <td><a href="/<?=$mail['link'] ?>"><button type="submit" name="submit" class="btn btn-primary">На страницу статьи</button></a></td>
-          <td><a href="/<?=$mail['unsubscribe'] ?>"><button type="submit" name="submit" class="btn btn-secondary">Отписаться от рассылки</button></a></td>
-        </tr>
+          <tr>
+            <td><?= $mail['email'] ?></td>
+            <td><?= $mail['subject'] ?></td>
+            <td><?= $mail['message'] ?></td>
+            <td><?= $mail['date'] ?></td>
+            <td><a href="/<?= $mail['link'] ?>"><button type="submit" name="submit" class="btn btn-primary">На страницу статьи</button></a></td>
+            <td><a href="/<?= $mail['unsubscribe'] ?>"><button type="submit" name="submit" class="btn btn-secondary">Отписаться от рассылки</button></a></td>
+          </tr>
         <?php } ?>
       </tbody>
     </table>
   </div>
-  <br/>
-  <br/>
+  <br />
+  <br />
 </div>
 
 <?php

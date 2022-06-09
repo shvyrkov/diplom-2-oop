@@ -1,29 +1,5 @@
 <?php
 
-function dd(...$params)
-{
-    echo '<pre>';
-    var_dump($params);
-    echo '</pre>';
-    die;
-}
-
-function dump(...$params)
-{
-    echo '<pre>';
-    var_dump($params);
-    echo '</pre>';
-}
-
-/** Функция получает из многомерного массива элемент по ключу в виде строки, где каждый уровень вложенности отделён точкой. Если такой элемент не будет найден, то функция вернёт значение по умолчанию. Например, ключ 'db.mysql.host' должен достать из массива значение 'localhost': 
-[
-    'db' => [
-        'mysql' => [
-            'host' => 'localhost'
-        ]
-    ]
-]
-*/
 function array_get(array $array, string $key, $default = null)
 {
     $keys = explode('.', $key);

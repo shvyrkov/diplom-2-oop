@@ -19,17 +19,17 @@ class Comments extends Model
     public $timestamps = false;
 
     /**
-    * Получение комментариев к статье по её id
-    * 
-    * @param string $id статьи
-    * 
-    * @return array $comments - массив с комментариями.
-    */
+     * Получение комментариев к статье по её id
+     * 
+     * @param string $id статьи
+     * 
+     * @return array $comments - массив с комментариями.
+     */
     public static function getCommentsByArticleId($id = 1)
     {
-        $comments = Comments::where('article_id', '=' , $id)
-                ->orderBy('date', 'desc')
-                ->get();
+        $comments = Comments::where('article_id', '=', $id)
+            ->orderBy('date', 'desc')
+            ->get();
 
         return $comments;
     }
@@ -116,24 +116,24 @@ class Comments extends Model
     }
 
     /**
-    * Получение комментариев из БД
-    * 
-    * @param int $limit [optional] Количество комментариев на странице
-    * @param int $page [optional] Номер страницы
-    * 
-    * @return array $comments - массив со комментариями.
-    */
+     * Получение комментариев из БД
+     * 
+     * @param int $limit [optional] Количество комментариев на странице
+     * @param int $page [optional] Номер страницы
+     * 
+     * @return array $comments - массив со комментариями.
+     */
     public static function getComments($limit = 20, $page = 1)
     // public static function getComments($limit = 4, $page = 1)
     {
         $comments = []; // массив со статьями
         $offset = ($page - 1) * $limit;
 
-        $comments = Comments::where('id', '>' , 0)
-                ->orderBy('date', 'desc') // в порядке убывания по дате публикации
-                ->offset($offset)
-                ->limit($limit)
-                ->get();
+        $comments = Comments::where('id', '>', 0)
+            ->orderBy('date', 'desc') // в порядке убывания по дате публикации
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
 
         return $comments;
     }

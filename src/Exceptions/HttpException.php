@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Exceptions;
 
 /**
-* HttpException — базовый класс HTTP-исключений.
-*/
+ * HttpException — базовый класс HTTP-исключений.
+ */
 class HttpException extends ApplicationException
 {
-
 }

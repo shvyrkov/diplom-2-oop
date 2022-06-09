@@ -21,7 +21,7 @@ class ArticleController
 
             return new AdminArticlesView('admin-articles', ['title' => Menu::showTitle(Menu::getAdminMenu())]); // Вывод представления
         } else {
-            header('Location: /'); // @TODO: Выводить текст: вы не авторизованы...?
+            header('Location: /');
         }
     }
 
@@ -36,7 +36,7 @@ class ArticleController
 
             return new AdminCommentsView('admin-comments', ['title' => Menu::showTitle(Menu::getAdminMenu())]); // Вывод представления
         } else {
-            header('Location: /'); // @TODO: Выводить текст: вы не авторизованы...?
+            header('Location: /');
         }
     }
 
@@ -51,7 +51,7 @@ class ArticleController
 
             return new AdminCMSView('admin-cms', ['title' => Menu::showTitle(Menu::getAdminMenu()), 'id' => $id]); // Вывод представления
         } else {
-            header('Location: /'); // @TODO: Выводить текст: вы не авторизованы...?
+            header('Location: /');
         }
     }
 
@@ -66,7 +66,7 @@ class ArticleController
 
             return new AdminView('article-delete', ['title' => Menu::showTitle(Menu::getAdminMenu()), 'success' => $success]); // Вывод представления
         } else {
-            header('Location: /'); // @TODO: Выводить текст: вы не авторизованы...?
+            header('Location: /');
         }
     }
 }

@@ -64,20 +64,4 @@ class SiteController
     {
         return new View('rules', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
     }
-
-    /**
-     *  @TEST: Метод принимает значения $params из строки запроса и выдает их обратно в виде строки опред-го вида...
-     *
-     */
-    public function test(...$params)
-    {
-        $string = "Test Page With : ";
-        $i = 1;
-
-        foreach ($params as $param) {
-            $string .= ' param_' . $i++ . ' = ' . $param;
-        }
-
-        return $string;
-    }
 }

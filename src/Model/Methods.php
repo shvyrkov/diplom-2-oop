@@ -17,16 +17,16 @@ class Methods extends Model
     protected $primaryKey = 'id';
 
     /**
-    * Получение метода из БД по uri
-    * 
-    * @param string $uri 
-    * 
-    * @return object $method - данные метода.
-    */
+     * Получение метода из БД по uri
+     * 
+     * @param string $uri 
+     * 
+     * @return object $method - данные метода.
+     */
     public static function getMethodByURI($uri = 1)
     {
-        $method = Methods::where('uri', '=' , $uri)
-                ->get();
+        $method = Methods::where('uri', '=', $uri)
+            ->get();
 
         return $method;
     }
