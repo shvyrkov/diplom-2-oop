@@ -36,9 +36,6 @@ class Application
     {
         if ($e instanceof Renderable) {
             $e->render();
-            echo $e->getTraceAsString();
-            echo '<br>File: ' . $e->getFile();
-            echo '<br>Line: ' . $e->getLine();
         } elseif ($e instanceof HttpException) {
             if ($e->getCode()) {
                 http_response_code($e->getCode()); // установить с помощью функции http_response_code() HTTP-статус ответа страницы, код которого является кодом исключения
@@ -60,7 +57,6 @@ class Application
                     [
                         'title' => 'Ошибка: ' . $e->getCode() . '.<br>',
                         'e' => 'ApplicationException: ' . $e->getMessage(),
-                        // 'trace' => $e->getTrace(), 
                         'traceAsString' => $e->getTraceAsString(),
                         'file' => $e->getFile(),
                         'line' => $e->getLine(),

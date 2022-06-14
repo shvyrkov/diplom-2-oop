@@ -5,7 +5,8 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ * Class Post
+ * @package App\Model
  */
 class Post extends Model
 {
@@ -16,6 +17,11 @@ class Post extends Model
      */
     protected $primaryKey = 'id';
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
@@ -54,7 +60,6 @@ class Post extends Model
      */
     public static function getMails($limit = 20, $page = 1)
     {
-        $mails = [];
         $offset = ($page - 1) * $limit;
 
         $mails = Post::where('id', '>', 0)

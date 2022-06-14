@@ -19,7 +19,6 @@ class UserController
         if (isset($_SESSION['user']['id']) && in_array($_SESSION['user']['role'], [ADMIN, CONTENT_MANAGER])) { // Доступ разрешен только админу и контент-менеджеру
 
             return new AdminView('admin', ['title' => 'Админка']); // Вывод представления
-            // return new AdminView('admin', ['title' => Menu::showTitle(Menu::getAdminMenu())]); // Вывод представления
         } else {
             header('Location: /');
         }

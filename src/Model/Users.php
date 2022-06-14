@@ -5,7 +5,8 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Класс для работы с таблицей 'users'
+ * Class Users
+ * @package App\Model
  */
 class Users extends Model
 {
@@ -16,6 +17,11 @@ class Users extends Model
      */
     protected $primaryKey = 'id';
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
@@ -44,18 +50,16 @@ class Users extends Model
     public static function checkUserData($email, $password)
     {
         $user = Users::where('email', $email)
-            ->get();
+            ->first();
 
-        if (isset($user[0])) {
-            $passwordVerification = password_verify($password, $user[0]['password']);
+        if (isset($user)) {
+            if (password_verify($password, $user['password'])) {
 
-            if ($passwordVerification) {
-
-                return $user[0];
+                return $user;
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -67,7 +71,7 @@ class Users extends Model
      */
     public static function checkName($name)
     {
-        if (iconv_strlen($name) >= 2) {
+        if (mb_strlen($name, 'UTF-8') >= 2) {
 
             return true;
         }
@@ -84,7 +88,7 @@ class Users extends Model
      */
     public static function checkPassword($password)
     {
-        if (iconv_strlen($password) >= 6) {
+        if (mb_strlen($password, 'UTF-8') >= 6) {
 
             return true;
         }
@@ -102,12 +106,7 @@ class Users extends Model
      */
     public static function comparePasswords($password_1, $password_2)
     {
-        if ($password_1 == $password_2) {
-
-            return true;
-        }
-
-        return false;
+        return $password_1 == $password_2;
     }
 
     /**
@@ -119,10 +118,10 @@ class Users extends Model
      */
     public static function checkEmailExists($email)
     {
-        $user = Users::where('email', '=', $email)
-            ->get();
+        $user = Users::where('email', $email)
+            ->first();
 
-        if (isset($user[0])) {
+        if (isset($user)) {
 
             return true;
         }
@@ -139,10 +138,10 @@ class Users extends Model
      */
     public static function checkNameExists($name)
     {
-        $user = Users::where('name', '=', $name)
-            ->get();
+        $user = Users::where('name', $name)
+            ->first();
 
-        if (isset($user[0])) {
+        if (isset($user)) {
 
             return true;
         }
@@ -195,15 +194,15 @@ class Users extends Model
      */
     public static function getUserByEmail($email)
     {
-        $user = Users::where('email', '=', $email)
-            ->get();
+        $user = Users::where('email', $email)
+            ->first();
 
-        if (isset($user[0])) {
+        if (isset($user)) {
 
-            return $user[0];
+            return $user;
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -262,22 +261,22 @@ class Users extends Model
      */
     public static function getUserById($id = 1)
     {
-        $user = Users::where('id', '=', $id)
-            ->get();
+        $user = Users::where('id', $id)
+            ->first();
 
-        if (isset($user[0])) {
+        if (isset($user)) {
 
-            return $user[0];
+            return $user;
         }
 
-        return false;
+        return null;
     }
     /**
      * Получение данных пользователя
      * 
      * @return array $users - массив с пользователями, подписанными на рассылку
      */
-    public static function getSubscridedUsers()
+    public static function getSubscribedUsers()
     {
         $users = Users::where('subscription', 1)
             ->get();
@@ -287,7 +286,7 @@ class Users extends Model
             return $users;
         }
 
-        return false;
+        return null;
     }
 
     /**

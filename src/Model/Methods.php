@@ -5,7 +5,8 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ * Class Methods
+ * @package App\Model
  */
 class Methods extends Model
 {
@@ -17,6 +18,13 @@ class Methods extends Model
     protected $primaryKey = 'id';
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * Получение метода из БД по uri
      * 
      * @param string $uri 
@@ -25,8 +33,8 @@ class Methods extends Model
      */
     public static function getMethodByURI($uri = 1)
     {
-        $method = Methods::where('uri', '=', $uri)
-            ->get();
+        $method = Methods::where('uri', $uri)
+            ->first();
 
         return $method;
     }

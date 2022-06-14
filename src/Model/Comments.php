@@ -5,7 +5,8 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Класс для работы со статьями
+ * Class Comments для работы с комментариями
+ * @package App\Model
  */
 class Comments extends Model
 {
@@ -16,6 +17,11 @@ class Comments extends Model
      */
     protected $primaryKey = 'id';
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
@@ -27,9 +33,9 @@ class Comments extends Model
      */
     public static function getCommentsByArticleId($id = 1)
     {
-        $comments = Comments::where('article_id', '=', $id)
+        $comments = Comments::where('article_id', $id)
             ->orderBy('date', 'desc')
-            ->get();
+            ->first();
 
         return $comments;
     }
@@ -124,9 +130,7 @@ class Comments extends Model
      * @return array $comments - массив со комментариями.
      */
     public static function getComments($limit = 20, $page = 1)
-    // public static function getComments($limit = 4, $page = 1)
     {
-        $comments = []; // массив со статьями
         $offset = ($page - 1) * $limit;
 
         $comments = Comments::where('id', '>', 0)

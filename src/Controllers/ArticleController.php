@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\View\View;
 use App\View\ArticleView;
 
 class ArticleController

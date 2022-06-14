@@ -5,7 +5,8 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ * Class Roles
+ * @package App\Model
  */
 class Roles extends Model
 {
@@ -16,5 +17,10 @@ class Roles extends Model
      */
     protected $primaryKey = 'id';
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 }

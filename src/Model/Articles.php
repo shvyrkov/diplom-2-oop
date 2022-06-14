@@ -3,12 +3,10 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Model\ArticleMethods;
-use App\Model\Methods;
-use App\Model\Settings;
 
 /**
- * Класс для работы со статьями
+ * Class Articles для работы со статьями
+ * @package App\Model
  */
 class Articles extends Model
 {
@@ -19,12 +17,17 @@ class Articles extends Model
      */
     protected $primaryKey = 'id';
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
      * Получение типов методов, к которым принадлежит статья (замена JOIN для Eloquent)
      *
-     * @var - int - $articleId - id-статьи в БД
+     * @var int - $articleId - id-статьи в БД
      *
      * @return array $methodTypes - массив методов, к которым принадлежит статья.
      */
@@ -56,7 +59,6 @@ class Articles extends Model
      */
     public static function getArticles($limit = 20, $page = 1)
     {
-        $articles = []; // массив со статьями
         $offset = ($page - 1) * $limit;
 
         $articles = Articles::where('id', '>', 0)
@@ -78,9 +80,9 @@ class Articles extends Model
     public static function getArticleById($id = 1)
     {
         $article = Articles::where('id', $id)
-            ->get();
+            ->first();
 
-        return $article[0];
+        return $article;
     }
 
     /**
@@ -115,9 +117,9 @@ class Articles extends Model
      */
     public static function getArticlesQtyOnPage()
     {
-        $articlesQtyOnPage = Settings::where('name', '=', 'article_quantity_on_page')
-            ->get('value');
+        $articlesQtyOnPage = Settings::where('name', 'article_quantity_on_page')
+            ->first('value');
 
-        return $articlesQtyOnPage[0]->value;
+        return $articlesQtyOnPage->value;
     }
 }

@@ -27,26 +27,8 @@ class MethodView extends View
 
         $method = Methods::getMethodByURI($uri);
 
-// @TODO:-------------Pagination------------------------
-        // $page = $uri ? preg_replace(METHOD_PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
-//         $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
-// echo "<pre>";
-// var_dump($page);
-// echo "</pre>";
-        // $selected = Pagination::goodsQuantity($page);
-            // $limit = $selected['limit']; // Количество товаров на странице по умолчанию (константа в класса Pagination или из представления)
-        // $limit = Articles::getArticlesQtyOnPage(); // Количество товаров на странице
-        // $page = $selected['page']; // Номер страницы
-        // $total = Articles::all()->count(); // Всего товаров в БД
-
-        // Статьи для вывода на страницу
-        // $articles = Articles::getArticles($limit, $page);
-
         // Получаем статьи по типу метода
-        $articles = Articles::getArticlesByMethod($method[0]->id);
-
-        // Создаем объект Pagination - постраничная навигация - см.конструктор класса
-        // $pagination = new Pagination($total, $page, $limit, 'page-');
+        $articles = Articles::getArticlesByMethod($method->id);
 
         $templateFile = $this->getIncludeTemplate($this->view); // Полное имя файла
 

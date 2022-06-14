@@ -5,7 +5,8 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Таблица settings
+ * Class class Settings extends Model
+ * @package App\Model
  */
 class Settings extends Model
 {
@@ -16,6 +17,11 @@ class Settings extends Model
      */
     protected $primaryKey = 'id';
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
     /**

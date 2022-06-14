@@ -5,7 +5,8 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ * Class ArticleMethods
+ * @package App\Model
  */
 class ArticleMethods extends Model
 {
@@ -16,6 +17,11 @@ class ArticleMethods extends Model
    */
   protected $primaryKey = 'id';
 
+  /**
+   * Indicates if the model should be timestamped.
+   *
+   * @var bool
+   */
   public $timestamps = false;
 
   /**
@@ -28,6 +34,7 @@ class ArticleMethods extends Model
   public static function getMethodsByArticleId($id)
   {
     $articleMethods = [];
+
     $methods = ArticleMethods::where('id_article', $id)->get(); // Все связи статьи и методов.
 
     foreach ($methods as $method) {
