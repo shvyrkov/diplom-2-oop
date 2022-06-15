@@ -17,10 +17,9 @@ include 'layout/header.php';
       <div class="signup-form">
         <h2>Смена пароля </h2>
         <?php
-        if (isset($success)) {
-          echo "<h4 class='font-success'>$success</h4>";
-        }
-        ?>
+        if (isset($success)) : ?>
+          <h4 class='font-success'> <?= $success ?> </h4>
+        <? endif ?>
         <form action="" method="post">
           <div class="mb-3">
             <label for="old_password" class="form-label">Старый пароль</label>

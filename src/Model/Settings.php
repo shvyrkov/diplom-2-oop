@@ -34,9 +34,9 @@ class Settings extends Model
      */
     public static function changeSetting($id, $value)
     {
-        Settings::where('id', $id)
+        $result = Settings::where('id', $id)
             ->update(['value' => $value]);
 
-        return true;
+        return $result ? true : false;
     }
 }

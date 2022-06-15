@@ -27,7 +27,7 @@ include 'layout/admin_header.php';
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($settings as $setting) { ?>
+            <?php foreach ($settings as $setting) : ?>
               <tr>
                 <form action="#" method="POST">
                   <th scope="row"><?= $setting['name'] ?></th>
@@ -38,7 +38,7 @@ include 'layout/admin_header.php';
 
                 </form>
               </tr>
-            <?php } ?>
+            <?php endforeach ?>
           </tbody>
         </table>
       </div>

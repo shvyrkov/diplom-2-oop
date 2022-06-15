@@ -74,10 +74,10 @@ include 'layout/header.php';
           </div>
           <div class="mb-3">
             <?php
-            if ($_SESSION['user']['role'] <= CONTENT_MANAGER) { // 1 - admin, 2 - content-manager 
+            if ($_SESSION['user']['role'] <= CONTENT_MANAGER) : // 1 - admin, 2 - content-manager 
             ?>
               <a href="admin"><button class="btn btn-outline-dark" type="button" name="admin" id="admin">Админка</button></a>
-            <?php } ?>
+            <?php endif ?>
           </div>
         </div>
       </div>

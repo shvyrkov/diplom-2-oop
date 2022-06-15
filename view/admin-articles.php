@@ -10,7 +10,7 @@ include 'layout/admin-pagination.php';
 <div class="container-fluid my-4 mx-auto">
     <div class="row">
         <?php
-        foreach ($articles as $article) {
+        foreach ($articles as $article) :
         ?>
             <div class="col-12 col-sm-6 col-md-3">
                 <div class="card border-0">
@@ -18,11 +18,9 @@ include 'layout/admin-pagination.php';
                     <div class="card-body ">
                         <div class="Markers">
                             <?php
-                            foreach (Articles::getMethods($article->id) as $method) { ?>
+                            foreach (Articles::getMethods($article->id) as $method) : ?>
                                 <img src="<?= DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . $method->image; ?>">
-                            <?php
-                            }
-                            ?>
+                            <?php endforeach ?>
                         </div>
                         <h5 class="card-title MName"><?= $article->title ?></h5>
                         <h6 class="card-subtitle mb-2 VName"><?= $article->subtitle ?></h6>
@@ -31,7 +29,6 @@ include 'layout/admin-pagination.php';
                         </a>
                     </div>
                 </div>
-                <!-- </a> -->
                 <div class="GBlock">
                     <div class="People"><?= $article->people ?></div>
                     <div class="Hours">><?= $article->duration ?></div>
@@ -39,9 +36,7 @@ include 'layout/admin-pagination.php';
                 <div class="IBlock"><?= $article->description ?></div>
 
             </div>
-        <?php
-        }
-        ?>
+        <?php endforeach ?>
     </div>
 </div>
 

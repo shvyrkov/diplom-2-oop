@@ -27,7 +27,7 @@ class AdminCommentsView extends AdminView
         $deny = 0;
         $errors = false;
 
-        if (isset($_POST['submit'])) { // Измененине роли пользователя
+        if (isset($_POST['submit'])) { // Измененине комментария
             $id = $_POST['id'];
             $approve = $_POST['approve'] ?? 0;
             $deny = $_POST['deny'] ?? 0;

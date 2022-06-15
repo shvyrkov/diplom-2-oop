@@ -47,5 +47,6 @@ include 'layout/admin-pagination.php';
     </div>
   </div>
 </div>
+
 <?php
 include 'layout/admin_footer.php';

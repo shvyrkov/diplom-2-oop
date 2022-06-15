@@ -203,7 +203,7 @@ include 'layout/admin_header.php';
           <div class="row">
             <?php
 
-            foreach (Methods::all() as $method) {  // Метод модели all получит все записи из связанной с моделью таблицы БД
+            foreach (Methods::all() as $method) :  // Метод модели all получит все записи из связанной с моделью таблицы БД
             ?>
               <div class="col-6 col-sm-3 col-md">
                 <div class="Mbt" style="background-image: url('<?= '/' . IMG . '/' . $method->image; ?>'); background-position: left top; background-repeat: no-repeat; cursor:pointer"><?= $method->name ?>
@@ -211,9 +211,7 @@ include 'layout/admin_header.php';
                   <input class="form-check-input" type="checkbox" name="methods[]" value="<?php printf('%s', $method->id ?? 9); ?>" <?php if (in_array($method->id, $articleMethods)) : ?> checked <?php endif ?>>
                 </div>
               </div>
-            <?php
-            }
-            ?>
+            <?php endforeach ?>
           </div>
         </div>
 

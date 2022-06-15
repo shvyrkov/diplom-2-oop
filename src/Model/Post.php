@@ -33,21 +33,16 @@ class Post extends Model
      * @param string $link - ссылка на страницу со статьей
      * @param string $unsubscribe  - ссылка на страницу со отпиской от рассылки
      * 
-     * @return bool 
+     * @return bool - результат рассылки
      */
     public static function mailing($email, $subject, $message, $link, $unsubscribe)
     {
         // Запись в БД
-        $mail = Post::insert(
+        $id = Post::insertGetId(
             ['email' => $email, 'subject' => $subject, 'message' => $message, 'link' => $link, 'unsubscribe' => $unsubscribe]
         );
 
-        if (isset($mail)) {
-
-            return true;
-        }
-
-        return false;
+        return $id ? true : false;
     }
 
     /**
@@ -56,7 +51,7 @@ class Post extends Model
      * @param int $limit [optional] Количество на странице
      * @param int $page [optional] Номер страницы
      * 
-     * @return array $mails - массив с письмами рассылки.
+     * @return object $mails - объект с письмами рассылки.
      */
     public static function getMails($limit = 20, $page = 1)
     {

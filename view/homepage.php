@@ -13,7 +13,7 @@ include 'layout/header.php';
     <?php
     include 'layout/pagination.php';
 
-    if (!($_SESSION['user']['subscription'] ?? 0)) { // Если пользователь неподписан или неавторизован 
+    if (!($_SESSION['user']['subscription'] ?? 0)) : // Если пользователь неподписан или неавторизован 
     ?>
         <div class="row ">
             <div class="col-sm-4 " align="center">
@@ -23,11 +23,11 @@ include 'layout/header.php';
                 <br>
             </div>
         </div>
-    <?php } ?>
+    <?php endif ?>
 
     <div class="row">
         <?php
-        foreach ($articles as $article) {
+        foreach ($articles as $article) :
         ?>
             <div class="col-12 col-sm-6 col-md-3">
                 <a href="<?= ARTICLE . DIRECTORY_SEPARATOR . $article->id ?>">
@@ -51,9 +51,7 @@ include 'layout/header.php';
                 </div>
                 <div class="IBlock"><?= $article->description ?></div>
             </div>
-        <?php
-        }
-        ?>
+        <?php endforeach ?>
     </div>
 </div>
 

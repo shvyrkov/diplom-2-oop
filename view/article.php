@@ -17,11 +17,9 @@ include 'layout/header.php';
                 <div class="card-body ">
                     <div class="MMarkers">
                         <?php
-                        foreach (Articles::getMethods($id) as $method) { ?>
+                        foreach (Articles::getMethods($id) as $method) : ?>
                             <img src="<?= DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . $method->image; ?>">
-                        <?php
-                        }
-                        ?>
+                        <?php endforeach ?>
                     </div>
                     <div class="MMName"><?= $title ?></div>
                     <div class="MVName"><?= $article->subtitle ?></div>
@@ -36,15 +34,15 @@ include 'layout/header.php';
     <div class="row px-5 pt-4 ShadowBig">
         <div class="Redactor">Версия от <?= $article->date ?> — автор
             <?php
-            if ($article->link != '#') {
+            if ($article->link != '#') :
             ?>
                 <a href="<?= $article->link ?>">
                 <?php
-            }
+            endif;
             echo $article->author;
-            if ($article->link != '#') { ?>
+            if ($article->link != '#') : ?>
                 </a>
-            <?php } ?>
+            <?php endif ?>
         </div>
     </div>
     <div class="row px-5">
@@ -80,12 +78,12 @@ include 'layout/header.php';
                                 </form>
                             </div>
                             <?php
-                            foreach ($comments as $comment) {
+                            foreach ($comments as $comment) :
                                 if (($comment->approve // Если коммент утвержден
                                         || in_array($_SESSION['user']['role'] ?? NO_USER, [ADMIN, CONTENT_MANAGER]) // или вы имеете право модерировать
                                         || (($_SESSION['user']['id'] ?? NO_USER) == $comment->user_id)) // или вы тот, кто написал этот коммент
                                     && !$comment->deny
-                                ) { // Если коммент не отклонен 
+                                ) : // Если коммент не отклонен 
                             ?>
                                     <div class="card mb-4">
                                         <div class="card-body">
@@ -105,7 +103,7 @@ include 'layout/header.php';
                                                 !$comment->approve
                                                 && (in_array($_SESSION['user']['role'] ?? NO_USER, [ADMIN, CONTENT_MANAGER])
                                                     || (($_SESSION['user']['id'] ?? NO_USER) == $comment->user_id))
-                                            ) {  // Немодерированный коммент виден только админу, контент-менеджеру и тому кто написал
+                                            ) :  // Немодерированный коммент виден только админу, контент-менеджеру и тому кто написал
                                             ?>
                                                 <p class="text-danger">Коммментарий не утвержден</p>
                                                 <?php
@@ -113,19 +111,20 @@ include 'layout/header.php';
                                                     !$comment->approve
                                                     && (in_array($_SESSION['user']['role'] ?? NO_USER, [ADMIN, CONTENT_MANAGER])
                                                     )
-                                                ) { // Утверждать могут только админ и контент-менеджер
+                                                ) : // Утверждать могут только админ и контент-менеджер
                                                 ?>
                                                     <form action="" id="approve_form" enctype="multipart/form-data" method="post">
                                                         <button class="btn btn-outline-primary" name="approve" value="<?= $comment->id ?>">Утвердить комментарий</button>
                                                         <button class="btn btn-outline-danger" name="deny" value="<?= $comment->id ?>">Отклонить комментарий</button>
                                                     </form>
-                                            <?php }
-                                            } ?>
+                                            <?php
+                                                endif;
+                                            endif; ?>
                                         </div>
                                     </div>
                             <?php
-                                }
-                            }
+                                endif;
+                            endforeach;
                             ?>
                         </div>
                     </div>
@@ -134,5 +133,6 @@ include 'layout/header.php';
         </div>
     </div>
     <br>
+    
     <?php
     include 'layout/footer.php';

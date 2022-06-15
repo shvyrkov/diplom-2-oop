@@ -18,7 +18,7 @@ include 'layout/admin-pagination.php';
       </thead>
       <tbody>
         <?php
-        foreach ($comments as $comment) {
+        foreach ($comments as $comment) :
         ?>
           <tr>
             <td><?= $comment['text'] ?></td>
@@ -30,7 +30,7 @@ include 'layout/admin-pagination.php';
               <td><button type="submit" name="submit" class="btn btn-primary">Подтвердить</button></td>
             </form>
           </tr>
-        <?php } ?>
+        <?php endforeach ?>
       </tbody>
     </table>
   </div>

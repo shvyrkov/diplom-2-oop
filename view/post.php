@@ -23,7 +23,7 @@ include 'layout/admin-pagination.php';
       </thead>
       <tbody>
         <?php
-        foreach ($mails as $key => $mail) {
+        foreach ($mails as $key => $mail) :
         ?>
           <tr>
             <td><?= $mail['email'] ?></td>
@@ -33,7 +33,7 @@ include 'layout/admin-pagination.php';
             <td><a href="/<?= $mail['link'] ?>"><button type="submit" name="submit" class="btn btn-primary">На страницу статьи</button></a></td>
             <td><a href="/<?= $mail['unsubscribe'] ?>"><button type="submit" name="submit" class="btn btn-secondary">Отписаться от рассылки</button></a></td>
           </tr>
-        <?php } ?>
+        <?php endforeach ?>
       </tbody>
     </table>
   </div>

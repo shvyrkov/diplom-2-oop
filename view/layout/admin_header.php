@@ -1,8 +1,4 @@
 <?php
-
-use App\Model\Methods;
-use App\Model\Users;
-
 include 'base/header.php';
 ?>
 <title><?= $title ?></title>
@@ -21,7 +17,7 @@ include 'base/header.php';
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <?php
-          foreach ($menu as $item) {
+          foreach ($menu as $item) :
             if ($item['accessLevel'] < $_SESSION['user']['role']) { // Если уровень доступа не разрешен 
               continue; // То пункт меню не выводится
             }
@@ -33,9 +29,7 @@ include 'base/header.php';
                                   }
                                   ?> " href="<?= $item['path'] ?>"><?= $item['title'] ?></a>
             </li>
-          <?php
-          }
-          ?>
+          <?php endforeach ?>
         </ul>
         <?php
         if (isset($_SESSION['user']['id'])) { // Если была регистрация или вход в л.к.-->

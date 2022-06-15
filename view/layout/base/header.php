@@ -4,7 +4,6 @@
 <head>
   <!-- Обязательные метатеги -->
   <meta charset="utf-8">
-  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link type="image/png" sizes="40x40" rel="icon" href="/img/favicon.png">
@@ -20,7 +19,6 @@
 
   <link rel="stylesheet" href="/css/style_new.css">
 
-  <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script> -->
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 

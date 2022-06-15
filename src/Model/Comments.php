@@ -58,11 +58,11 @@ class Comments extends Model
             $approve = 1;
         }
 
-        Comments::insert(
+        $id = Comments::insertGetId(
             ['text' => $text, 'article_id' => $articleId, 'user_id' => $userId, 'approve' => $approve]
         );
 
-        return true;
+        return $id ? true : false;
     }
 
     /**
@@ -74,13 +74,10 @@ class Comments extends Model
      */
     public static function approveComment($commentId)
     {
-        Comments::upsert(
-            ['id' => $commentId, 'approve' => 1],
-            ['id'],
-            ['approve']
-        );
+        $result = Comments::where('id', $commentId)
+            ->update(['approve' => 1]);
 
-        return true;
+        return $result ? true : false;
     }
 
     /**
@@ -92,13 +89,10 @@ class Comments extends Model
      */
     public static function denyComment($commentId)
     {
-        Comments::upsert(
-            ['id' => $commentId, 'deny' => 1],
-            ['id'],
-            ['deny']
-        );
+        $result = Comments::where('id', $commentId)
+            ->update(['deny' => 1]);
 
-        return true;
+        return $result ? true : false;
     }
 
     /**
@@ -112,13 +106,10 @@ class Comments extends Model
      */
     public static function changeComment($id, $approve, $deny)
     {
-        Comments::upsert(
-            ['id' => $id, 'approve' => $approve, 'deny' => $deny],
-            ['id'],
-            ['approve', 'deny']
-        );
+        $result = Comments::where('id', $id)
+            ->update(['approve' => $approve,  'deny' => $deny]);
 
-        return true;
+        return $result ? true : false;
     }
 
     /**

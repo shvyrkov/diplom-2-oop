@@ -68,8 +68,7 @@ include 'base/header.php';
     <form action="" method="post">
       <div class="row">
         <?php
-        foreach (Methods::all() as $method) {  // Метод модели all получит все записи из связанной с моделью таблицы БД
-        ?>
+        foreach (Methods::all() as $method) : ?>
           <div class="col-6 col-sm-3 col-md">
             <a id="M1" href="/<?= $method->uri ?>">
               <div class="Mbt" style="background-image: url('<?= '/' . IMG . '/' . $method->image; ?>'); background-position: left top; background-repeat: no-repeat; cursor:pointer"><?= $method->name ?>
@@ -77,9 +76,7 @@ include 'base/header.php';
               </div>
             </a>
           </div>
-        <?php
-        }
-        ?>
+        <?php endforeach ?>
       </div>
     </form>
   </div>
