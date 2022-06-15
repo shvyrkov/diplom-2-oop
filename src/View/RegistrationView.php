@@ -7,13 +7,13 @@ use App\Components\Menu;
 use App\Model\Users;
 
 /**
-* Класс View — шаблонизатор приложения, реализует интерфейс Renderable. Используется для подключения view страницы.
-*/
+ * Класс View — шаблонизатор приложения, реализует интерфейс Renderable. Используется для подключения view страницы.
+ */
 class RegistrationView extends View
 {
     /**
-    * Метод выводит необходимый шаблон.
-    */
+     * Метод выводит необходимый шаблон.
+     */
     public function render()
     {
         $data = extract($this->data); // ['id' => 'id_article'] -> $id = 'id_article' - создается переменная для исп-я в html
@@ -43,19 +43,19 @@ class RegistrationView extends View
             if (!Users::checkName($name)) {
                 $errors['checkName'] = ' - не должно быть короче 2-х символов';
             }
-            
+
             if (!Users::checkEmail($email)) { //  Проверка правильности ввода e-mail
                 $errors['checkEmail'] = ' - неправильный email';
             }
-            
+
             if (!Users::checkPassword($password)) {
                 $errors['checkPassword'] = ' - не должен быть короче 6-ти символов';
             }
-            
+
             if (!Users::comparePasswords($password, $confirm_password)) {
                 $errors['comparePasswords'] = ' - пароли не совпадают';
             }
-            
+
             if (Users::checkEmailExists($email)) {
                 $errors['checkEmailExists'] = ' - такой email уже используется';
             }
@@ -67,11 +67,11 @@ class RegistrationView extends View
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
             if ($errors === false) { // Если ошибок нет, то регистрируем пользователя.
-                Users::register($email, USER, $name, $passwordHash); 
-                
-            // Проверяем зарегистрировался ли пользователь
+                Users::register($email, USER, $name, $passwordHash);
+
+                // Проверяем зарегистрировался ли пользователь
                 $user = Users::checkUserData($email, $password);
-                
+
                 if ($user === false) {
                     // Если данные неправильные - показываем ошибку
                     $errors[] = 'Регистрация не прошла.';

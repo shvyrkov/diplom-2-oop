@@ -35,7 +35,7 @@ class Comments extends Model
     {
         $comments = Comments::where('article_id', $id)
             ->orderBy('date', 'desc')
-            ->first();
+            ->get();
 
         return $comments;
     }

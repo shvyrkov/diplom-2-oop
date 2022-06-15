@@ -1,9 +1,9 @@
 <?php
 
+use App\Components\Helper;
 use App\Model\Methods;
 use App\Model\Articles;
 use App\Model\ArticleMethods;
-use App\Model\Users;
 
 include 'layout/admin_header.php';
 ?>
@@ -68,7 +68,7 @@ include 'layout/admin_header.php';
                   </ul>
                 <?php
                 } else {
-                  printf(' %s', 'Файл не более ' . Users::formatSize(FILE_SIZE));
+                  printf(' %s', 'Файл не более ' . Helper::formatSize(FILE_SIZE));
                 }
                 ?>
               </label>

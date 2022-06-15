@@ -1,6 +1,6 @@
 <?php
 
-use App\Model\Users;
+use App\Components\Helper;
 
 include 'layout/header.php';
 ?>
@@ -115,7 +115,7 @@ include 'layout/header.php';
                 </ul>
               <?php
               } else {
-                printf(' %s', 'Выберите файл не более ' . Users::formatSize(FILE_SIZE));
+                printf(' %s', 'Выберите файл не более ' . Helper::formatSize(FILE_SIZE));
               }
               ?>
             </label>

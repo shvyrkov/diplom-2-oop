@@ -198,14 +198,11 @@ class AdminCMSView extends AdminView
                             . $article->title
                             . ', Краткое описание статьи: '
                             . $article->description; // Краткое описание статьи
-                        // $link = '/diplom-2-oop/article/' . $article->id;
+
                         $link = DIRECTORY_SEPARATOR . $_SERVER["HTTP_HOST"] . DIRECTORY_SEPARATOR . ARTICLE . DIRECTORY_SEPARATOR . $article->id; // Ссылка на страницу новой статьи
                         $unsubscribe = UNSUBSCRIBE; // Ссылка на страницу отписки
-                        // $unsubscribe = UNSUBSCRIBE . '?email='; // Для передачи email пользователя ??????
 
-                        foreach ($users as $key => $user) { // Все, кто подписан - TODO: сделать метод на запрос
-
-                            // Post::mailing($user->email, $subject, $message, $link, $unsubscribe . $user->email);
+                        foreach ($users as $user) { // Все, кто подписан - TODO: сделать метод на запрос
                             Post::mailing($user->email, $subject, $message, $link, $unsubscribe);
                         }
                     }

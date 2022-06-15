@@ -33,10 +33,7 @@ class Users extends Model
      */
     public static function checkEmail($email)
     {
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return true;
-        }
-        return false;
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
     /**
@@ -45,7 +42,7 @@ class Users extends Model
      * @param string $email
      * @param string $password
      * 
-     * @return mixed : array $user or false
+     * @return object $user or null
      */
     public static function checkUserData($email, $password)
     {
@@ -71,12 +68,7 @@ class Users extends Model
      */
     public static function checkName($name)
     {
-        if (mb_strlen($name, 'UTF-8') >= 2) {
-
-            return true;
-        }
-
-        return false;
+        return mb_strlen($name, 'UTF-8') >= MIN_NAME_LENGTH;
     }
 
     /**
@@ -88,12 +80,7 @@ class Users extends Model
      */
     public static function checkPassword($password)
     {
-        if (mb_strlen($password, 'UTF-8') >= 6) {
-
-            return true;
-        }
-
-        return false;
+        return mb_strlen($password, 'UTF-8') >= MIN_PASSWORD_LENGTH;
     }
 
     /**
@@ -121,12 +108,7 @@ class Users extends Model
         $user = Users::where('email', $email)
             ->first();
 
-        if (isset($user)) {
-
-            return true;
-        }
-
-        return false;
+        return $user ? true : false;
     }
 
     /**
@@ -141,12 +123,7 @@ class Users extends Model
         $user = Users::where('name', $name)
             ->first();
 
-        if (isset($user)) {
-
-            return true;
-        }
-
-        return false;
+        return $user ? true : false;
     }
 
     /**
@@ -160,11 +137,11 @@ class Users extends Model
      */
     public static function register($email, $role = null, $name = null, $password = null)
     {
-        Users::insert(
+        $id = Users::insertGetId(
             ['email' => $email, 'role' => $role, 'name' => $name, 'password' => $password]
         );
 
-        return true;
+        return $id ? true : false;
     }
 
     /**
@@ -179,10 +156,10 @@ class Users extends Model
      */
     public static function updateUser($id, $name, $email, $aboutMe, $avatar)
     {
-        Users::where('id', $id)
+        $result = Users::where('id', $id)
             ->update(['name' => $name, 'email' => $email, 'aboutMe' => $aboutMe, 'avatar' => $avatar]);
 
-        return true;
+        return $result ? true : false;
     }
 
     /**
@@ -190,19 +167,14 @@ class Users extends Model
      * 
      * @param string $email
      * 
-     * @return mixed : array $user or false
+     * @return object $user or null
      */
     public static function getUserByEmail($email)
     {
         $user = Users::where('email', $email)
             ->first();
 
-        if (isset($user)) {
-
-            return $user;
-        }
-
-        return null;
+        return $user;
     }
 
     /**
@@ -232,27 +204,6 @@ class Users extends Model
     }
 
     /**
-     * Функция перевода байтов в Mb, kB или b в зависимости от их количества
-     *
-     * @param int $bytes - количество байт
-     * 
-     * @return string $bytes - количество байт, переведенное в Mb, kB или b в зависимости от их количества
-     */
-    public static function formatSize($bytes)
-    {
-
-        if ($bytes >= 1048576) {
-            $bytes = number_format($bytes / 1048576, 2) . ' Mb';
-        } elseif ($bytes >= 1024) {
-            $bytes = number_format($bytes / 1024, 2) . ' kB';
-        } else {
-            $bytes = $bytes . ' b';
-        }
-
-        return $bytes;
-    }
-
-    /**
      * Получение данных пользователя
      * 
      * @param string $id 
@@ -264,12 +215,7 @@ class Users extends Model
         $user = Users::where('id', $id)
             ->first();
 
-        if (isset($user)) {
-
-            return $user;
-        }
-
-        return null;
+        return $user;
     }
     /**
      * Получение данных пользователя
@@ -281,12 +227,7 @@ class Users extends Model
         $users = Users::where('subscription', 1)
             ->get();
 
-        if (isset($users)) {
-
-            return $users;
-        }
-
-        return null;
+        return $users;
     }
 
     /**
@@ -299,10 +240,10 @@ class Users extends Model
      */
     public static function changePassword($email, $password)
     {
-        Users::where('email', $email)
+        $result = Users::where('email', $email)
             ->update(['password' => $password]);
 
-        return true;
+        return $result ? true : false;
     }
 
     /**
@@ -315,10 +256,10 @@ class Users extends Model
      */
     public static function changeRole($id, $role)
     {
-        Users::where('id', $id)
+        $result = Users::where('id', $id)
             ->update(['role' => $role]);
 
-        return true;
+        return $result ? true : false;
     }
 
     /**
@@ -331,10 +272,10 @@ class Users extends Model
      */
     public static function changeSubscription($id, $subscription)
     {
-        Users::where('id', $id)
+        $result = Users::where('id', $id)
             ->update(['subscription' => $subscription]);
 
-        return true;
+        return $result ? true : false;
     }
 
     /**
@@ -343,11 +284,10 @@ class Users extends Model
      * @param int $limit [optional] Количество пользователей на странице
      * @param int $page [optional] Номер страницы
      * 
-     * @return array $articles - массив со пользователеми.
+     * @return object $users - объект с пользователеми.
      */
     public static function getUsers($limit = 20, $page = 1)
     {
-        $users = [];
         $offset = ($page - 1) * $limit;
 
         $users = Users::where('id', '>', 0)
