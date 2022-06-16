@@ -3,36 +3,36 @@
 namespace App\Controllers;
 
 use App\View\View;
-use App\View\HomeView;
-use App\View\MethodView;
 use App\Components\Menu;
+use App\Components\Pagination;
+use App\Model\Articles;
 
 class SiteController
 {
     /**
      * Запускает Главную страниц
      * 
-     * @param int $page - номер страницы в пагинации
-     * 
      * @return object View - объект представления Главной страницы со списком статей
      */
-    public function index($articlesOnPage = 4)
+    public function index()
     {
-        $data = ['title' => Menu::showTitle(Menu::getUserMenu()), 'articlesOnPage' => $articlesOnPage];
+        // Pagination
+        $uri = View::getURI(); // Получаем строку запроса без корня
+        $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы - только из корня ('/')
+        $selected = Pagination::goodsQuantity($page);
+        $page = $selected['page']; // Номер страницы
+        $limit = Articles::getArticlesQtyOnPage(); // Количество товаров на странице
+        $total = Articles::all()->count(); // Всего товаров в БД
 
-        return new HomeView('homepage', $data); // Вывод представления
-    }
+        $data = [
+            'title' => Menu::showTitle(Menu::getUserMenu()),
+            'articles' => Articles::getArticles($limit, $page), // Статьи для вывода на страницу
+            'pagination' => new Pagination($total, $page, $limit, 'page-'), // Постраничная навигация
+            'total' =>  $total, // Всего товаров в БД
+            'limit' =>  $limit, //  Количество товаров на странице
+        ];
 
-    /**
-     * Вывод меню типов (методов) статей 
-     *  
-     * @return object MethodView - объект представления вывода меню типов (методов) статей
-     */
-    public function method()
-    {
-        $data = ['title' => Menu::showTitle(Menu::getUserMenu()), 'method' => 3];
-
-        return new MethodView('method', $data); // Вывод представления
+        return new View('homepage', $data); // Вывод представления
     }
 
     /**
@@ -42,7 +42,12 @@ class SiteController
      */
     public function about()
     {
-        return new View('about', ['title' => Menu::showTitle(Menu::getUserMenu())]); // about.php - имя файла с Представлением (personal.messages.show -> __DIR__ . VIEW_DIR . 'personal/messages/show.php')
+        return new View(
+            'about', // about.php - имя файла с Представлением
+            [
+                'title' => Menu::showTitle(Menu::getUserMenu()),
+            ]
+        );
     }
 
     /**
@@ -52,7 +57,12 @@ class SiteController
      */
     public function contacts()
     {
-        return new View('contacts', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
+        return new View(
+            'contacts',
+            [
+                'title' => Menu::showTitle(Menu::getUserMenu()),
+            ]
+        );
     }
 
     /**
@@ -62,6 +72,11 @@ class SiteController
      */
     public function rules()
     {
-        return new View('rules', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
+        return new View(
+            'rules',
+            [
+                'title' => Menu::showTitle(Menu::getUserMenu()),
+            ]
+        );
     }
 }

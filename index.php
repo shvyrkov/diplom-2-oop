@@ -22,8 +22,8 @@ $application = new Application($router); // Для запуска Eloquent
 
 // Требуется запустить Eloquent. Как вариант - загружать методы из конфиг-файла
 foreach (Methods::all() as $method) {  // Метод модели all получит все записи из связанной с моделью таблицы БД
-    $router->get($method->uri,      [SiteController::class, 'method']);
-    $router->get($method->uri . '/page-*',      [SiteController::class, 'method']);
+    $router->get($method->uri,      [ArticleController::class, 'method']);
+    $router->get($method->uri . '/page-*',      [ArticleController::class, 'method']);
 }
 
 // --- Страницы сайта -----

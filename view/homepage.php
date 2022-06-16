@@ -35,10 +35,9 @@ include 'layout/header.php';
                         <img src="<?php echo DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . $article->thumbnail; ?>" class="card-img-top" alt="/<?php echo DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . $article->thumbnail ?>">
                         <div class="card-body ">
                             <div class="Markers">
-                                <?php
-                                foreach (Articles::getMethods($article->id) as $method) { ?>
+                                <?php foreach (Articles::getMethods($article->id) as $method) : ?>
                                     <img src="<?= DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . $method->image; ?>">
-                                <?php } ?>
+                                <?php endforeach ?>
                             </div>
                             <h5 class="card-title MName"><?= $article->title ?></h5>
                             <h6 class="card-subtitle mb-2 VName"><?= $article->subtitle ?></h6>

@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Хост:                         127.0.0.1
--- Версия сервера:               5.7.25 - MySQL Community Server (GPL)
--- Операционная система:         Win32
--- HeidiSQL Версия:              10.1.0.5464
+-- Версия сервера:               5.5.62-log - MySQL Community Server (GPL)
+-- Операционная система:         Win64
+-- HeidiSQL Версия:              11.2.0.6213
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,6 +10,7 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 -- Дамп структуры для таблица diplom_2_oop.articles
 DROP TABLE IF EXISTS `articles`;
@@ -28,9 +29,9 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата публикации',
   `user_id` int(50) NOT NULL DEFAULT '1' COMMENT 'id пользователя, добавившего статью',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8 COMMENT='Статьи: название, картинка, дата публикации, краткое описание, полное содержание статьи';
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 COMMENT='Статьи: название, картинка, дата публикации, краткое описание, полное содержание статьи';
 
--- Дамп данных таблицы diplom_2_oop.articles: ~65 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.articles: ~59 rows (приблизительно)
 DELETE FROM `articles`;
 /*!40000 ALTER TABLE `articles` DISABLE KEYS */;
 INSERT INTO `articles` (`id`, `title`, `subtitle`, `description`, `content`, `people`, `duration`, `author`, `link`, `thumbnail`, `image`, `date`, `user_id`) VALUES
@@ -77,7 +78,12 @@ INSERT INTO `articles` (`id`, `title`, `subtitle`, `description`, `content`, `pe
 	(91, 'Mail-35', '', 'Mail-35Mail-35', 'Mail-35Mail-35Mail-35Mail-35', '2', '3', 'Mail-35Mail-35Mail-35', '', 'cs-big.png', 'cs-big.png', '2022-05-27 13:26:22', 1),
 	(92, 'Mail-36', 'cc', 'Mail-36Mail-36', 'Mail-36Mail-36Mail-36Mail-36Mail-36Mail-36', '4', '5', 'Mail-36Mail-36Mail-36', 'Mail-36Mail-36Mail-36Mail-36', 'cs-big.png', 'cs-big.png', '2022-05-27 13:27:44', 1),
 	(94, 'Mail-38', '', 'Mail-38xxxxxxxxx', 'Mail-38Mail-38', '6', '7', 'Mail-38Mail-38', '', 'small-ava-3.png', 'ava-3.png', '2022-05-27 15:58:33', 1),
-	(95, 'Refactoring-1', '', 'Refactoring-1', '', '3', '4', 'Refactoring-1Refactoring-1', '', 'cs-big.png', 'cs-big.png', '2022-06-01 18:31:14', 1);
+	(95, 'Refactoring-1', '', 'Refactoring-1', '', '3', '4', 'Refactoring-1Refactoring-1', '', 'cs-big.png', 'cs-big.png', '2022-06-01 18:31:14', 1),
+	(98, 'WEFGW', 'RR', '4R', '', '4', '4', 'WERE', '', 'cs-big.png', 'cs-big.png', '2022-06-09 13:53:14', 1),
+	(99, 'Mail-40', '', 'Mail-40Mail-40', 'Mail-40Mail-40Mail-40Mail-40Mail-40Mail-40Mail-40Mail-40', '4', '5', 'Mail-40Mail-40Mail-40', '', 'small-dog.png', 'dog.png', '2022-06-14 13:00:49', 1),
+	(100, 'Mail-41bbb', '', 'Mail-41ffffffffff', 'Mail-41Mail-41Mail-41Mail-41', '3', '4', 'Mail-41aaaaaaaaaa', '', 'small-fox.jpg', 'fox.jpg', '2022-06-15 12:46:32', 1),
+	(101, 'Mail-41aaa', '', 'Mail-41ffffffffff', 'Mail-41Mail-41Mail-41Mail-41', '3', '4', 'Mail-41aaaaaaaaaa', '', 'cs-big.png', 'cs-big.png', '2022-06-15 12:50:34', 1),
+	(102, 'Mail-42', '', 'Mail-42ccccccccccccc', 'Mail-42Mail-42Mail-42Mail-42Mail-42Mail-42Mail-42Mail-42Mail-42Mail-42Mail-42Mail-42Mail-42', '6', '7', 'Mail-42ggggggggggggggggg', '', 'cs-big.png', 'cs-big.png', '2022-06-15 12:52:54', 1);
 /*!40000 ALTER TABLE `articles` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.article_methods
@@ -92,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `article_methods` (
   CONSTRAINT `FK2_id_method` FOREIGN KEY (`id_method`) REFERENCES `methods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица соответствия между статьями и типами методов, к которым они принадлежат.';
 
--- Дамп данных таблицы diplom_2_oop.article_methods: ~104 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.article_methods: ~97 rows (приблизительно)
 DELETE FROM `article_methods`;
 /*!40000 ALTER TABLE `article_methods` DISABLE KEYS */;
 INSERT INTO `article_methods` (`id_article`, `id_method`, `description`) VALUES
@@ -186,8 +192,34 @@ INSERT INTO `article_methods` (`id_article`, `id_method`, `description`) VALUES
 	(94, 3, NULL),
 	(94, 5, NULL),
 	(95, 2, NULL),
-	(95, 3, NULL);
+	(95, 3, NULL),
+	(101, 2, NULL),
+	(101, 3, NULL),
+	(100, 2, NULL),
+	(100, 3, NULL),
+	(102, 2, NULL),
+	(102, 4, NULL);
 /*!40000 ALTER TABLE `article_methods` ENABLE KEYS */;
+
+-- Дамп структуры для таблица diplom_2_oop.category
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE IF NOT EXISTS `category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+
+-- Дамп данных таблицы diplom_2_oop.category: ~4 rows (приблизительно)
+DELETE FROM `category`;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` (`id`, `name`, `sort_order`, `status`) VALUES
+	(13, 'Ноутбуки', 1, 1),
+	(14, 'Планшеты', 2, 1),
+	(15, 'Мониторы', 3, 1),
+	(16, 'Игровые компьютеры', 4, 1);
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.comments
 DROP TABLE IF EXISTS `comments`;
@@ -204,9 +236,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `FK2_user_id` (`user_id`),
   CONSTRAINT `FK1_article_id` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK2_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8 COMMENT='Комментарии пользователей к статьям';
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8 COMMENT='Комментарии пользователей к статьям';
 
--- Дамп данных таблицы diplom_2_oop.comments: ~55 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.comments: ~68 rows (приблизительно)
 DELETE FROM `comments`;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 INSERT INTO `comments` (`id`, `text`, `date`, `article_id`, `user_id`, `approve`, `deny`) VALUES
@@ -261,10 +293,25 @@ INSERT INTO `comments` (`id`, `text`, `date`, `article_id`, `user_id`, `approve`
 	(133, 'test comment 3', '2022-04-07 19:44:37', 18, 14, 0, 0),
 	(134, 'Попробуй радугу коммент 1 ', '2022-04-07 19:48:18', 6, 14, 1, 0),
 	(135, 'Попробуй радугу коммент 1 ', '2022-04-07 19:50:00', 6, 14, 0, 1),
-	(136, 'ыкваопмр', '2022-04-20 18:34:02', 6, 1, 0, 1),
+	(136, 'ыкваопмр', '2022-04-20 18:34:02', 6, 1, 1, 0),
 	(137, 'ыкваопмр', '2022-04-20 18:34:32', 6, 1, 1, 1),
-	(138, 'rrr', '2022-04-20 18:41:35', NULL, NULL, 1, 0),
-	(139, 'аншпмшо', '2022-05-06 16:35:32', 49, 1, 1, 0);
+	(138, 'rrr', '2022-04-20 18:41:35', NULL, NULL, 0, 0),
+	(139, 'аншпмшо', '2022-05-06 16:35:32', 49, 1, 1, 0),
+	(140, 'ntcn', '2022-06-09 13:11:27', 94, 1, 0, 1),
+	(141, 'test1', '2022-06-15 13:57:40', 102, 11, 1, 0),
+	(142, 'test12', '2022-06-15 14:01:13', 102, 11, 1, 0),
+	(143, 'test12', '2022-06-15 14:02:12', 102, 11, 0, 1),
+	(144, 'test12', '2022-06-15 14:03:45', 102, 11, 0, 1),
+	(145, 'test3', '2022-06-15 14:17:01', 101, 11, 0, 1),
+	(146, 'test3', '2022-06-15 14:17:56', 101, 11, 1, 0),
+	(147, 'test3', '2022-06-15 14:18:53', 101, 11, 0, 1),
+	(148, 'test13', '2022-06-15 14:32:58', 102, 11, 0, 1),
+	(149, 'test14', '2022-06-15 14:41:58', 102, 11, 1, 0),
+	(150, 'test15', '2022-06-15 17:34:54', 102, 1, 1, 0),
+	(151, 'test1', '2022-06-16 13:00:36', 41, 3, 0, 0),
+	(152, 'test2', '2022-06-16 13:21:00', 102, 11, 0, 0),
+	(153, 'сарвачсри', '2022-06-16 13:40:50', 50, 3, 0, 1),
+	(154, 'яварчвопарполд', '2022-06-16 13:41:12', 50, 2, 1, 0);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.methods
@@ -303,9 +350,9 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `unsubscribe` varchar(500) NOT NULL COMMENT 'Ссылка для отписки от рассылки',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8 COMMENT='Высланные оповещения по подписке на рассылку.';
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8 COMMENT='Высланные оповещения по подписке на рассылку.';
 
--- Дамп данных таблицы diplom_2_oop.posts: ~36 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.posts: ~68 rows (приблизительно)
 DELETE FROM `posts`;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
 INSERT INTO `posts` (`id`, `email`, `subject`, `message`, `link`, `unsubscribe`, `date`) VALUES
@@ -346,8 +393,172 @@ INSERT INTO `posts` (`id`, `email`, `subject`, `message`, `link`, `unsubscribe`,
 	(102, 'ww@dd.jj', 'На сайте добавлена новая статья: "Refactoring-1".', 'Новая статья: Refactoring-1, Краткое описание статьи: Refactoring-1', '\\diplom-2-oop\\article\\95', '\\diplom-2-oop\\unsubscribe', '2022-06-01 18:31:14'),
 	(103, 'ss@dd.nn', 'На сайте добавлена новая статья: "Refactoring-1".', 'Новая статья: Refactoring-1, Краткое описание статьи: Refactoring-1', '\\diplom-2-oop\\article\\95', '\\diplom-2-oop\\unsubscribe', '2022-06-01 18:31:14'),
 	(104, 'rr@ff.kk', 'На сайте добавлена новая статья: "Refactoring-1".', 'Новая статья: Refactoring-1, Краткое описание статьи: Refactoring-1', '\\diplom-2-oop\\article\\95', '\\diplom-2-oop\\unsubscribe', '2022-06-01 18:31:14'),
-	(105, 'dd@ss.jj', 'На сайте добавлена новая статья: "Refactoring-1".', 'Новая статья: Refactoring-1, Краткое описание статьи: Refactoring-1', '\\diplom-2-oop\\article\\95', '\\diplom-2-oop\\unsubscribe', '2022-06-01 18:31:14');
+	(105, 'dd@ss.jj', 'На сайте добавлена новая статья: "Refactoring-1".', 'Новая статья: Refactoring-1, Краткое описание статьи: Refactoring-1', '\\diplom-2-oop\\article\\95', '\\diplom-2-oop\\unsubscribe', '2022-06-01 18:31:14'),
+	(106, 'nat@mail.ru', 'На сайте добавлена новая статья: "тест-09".', 'Новая статья: тест-09, Краткое описание статьи: тест-09тест-09', '\\diplom-2-oop\\article\\96', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:43:53'),
+	(107, 'aaa@ddd.ru', 'На сайте добавлена новая статья: "тест-09".', 'Новая статья: тест-09, Краткое описание статьи: тест-09тест-09', '\\diplom-2-oop\\article\\96', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:43:53'),
+	(108, 'iren1@mail.ru', 'На сайте добавлена новая статья: "тест-09".', 'Новая статья: тест-09, Краткое описание статьи: тест-09тест-09', '\\diplom-2-oop\\article\\96', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:43:53'),
+	(109, 'yu-12@mail.ru', 'На сайте добавлена новая статья: "тест-09".', 'Новая статья: тест-09, Краткое описание статьи: тест-09тест-09', '\\diplom-2-oop\\article\\96', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:43:53'),
+	(110, 'nici@xc.ry', 'На сайте добавлена новая статья: "тест-09".', 'Новая статья: тест-09, Краткое описание статьи: тест-09тест-09', '\\diplom-2-oop\\article\\96', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:43:53'),
+	(111, 'zz1@zz.rr', 'На сайте добавлена новая статья: "тест-09".', 'Новая статья: тест-09, Краткое описание статьи: тест-09тест-09', '\\diplom-2-oop\\article\\96', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:43:53'),
+	(112, 'zz3@zz.rr', 'На сайте добавлена новая статья: "тест-09".', 'Новая статья: тест-09, Краткое описание статьи: тест-09тест-09', '\\diplom-2-oop\\article\\96', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:43:53'),
+	(113, 'ww@dd.jj', 'На сайте добавлена новая статья: "тест-09".', 'Новая статья: тест-09, Краткое описание статьи: тест-09тест-09', '\\diplom-2-oop\\article\\96', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:43:53'),
+	(114, 'rr@ff.kk', 'На сайте добавлена новая статья: "тест-09".', 'Новая статья: тест-09, Краткое описание статьи: тест-09тест-09', '\\diplom-2-oop\\article\\96', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:43:53'),
+	(115, 'dd@ss.jj', 'На сайте добавлена новая статья: "тест-09".', 'Новая статья: тест-09, Краткое описание статьи: тест-09тест-09', '\\diplom-2-oop\\article\\96', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:43:53'),
+	(116, 'nat@mail.ru', 'На сайте добавлена новая статья: "wefwF".', 'Новая статья: wefwF, Краткое описание статьи: tWFE', '\\diplom-2-oop\\article\\97', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:48:39'),
+	(117, 'aaa@ddd.ru', 'На сайте добавлена новая статья: "wefwF".', 'Новая статья: wefwF, Краткое описание статьи: tWFE', '\\diplom-2-oop\\article\\97', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:48:39'),
+	(118, 'iren1@mail.ru', 'На сайте добавлена новая статья: "wefwF".', 'Новая статья: wefwF, Краткое описание статьи: tWFE', '\\diplom-2-oop\\article\\97', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:48:39'),
+	(119, 'yu-12@mail.ru', 'На сайте добавлена новая статья: "wefwF".', 'Новая статья: wefwF, Краткое описание статьи: tWFE', '\\diplom-2-oop\\article\\97', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:48:39'),
+	(120, 'nici@xc.ry', 'На сайте добавлена новая статья: "wefwF".', 'Новая статья: wefwF, Краткое описание статьи: tWFE', '\\diplom-2-oop\\article\\97', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:48:39'),
+	(121, 'zz1@zz.rr', 'На сайте добавлена новая статья: "wefwF".', 'Новая статья: wefwF, Краткое описание статьи: tWFE', '\\diplom-2-oop\\article\\97', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:48:39'),
+	(122, 'zz3@zz.rr', 'На сайте добавлена новая статья: "wefwF".', 'Новая статья: wefwF, Краткое описание статьи: tWFE', '\\diplom-2-oop\\article\\97', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:48:39'),
+	(123, 'ww@dd.jj', 'На сайте добавлена новая статья: "wefwF".', 'Новая статья: wefwF, Краткое описание статьи: tWFE', '\\diplom-2-oop\\article\\97', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:48:39'),
+	(124, 'rr@ff.kk', 'На сайте добавлена новая статья: "wefwF".', 'Новая статья: wefwF, Краткое описание статьи: tWFE', '\\diplom-2-oop\\article\\97', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:48:39'),
+	(125, 'dd@ss.jj', 'На сайте добавлена новая статья: "wefwF".', 'Новая статья: wefwF, Краткое описание статьи: tWFE', '\\diplom-2-oop\\article\\97', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:48:39'),
+	(126, 'nat@mail.ru', 'На сайте добавлена новая статья: "WEFGW".', 'Новая статья: WEFGW, Краткое описание статьи: 4R', '\\diplom-2-oop\\article\\98', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:53:14'),
+	(127, 'aaa@ddd.ru', 'На сайте добавлена новая статья: "WEFGW".', 'Новая статья: WEFGW, Краткое описание статьи: 4R', '\\diplom-2-oop\\article\\98', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:53:14'),
+	(128, 'iren1@mail.ru', 'На сайте добавлена новая статья: "WEFGW".', 'Новая статья: WEFGW, Краткое описание статьи: 4R', '\\diplom-2-oop\\article\\98', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:53:14'),
+	(129, 'yu-12@mail.ru', 'На сайте добавлена новая статья: "WEFGW".', 'Новая статья: WEFGW, Краткое описание статьи: 4R', '\\diplom-2-oop\\article\\98', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:53:14'),
+	(130, 'nici@xc.ry', 'На сайте добавлена новая статья: "WEFGW".', 'Новая статья: WEFGW, Краткое описание статьи: 4R', '\\diplom-2-oop\\article\\98', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:53:14'),
+	(131, 'zz1@zz.rr', 'На сайте добавлена новая статья: "WEFGW".', 'Новая статья: WEFGW, Краткое описание статьи: 4R', '\\diplom-2-oop\\article\\98', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:53:14'),
+	(132, 'zz3@zz.rr', 'На сайте добавлена новая статья: "WEFGW".', 'Новая статья: WEFGW, Краткое описание статьи: 4R', '\\diplom-2-oop\\article\\98', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:53:14'),
+	(133, 'ww@dd.jj', 'На сайте добавлена новая статья: "WEFGW".', 'Новая статья: WEFGW, Краткое описание статьи: 4R', '\\diplom-2-oop\\article\\98', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:53:14'),
+	(134, 'rr@ff.kk', 'На сайте добавлена новая статья: "WEFGW".', 'Новая статья: WEFGW, Краткое описание статьи: 4R', '\\diplom-2-oop\\article\\98', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:53:14'),
+	(135, 'dd@ss.jj', 'На сайте добавлена новая статья: "WEFGW".', 'Новая статья: WEFGW, Краткое описание статьи: 4R', '\\diplom-2-oop\\article\\98', '\\diplom-2-oop\\unsubscribe', '2022-06-09 13:53:14'),
+	(136, 'nat@mail.ru', 'На сайте добавлена новая статья: "Mail-40".', 'Новая статья: Mail-40, Краткое описание статьи: Mail-40Mail-40', '\\diplom-2-oop\\article\\99', '\\diplom-2-oop\\unsubscribe', '2022-06-14 13:00:49'),
+	(137, 'aaa@ddd.ru', 'На сайте добавлена новая статья: "Mail-40".', 'Новая статья: Mail-40, Краткое описание статьи: Mail-40Mail-40', '\\diplom-2-oop\\article\\99', '\\diplom-2-oop\\unsubscribe', '2022-06-14 13:00:49'),
+	(138, 'iren1@mail.ru', 'На сайте добавлена новая статья: "Mail-40".', 'Новая статья: Mail-40, Краткое описание статьи: Mail-40Mail-40', '\\diplom-2-oop\\article\\99', '\\diplom-2-oop\\unsubscribe', '2022-06-14 13:00:49'),
+	(139, 'yu-12@mail.ru', 'На сайте добавлена новая статья: "Mail-40".', 'Новая статья: Mail-40, Краткое описание статьи: Mail-40Mail-40', '\\diplom-2-oop\\article\\99', '\\diplom-2-oop\\unsubscribe', '2022-06-14 13:00:49'),
+	(140, 'nici@xc.ry', 'На сайте добавлена новая статья: "Mail-40".', 'Новая статья: Mail-40, Краткое описание статьи: Mail-40Mail-40', '\\diplom-2-oop\\article\\99', '\\diplom-2-oop\\unsubscribe', '2022-06-14 13:00:49'),
+	(141, 'zz1@zz.rr', 'На сайте добавлена новая статья: "Mail-40".', 'Новая статья: Mail-40, Краткое описание статьи: Mail-40Mail-40', '\\diplom-2-oop\\article\\99', '\\diplom-2-oop\\unsubscribe', '2022-06-14 13:00:49'),
+	(142, 'zz3@zz.rr', 'На сайте добавлена новая статья: "Mail-40".', 'Новая статья: Mail-40, Краткое описание статьи: Mail-40Mail-40', '\\diplom-2-oop\\article\\99', '\\diplom-2-oop\\unsubscribe', '2022-06-14 13:00:49'),
+	(143, 'ee@gg.kk', 'На сайте добавлена новая статья: "Mail-40".', 'Новая статья: Mail-40, Краткое описание статьи: Mail-40Mail-40', '\\diplom-2-oop\\article\\99', '\\diplom-2-oop\\unsubscribe', '2022-06-14 13:00:49'),
+	(144, 'ww@dd.jj', 'На сайте добавлена новая статья: "Mail-40".', 'Новая статья: Mail-40, Краткое описание статьи: Mail-40Mail-40', '\\diplom-2-oop\\article\\99', '\\diplom-2-oop\\unsubscribe', '2022-06-14 13:00:49'),
+	(145, 'rr@ff.kk', 'На сайте добавлена новая статья: "Mail-40".', 'Новая статья: Mail-40, Краткое описание статьи: Mail-40Mail-40', '\\diplom-2-oop\\article\\99', '\\diplom-2-oop\\unsubscribe', '2022-06-14 13:00:49'),
+	(146, 'nat@mail.ru', 'На сайте добавлена новая статья: "Mail-42".', 'Новая статья: Mail-42, Краткое описание статьи: Mail-42ccccccccccccc', '\\diplom-2-oop\\article\\102', '\\diplom-2-oop\\unsubscribe', '2022-06-15 12:52:54'),
+	(147, 'aaa@ddd.ru', 'На сайте добавлена новая статья: "Mail-42".', 'Новая статья: Mail-42, Краткое описание статьи: Mail-42ccccccccccccc', '\\diplom-2-oop\\article\\102', '\\diplom-2-oop\\unsubscribe', '2022-06-15 12:52:54'),
+	(148, 'iren1@mail.ru', 'На сайте добавлена новая статья: "Mail-42".', 'Новая статья: Mail-42, Краткое описание статьи: Mail-42ccccccccccccc', '\\diplom-2-oop\\article\\102', '\\diplom-2-oop\\unsubscribe', '2022-06-15 12:52:54'),
+	(149, 'yu-12@mail.ru', 'На сайте добавлена новая статья: "Mail-42".', 'Новая статья: Mail-42, Краткое описание статьи: Mail-42ccccccccccccc', '\\diplom-2-oop\\article\\102', '\\diplom-2-oop\\unsubscribe', '2022-06-15 12:52:54'),
+	(150, 'nici@xc.ry', 'На сайте добавлена новая статья: "Mail-42".', 'Новая статья: Mail-42, Краткое описание статьи: Mail-42ccccccccccccc', '\\diplom-2-oop\\article\\102', '\\diplom-2-oop\\unsubscribe', '2022-06-15 12:52:54'),
+	(151, 'zz1@zz.rr', 'На сайте добавлена новая статья: "Mail-42".', 'Новая статья: Mail-42, Краткое описание статьи: Mail-42ccccccccccccc', '\\diplom-2-oop\\article\\102', '\\diplom-2-oop\\unsubscribe', '2022-06-15 12:52:54'),
+	(152, 'zz3@zz.rr', 'На сайте добавлена новая статья: "Mail-42".', 'Новая статья: Mail-42, Краткое описание статьи: Mail-42ccccccccccccc', '\\diplom-2-oop\\article\\102', '\\diplom-2-oop\\unsubscribe', '2022-06-15 12:52:54'),
+	(153, 'ee@gg.kk', 'На сайте добавлена новая статья: "Mail-42".', 'Новая статья: Mail-42, Краткое описание статьи: Mail-42ccccccccccccc', '\\diplom-2-oop\\article\\102', '\\diplom-2-oop\\unsubscribe', '2022-06-15 12:52:54'),
+	(154, 'ww@dd.jj', 'На сайте добавлена новая статья: "Mail-42".', 'Новая статья: Mail-42, Краткое описание статьи: Mail-42ccccccccccccc', '\\diplom-2-oop\\article\\102', '\\diplom-2-oop\\unsubscribe', '2022-06-15 12:52:54'),
+	(155, 'rr@ff.kk', 'На сайте добавлена новая статья: "Mail-42".', 'Новая статья: Mail-42, Краткое описание статьи: Mail-42ccccccccccccc', '\\diplom-2-oop\\article\\102', '\\diplom-2-oop\\unsubscribe', '2022-06-15 12:52:54'),
+	(156, 'ee@jjkk.ll', 'На сайте добавлена новая статья: "Mail-42".', 'Новая статья: Mail-42, Краткое описание статьи: Mail-42ccccccccccccc', '\\diplom-2-oop\\article\\102', '\\diplom-2-oop\\unsubscribe', '2022-06-15 12:52:54');
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
+
+-- Дамп структуры для таблица diplom_2_oop.product
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE IF NOT EXISTS `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `price` float NOT NULL,
+  `availability` int(11) NOT NULL,
+  `brand` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `is_new` int(11) NOT NULL DEFAULT '0',
+  `is_recommended` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
+
+-- Дамп данных таблицы diplom_2_oop.product: ~29 rows (приблизительно)
+DELETE FROM `product`;
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` (`id`, `name`, `category_id`, `code`, `price`, `availability`, `brand`, `image`, `description`, `is_new`, `is_recommended`, `status`) VALUES
+	(35, 'Ноутбук HP Stream 11-d050nr', 13, 2343847, 324, 1, 'Hewlett Packard', 'notebook.jpg', 'Экран 11.6” (1366x768) HD LED, матовый / Intel Celeron N2840 (2.16 ГГц) / RAM 2 ГБ / eMMC 32 ГБ / Intel HD Graphics / без ОД / Wi-Fi / Bluetooth / веб-камера / Windows 8.1 + MS Office 365 / 1.28 кг / синий', 1, 0, 1),
+	(36, 'Ноутбук Asus X200MA White ', 13, 2028027, 1111, 1, 'Asus', 'notebook.jpg', 'Экран 11.6" (1366x768) HD LED, глянцевый / Intel Celeron N2840 (2.16 ГГц) / RAM 2 ГБ / HDD 500 ГБ / Intel HD Graphics / без ОД / Bluetooth 4.0 / Wi-Fi / LAN / веб-камера / без ОС / 1.24 кг / белый', 1, 1, 1),
+	(37, 'Ноутбук Acer Aspire E3-112-C65X', 13, 2019487, 325, 1, 'Acer', 'notebook.jpg', 'Экран 11.6\'\' (1366x768) HD LED, матовый / Intel Celeron N2840 (2.16 ГГц) / RAM 2 ГБ / HDD 500 ГБ / Intel HD Graphics / без ОД / LAN / Wi-Fi / Bluetooth / веб-камера / Linpus / 1.29 кг / серебристый', 0, 1, 1),
+	(38, 'Ноутбук Acer TravelMate TMB115', 13, 1953212, 275, 1, 'Acer', 'notebook.jpg', 'Экран 11.6\'\' (1366x768) HD LED, матовый / Intel Celeron N2840 (2.16 ГГц) / RAM 2 ГБ / HDD 500 ГБ / Intel HD Graphics / без ОД / LAN / Wi-Fi / Bluetooth 4.0 / веб-камера / Linpus / 1.32 кг / черный', 0, 0, 1),
+	(39, 'Ноутбук Lenovo Flex 10', 13, 1602042, 370, 0, 'Lenovo', 'notebook.jpg', 'Экран 10.1" (1366x768) HD LED, сенсорный, глянцевый / Intel Celeron N2830 (2.16 ГГц) / RAM 2 ГБ / HDD 500 ГБ / Intel HD Graphics / без ОД / Wi-Fi / Bluetooth / веб-камера / Windows 8.1 / 1.2 кг / черный', 0, 0, 1),
+	(40, 'Ноутбук Asus X751MA', 13, 2028367, 430, 1, 'Asus', 'notebook.jpg', 'Экран 17.3" (1600х900) HD+ LED, глянцевый / Intel Pentium N3540 (2.16 - 2.66 ГГц) / RAM 4 ГБ / HDD 1 ТБ / Intel HD Graphics / DVD Super Multi / LAN / Wi-Fi / Bluetooth 4.0 / веб-камера / DOS / 2.6 кг / белый', 0, 1, 1),
+	(41, 'Samsung Galaxy Tab S 10.5 16GB', 14, 1129365, 780, 1, 'Samsung', 'tegra.jpeg', 'Samsung Galaxy Tab S создан для того, чтобы сделать вашу жизнь лучше. Наслаждайтесь своим контентом с покрытием 94% цветов Adobe RGB и 100000:1 уровнем контрастности, который обеспечивается sAmoled экраном с функцией оптимизации под отображаемое изображение и окружение. Яркий 10.5” экран в ультратонком корпусе весом 467 г порадует вас высоким уровнем портативности. Работа станет проще вместе с Hancom Office и удаленным доступом к вашему ПК. E-Meeting и WebEx – отличные помощники для проведения встреч, когда вы находитесь вне офиса. Надежно храните ваши данные благодаря сканеру отпечатка пальцев.', 1, 1, 1),
+	(42, 'Samsung Galaxy Tab S 8.4 16GB', 14, 1128670, 640, 1, 'Samsung', 'tegra.jpeg', 'Экран 8.4" Super AMOLED (2560x1600) емкостный Multi-Touch / Samsung Exynos 5420 (1.9 ГГц + 1.3 ГГц) / RAM 3 ГБ / 16 ГБ встроенной памяти + поддержка карт памяти microSD / Bluetooth 4.0 / Wi-Fi 802.11 a/b/g/n/ac / основная камера 8 Мп, фронтальная 2.1 Мп / GPS / ГЛОНАСС / Android 4.4.2 (KitKat) / 294 г / белый', 0, 0, 1),
+	(43, 'Gazer Tegra Note 7', 14, 683364, 210, 1, 'Gazer', 'tegra.jpeg', 'Экран 7" IPS (1280x800) емкостный Multi-Touch / NVIDIA Tegra 4 (1.8 ГГц) / RAM 1 ГБ / 16 ГБ встроенной памяти + поддержка карт памяти microSD / Wi-Fi / Bluetooth 4.0 / основная камера 5 Мп, фронтальная - 0.3 Мп / GPS / ГЛОНАСС / Android 4.4.2 (KitKat) / вес 320 г', 0, 1, 1),
+	(44, 'Монитор 23" Dell E2314H Black', 15, 355025, 175, 1, 'Dell', 'monitor.jpg', 'С расширением Full HD Вы сможете рассмотреть мельчайшие детали. Dell E2314H предоставит Вам резкое и четкое изображение, с которым любая работа будет в удовольствие. Full HD 1920 x 1080 при 60 Гц разрешение (макс.)', 0, 0, 1),
+	(45, 'Компьютер Everest Game ', 16, 1563832, 1320, 1, 'Everest', 'everest.jpg', 'Everest Game 9085 — это компьютеры премимум класса, собранные на базе эксклюзивных компонентов, тщательно подобранных и протестированных лучшими специалистами нашей компании. Это топовый сегмент систем, который отвечает наилучшим характеристикам показателей качества и производительности.', 0, 0, 1),
+	(46, 'Компьютер Everest-2 Game ', 16, 1563832, 1322, 1, 'Everest', 'everest.jpg', 'Everest Game 9085 — это компьютеры премимум класса, собранные на базе эксклюзивных компонентов, тщательно подобранных и протестированных лучшими специалистами нашей компании. Это топовый сегмент систем, который отвечает наилучшим характеристикам показателей качества и производительности.', 0, 0, 1),
+	(47, 'Компьютер Everest-3 Game ', 16, 1563832, 1333, 1, 'Everest', 'everest.jpg', 'Everest Game 9085 — это компьютеры премимум класса, собранные на базе эксклюзивных компонентов, тщательно подобранных и протестированных лучшими специалистами нашей компании. Это топовый сегмент систем, который отвечает наилучшим характеристикам показателей качества и производительности.', 0, 0, 1),
+	(48, 'Компьютер Everest-4 Game ', 16, 1563832, 1444, 1, 'Everest', 'everest.jpg', 'Everest Game 9085 — это компьютеры премимум класса, собранные на базе эксклюзивных компонентов, тщательно подобранных и протестированных лучшими специалистами нашей компании. Это топовый сегмент систем, который отвечает наилучшим характеристикам показателей качества и производительности.', 0, 1, 1),
+	(49, 'Монитор 21" Dell E2114H Black', 15, 355025, 155, 1, 'Dell', 'monitor.jpg', 'С расширением Full HD Вы сможете рассмотреть мельчайшие детали. Dell E2314H предоставит Вам резкое и четкое изображение, с которым любая работа будет в удовольствие. Full HD 1920 x 1080 при 60 Гц разрешение (макс.)', 0, 1, 1),
+	(50, 'Ноутбук Sony Vaio', 13, 2028367, 800, 1, 'Sony', 'notebook.jpg', 'Экран 15.3" (1600х900) HD+ LED, глянцевый / Intel Pentium N3540 (2.16 - 2.66 ГГц) / RAM 4 ГБ / HDD 1 ТБ / Intel HD Graphics / DVD Super Multi / LAN / Wi-Fi / Bluetooth 4.0 / веб-камера / DOS / 2.6 кг / белый', 0, 0, 1),
+	(51, 'Ноутбук Asus X751MA', 13, 2028367, 430, 1, 'Asus', 'notebook.jpg', 'Экран 17.3" (1600х900) HD+ LED, глянцевый / Intel Pentium N3540 (2.16 - 2.66 ГГц) / RAM 4 ГБ / HDD 1 ТБ / Intel HD Graphics / DVD Super Multi / LAN / Wi-Fi / Bluetooth 4.0 / веб-камера / DOS / 2.6 кг / белый', 0, 0, 1),
+	(52, 'Ноутбук Asus X200MA White ', 13, 2028027, 270, 1, 'Asus', 'notebook.jpg', 'Экран 11.6" (1366x768) HD LED, глянцевый / Intel Celeron N2840 (2.16 ГГц) / RAM 2 ГБ / HDD 500 ГБ / Intel HD Graphics / без ОД / Bluetooth 4.0 / Wi-Fi / LAN / веб-камера / без ОС / 1.24 кг / белый', 0, 0, 1),
+	(53, 'Ноутбук HP Stream 11-d050nr', 13, 2343847, 305, 1, 'Hewlett Packard', 'notebook.jpg', 'Экран 11.6” (1366x768) HD LED, матовый / Intel Celeron N2840 (2.16 ГГц) / RAM 2 ГБ / eMMC 32 ГБ / Intel HD Graphics / без ОД / Wi-Fi / Bluetooth / веб-камера / Windows 8.1 + MS Office 365 / 1.28 кг / синий', 1, 1, 1),
+	(54, 'Ноутбук Asus X200MA (X200MA-KX315D)', 13, 1839707, 395, 1, 'Asus', 'notebook.jpg', 'Экран 11.6" (1366x768) HD LED, глянцевый / Intel Pentium N3530 (2.16 - 2.58 ГГц) / RAM 4 ГБ / HDD 750 ГБ / Intel HD Graphics / без ОД / Bluetooth 4.0 / Wi-Fi / LAN / веб-камера / без ОС / 1.24 кг / синий', 0, 0, 1),
+	(55, 'Ноутбук Asus X200MA (X200MA-KX315D)', 13, 1839707, 395, 1, 'Asus', 'notebook.jpg', 'Экран 11.6" (1366x768) HD LED, глянцевый / Intel Pentium N3530 (2.16 - 2.58 ГГц) / RAM 4 ГБ / HDD 750 ГБ / Intel HD Graphics / без ОД / Bluetooth 4.0 / Wi-Fi / LAN / веб-камера / без ОС / 1.24 кг / синий', 0, 0, 1),
+	(56, 'Ноутбук Acer Aspire E3-112-C65X', 13, 2019487, 325, 1, 'Acer', 'notebook.jpg', 'Экран 11.6\'\' (1366x768) HD LED, матовый / Intel Celeron N2840 (2.16 ГГц) / RAM 2 ГБ / HDD 500 ГБ / Intel HD Graphics / без ОД / LAN / Wi-Fi / Bluetooth / веб-камера / Linpus / 1.29 кг / серебристый', 0, 0, 1),
+	(57, 'Ноутбук Lenovo Flex 10', 13, 1602042, 370, 0, 'Lenovo', 'notebook.jpg', 'Экран 10.1" (1366x768) HD LED, сенсорный, глянцевый / Intel Celeron N2830 (2.16 ГГц) / RAM 2 ГБ / HDD 500 ГБ / Intel HD Graphics / без ОД / Wi-Fi / Bluetooth / веб-камера / Windows 8.1 / 1.2 кг / черный', 0, 0, 1),
+	(61, 'comp', 13, 5555555, 777, 1, 'sony', '', 'wwwwwwwww', 1, 1, 1),
+	(62, 'new', 13, 2147483647, 5555, 1, 'qqqqqqqqqqqq', '', 'ddddddddddvvvvvvvvvv', 1, 1, 1),
+	(63, 'new', 13, 2147483647, 8888, 1, 'last one', '', 'pc1', 1, 1, 1),
+	(64, 'new', 13, 2147483647, 999, 1, 'last one more', '', 'pc2', 1, 1, 1),
+	(65, 'new', 13, 2147483647, 222, 1, 'last one more 1', '', 'pc3', 1, 1, 1),
+	(66, 'new', 13, 2147483647, 111, 1, 'last one more 2', '', 'pc4', 1, 1, 1);
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;
+
+-- Дамп структуры для таблица diplom_2_oop.product_order
+DROP TABLE IF EXISTS `product_order`;
+CREATE TABLE IF NOT EXISTS `product_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(255) NOT NULL,
+  `user_phone` varchar(255) NOT NULL,
+  `user_comment` text NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `products` text NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+
+-- Дамп данных таблицы diplom_2_oop.product_order: 40 rows
+DELETE FROM `product_order`;
+/*!40000 ALTER TABLE `product_order` DISABLE KEYS */;
+INSERT INTO `product_order` (`id`, `user_name`, `user_phone`, `user_comment`, `user_id`, `date`, `products`, `status`) VALUES
+	(45, 'fsdfsd', '1', '123123123', 4, '2015-05-14 09:54:45', '{"1":1,"2":1,"3":2}', 3),
+	(46, 'САША1', 'g3424242342', '', 4, '2015-05-18 15:34:42', '{"44":3,"43":3}', 1),
+	(47, 'hgbv', '3333333333333333', 'fffffffffffff', 0, '2019-12-12 17:57:27', '{"57":1}', 1),
+	(48, 'hgbv', '3333333333333333', 'fffffffffffff', 0, '2019-12-12 18:05:33', '{"57":1}', 1),
+	(49, 'hgbv', '3333333333333333', 'fffffffffffff', 0, '2019-12-12 18:14:56', 'false', 1),
+	(50, 'Yuri', '12345679887', 'kutdf,jtuf.k', 7, '2019-12-12 18:30:56', '{"56":1,"44":1,"42":1}', 1),
+	(51, 'bhbh', '4444444444444444', 'rrrrrrrrrrrrrrrrrr', 0, '2019-12-13 13:36:45', '{"57":1}', 1),
+	(52, 'dc', 'dc33333333333333', 'ddddddddd', 0, '2019-12-13 13:41:37', '{"57":2}', 1),
+	(53, 'ппппппппппп', '5555555555555555', 'ееееееееееееееееееее', 0, '2019-12-13 13:52:03', '{"53":1}', 1),
+	(54, 'ппппппппппп', '5555555555555555', 'ееееееееееееееееееее', 0, '2019-12-13 13:55:44', 'false', 1),
+	(55, 'wwwww', '222222222222222222', 'aaaaaaaaaaaaaaaaaaaaaa', 0, '2019-12-13 13:56:06', '{"56":1}', 1),
+	(56, 'yyyyy', '77777777777777777', 'jjjjjjjjjjjjjjjjjjjjjjjj', 0, '2019-12-13 13:58:26', '{"43":1}', 1),
+	(57, 'erttywer', '24526463643564', 'fjgfhkkkkkkkkkkkkkkkkkkkkkkkkk', 0, '2019-12-13 14:50:58', '{"54":1}', 1),
+	(58, 'dthfgjf', '777777777777777777', 'iiiiiiiiiiiiiiyyyyyyyyyyyyyyyyyy', 0, '2019-12-13 14:52:52', '{"55":2}', 1),
+	(59, 'qwqe', '3222222222222224', 'fddhjdsfvbcxv', 0, '2019-12-13 14:53:59', '{"41":1}', 1),
+	(60, 'lllljjjjjjjj', '999999999999999999999', 'uuuuuuuuuuuuuuuuuuuuuuuu', 0, '2019-12-13 14:55:44', '{"48":1}', 1),
+	(61, 'вари', 'в44444444444444', 'пеппппппппппппппп', 0, '2019-12-13 14:57:29', '{"43":1}', 1),
+	(62, 'edgsd', 'sdggdgsdgdsgsdg', 'dsgsdgsdgsdgsdg', 0, '2019-12-13 14:58:41', '{"54":1}', 1),
+	(63, 'qq', '111111111111111111', 'asddddddddddddddddd', 0, '2019-12-13 15:05:24', '{"49":1}', 1),
+	(64, 'ertre', '636345556666', 'ghjgfj', 0, '2019-12-13 15:06:32', '{"47":1}', 1),
+	(65, 'ertre', '636345556666', 'ghjgfj', 0, '2019-12-13 15:07:42', 'false', 1),
+	(66, 'Yuri', '2352463476543', 'fthrejhteyjey5jkurkryiukyuk', 7, '2020-01-16 17:19:59', '{"57":1}', 1),
+	(67, 'Yuri', '8888877777', 'uuuuuuuuuuuuuuuuuuuoooooooooooooooooooooooooo', 7, '2020-01-16 17:22:36', '{"56":1,"49":2,"46":1}', 1),
+	(68, 'Yuri', '99999555555', 'oooooooooooooooooxxxx', 7, '2020-01-16 17:26:46', '{"57":3,"61":3}', 2),
+	(69, 'Yuri', '9999999999', 'ooooooooooooooooo', 0, '2020-01-17 11:16:27', 'false', 1),
+	(70, 'Yuri', '7777777777', 'пппппппппппп', 7, '2020-01-17 16:06:45', '{"56":1,"37":1,"71":3,"73":2,"70":1,"68":1,"35":1,"44":1,"41":1,"46":2}', 1),
+	(71, 'Yuri', '111111111111111', 'hhhhhhhhhhhh', 7, '2020-02-03 11:05:46', '{"72":1,"71":1}', 1),
+	(72, 'Yuri', '55555555555555555', '', 7, '2020-02-03 12:23:53', '{"71":1}', 1),
+	(73, 'ctgk', 'kh6864848747847', 'кегоачл мрл', 0, '2020-02-10 11:22:54', '{"73":1,"72":1,"71":1}', 1),
+	(74, 'yuriy', '6365385487657809', 'Ok kgdcfhb.lkhlyirfrsxnf дор', 0, '2020-02-10 11:34:59', '{"73":1,"72":1,"71":1}', 1),
+	(75, 'george ', '125346457876987', 'rtjfxg', 0, '2020-02-10 11:40:42', '{"70":1,"72":1}', 1),
+	(76, 'paul', '582346869789', 'gkgghkhhjljkb bkghk', 0, '2020-02-10 11:48:27', '{"70":2}', 1),
+	(77, 'kate', '875786986796897', 'rudf', 0, '2020-02-10 11:49:14', '{"72":3}', 1),
+	(78, '2222', 'rerere2323232132', 'укаупа', 0, '2020-02-10 11:52:43', '{"72":1}', 1),
+	(79, '2222', 'rerere2323232132', 'укаупа', 0, '2020-02-10 12:03:08', 'false', 1),
+	(80, '2222', 'rerere2323232132', 'укаупа', 0, '2020-02-10 12:03:11', 'false', 1),
+	(81, 'qqq', '22222222222222', 'dddddddddddddddddddd', 0, '2020-02-10 12:04:44', '{"70":4}', 1),
+	(82, 'ttt', '44444444444444', 'fffffffffffffffffffff', 0, '2020-02-12 13:54:25', '{"73":1}', 1),
+	(83, 'згщртл', 'ш7650--80=9=0-990785', 'дшнапжщшжощлд', 0, '2020-02-13 11:05:21', '{"36":1,"35":1,"37":1,"73":1,"72":1}', 1),
+	(84, 'Yuri', '333333333555', 'srftjsf', 7, '2020-03-10 12:33:08', '{"62":1,"61":1}', 1);
+/*!40000 ALTER TABLE `product_order` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.rights
 DROP TABLE IF EXISTS `rights`;
@@ -431,12 +642,47 @@ CREATE TABLE IF NOT EXISTS `settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Настройки для приложения.';
 
--- Дамп данных таблицы diplom_2_oop.settings: ~0 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.settings: ~1 rows (приблизительно)
 DELETE FROM `settings`;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` (`id`, `name`, `value`, `description`) VALUES
 	(1, 'article_quantity_on_page', '8', 'Количество статей выводимое на страницу');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
+
+-- Дамп структуры для таблица diplom_2_oop.user
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+
+-- Дамп данных таблицы diplom_2_oop.user: ~18 rows (приблизительно)
+DELETE FROM `user`;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`id`, `name`, `email`, `password`, `role`) VALUES
+	(3, 'Александр', 'alex@mail.com', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(4, 'Вадим', 'zinger@gmail.com', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(5, 'Сергей', 'serg@mail.com', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(6, 'qwerty', 'mnb@kk.kk', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(7, 'Yuri', 'yu@mail.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', 'admin'),
+	(8, 'nataly', 'nat@mail.ru', 'a152e841783914146e4bcd4f39100686', ''),
+	(9, 'asdfgh', 'ww@ww.jj', 'a152e841783914146e4bcd4f39100686', ''),
+	(10, 'arsen', 'qq@qq.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(11, 'vvv', 'rr@ww.ru', 'a152e841783914146e4bcd4f39100686', ''),
+	(12, 'aaa', 'aa@qq.ru', 'a152e841783914146e4bcd4f39100686', ''),
+	(18, 'kkk', 'kk@kk.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(19, 'xxxx', 'xx@zz.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(20, 'bbb', 'bb@zz.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(25, 'ddd', 'dd@aa.nn', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(28, 'rrr', 'rr@ww.mm', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(32, 'uu', 'uu@ww.jj', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(44, 'bw', 'gector@hotbox.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', ''),
+	(46, 'Shvarz', 'shvarzing@gmail.com', 'd8578edf8458ce06fbc5bb76a58c5ca4', '');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.users
 DROP TABLE IF EXISTS `users`;
@@ -455,37 +701,43 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `name` (`name`),
   KEY `FK1_role` (`role`),
   CONSTRAINT `FK1_role` FOREIGN KEY (`role`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы diplom_2_oop.users: ~24 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.users: ~28 rows (приблизительно)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscription`, `avatar`, `aboutMe`) VALUES
-	(1, 'yuri', 1, 'yu@mail.ru', '$2y$10$mTOdb2IHzNKhD8Hm3bKrwOkf1Mti1GYeC20BQ.oUAv9BaFuOF25Xa', NULL, 0, 'yuri.jpg', 'Это Юрий! Hello! 4'),
-	(2, 'nataliya ivanovna', 1, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'nat.jpg', 'Это Наталия'),
-	(3, 'leon', 2, 'leo@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'leon.jpg', 'Leonid'),
+	(1, 'yuri', 1, 'yu@mail.ru', '$2y$10$ZrnX7dHfFQdoIf6OifK/v.1hGoRBv0TSFryLjOKdKByjr2V2tmfiO', NULL, 0, 'yuri.jpg', 'Это Юрий! Hello!'),
+	(2, 'nataliya ivanovna', 2, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'nat.jpg', 'Это Наталия'),
+	(3, 'leon', 3, 'leo@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'leon.jpg', 'Leonid'),
 	(4, 'nina', 2, 'nina@mail.ru', '$2y$10$JuZBFGhKypltSBnopzmVpObYixBVAzEGNk6wUDXjUdVDwupIX6/nG', NULL, 0, 'no-photo.jpg', 'Hello'),
 	(7, 'qqq', 3, 'aaa@ddd.ru', '$2y$10$tC41mjnduueRBZJvhv1CIuSqjthKuuTGZRWtUI8PU4hmcUExkuTS6', NULL, 1, 'no-photo.jpg', ''),
 	(8, 'hhh', 3, 'jjj@ddd.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'no-photo.jpg', ''),
 	(9, 'Iren1', 3, 'iren1@mail.ru', '$2y$10$xL1IP.8Gg2o3LgNDg1rHNeG/A80VYeHPfPS6y/15sVeBcduQeEYX2', NULL, 1, 'no-photo.jpg', ''),
 	(11, 'Irena', 3, 'irena@mail.ru', '$2y$10$kKe1a4gRNVJANyk/OBeRWeaCaHyNxhbBN9s8PeX2vrpW9o50cMc3C', NULL, 0, 'Irena.png', 'Hi'),
 	(12, 'yuri-12', 3, 'yu-12@mail.ru', '$2y$10$UVF4FljXlD2dQQsVprgVcuxyokubHpwX7IIh/whgMQWiLdVIuFvGW', NULL, 1, 'no-photo.jpg', 'Это тест-2234567'),
-	(13, 'leon12', 3, 'leo1@mail.ru', '$2y$10$xCbo/keNt7I0IQZI7JRqfeM.xAmpTVqL19lIaIAcGPIPec9LDXu6a', NULL, 0, 'no-photo.jpg', 'it\'s me'),
+	(13, 'leon12', 3, 'leo12@mail.ru', '$2y$10$xCbo/keNt7I0IQZI7JRqfeM.xAmpTVqL19lIaIAcGPIPec9LDXu6a', NULL, 0, 'no-photo.jpg', 'it\'s me'),
 	(14, 'qw', 3, 'q@w.ry', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'qw.png', 'Hello, people!'),
 	(15, 'Nicole', 2, 'nici@xc.ry', '$2y$10$IhFs2OIAtuL.eHFJJmZI8.TXG8l/xWsGFz.A.jJ4AiNQmYGJej8bm', NULL, 1, 'no-photo.jpg', 'hfbm,'),
 	(16, 'zuko', 2, 'zx@qq.kk', '$2y$10$6ox46q38666BPHq1YtVK7.E9N6sR7kxFpMLQpgZJKtkf3Z.VeEHF2', NULL, 0, 'zukag.jpg', 'ajkhihk'),
 	(17, NULL, 4, 'zz1@zz.rr', NULL, NULL, 1, 'no-photo.jpg', NULL),
 	(18, NULL, 4, 'zz2@zz.rr', NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(19, NULL, 4, 'zz3@zz.rr', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(39, NULL, 4, 'ee@gg.kk', NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(19, NULL, 4, 'zz3@zz.rr', NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(39, NULL, 4, 'ee@gg.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
 	(40, NULL, 4, 'ww@dd.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
 	(41, NULL, 4, 'ss@dd.nn', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(55, NULL, 4, 'kk@ded.lkl', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(56, NULL, 4, 'ee@vv.jj', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(57, 'eferf', 3, 'rr@ff.kk', '$2y$10$Ylh6rb31XRMbEo24UfH8HObxwZQTaorVgb.Fj2XLrX9b8ZwRxubim', NULL, 1, 'eferf.png', ''),
-	(58, NULL, 3, 'dd@ss.jj', NULL, NULL, 1, 'no-photo.jpg', NULL);
+	(58, NULL, 2, 'dd@ss.jj', NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(59, 'rr', 3, 'yu@ww.yy', '$2y$10$GbZREbQERccTf0KF/x58KeSE7k2dj0CxfwDYzls//qhGiQDnIjA96', NULL, 0, 'no-photo.jpg', NULL),
+	(60, 'рl', 3, 'l@ff.kk', '$2y$10$Wji.0Ythxtdo6Dip8OtIhOXXphOs4SdpvbHsUqiincmPWd2ViCYqe', NULL, 0, 'no-photo.jpg', NULL),
+	(61, 'qqqthhh', 2, 'qq@ww.uu', '$2y$10$A2aZYfJYPZot4qYW8ye3rO337YhGKkw93wJ15FuAvhuVFA57hNMuC', NULL, 1, 'no-photo.jpg', ',jhgol/kj;":L?<'),
+	(62, NULL, 3, 'ee@jjkk.ll', NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(63, NULL, 4, 'eee@dff.kkk', NULL, NULL, 1, 'no-photo.jpg', NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

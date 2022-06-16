@@ -16,12 +16,11 @@ include 'layout/header.php';
             <div class="col-md-4 MethodOpis_Block">
                 <div class="card-body ">
                     <div class="MMarkers">
-                        <?php
-                        foreach (Articles::getMethods($id) as $method) : ?>
+                        <?php foreach (Articles::getMethods($id) as $method) : ?>
                             <img src="<?= DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . $method->image; ?>">
                         <?php endforeach ?>
                     </div>
-                    <div class="MMName"><?= $title ?></div>
+                    <div class="MMName"><?= $article->title ?></div>
                     <div class="MVName"><?= $article->subtitle ?></div>
                     <div class="MPeople"><?= $article->people ?></div>
                     <div class="MHours"><?= $article->duration ?></div>
@@ -33,9 +32,7 @@ include 'layout/header.php';
 
     <div class="row px-5 pt-4 ShadowBig">
         <div class="Redactor">Версия от <?= $article->date ?> — автор
-            <?php
-            if ($article->link != '#') :
-            ?>
+            <?php if ($article->link != '#') : ?>
                 <a href="<?= $article->link ?>">
                 <?php
             endif;
@@ -47,7 +44,7 @@ include 'layout/header.php';
     </div>
     <div class="row px-5">
         <div class="col-md-8">
-            <div class="Ozg">Описание метода "<?= $title ?>"</div>
+            <div class="Ozg">Описание метода "<?= $article->title ?>"</div>
             <div class="Otxt">
                 <?= $article->content ?>
             </div>
@@ -133,6 +130,6 @@ include 'layout/header.php';
         </div>
     </div>
     <br>
-    
+
     <?php
     include 'layout/footer.php';
