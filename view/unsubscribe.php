@@ -23,8 +23,6 @@ if (
   <div class="container">
     <div class="row">
       <div class="col-sm-10 col-sm-offset-4 padding-right">
-        <br />
-        <br />
         <div class="signup-form">
           <form action="" method="post">
             <div class="mb-3">

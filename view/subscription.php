@@ -25,7 +25,6 @@ if (
     <div class="row">
       <div class="col-sm-10 col-sm-offset-4 padding-right">
         <div class="signup-form">
-          <!--sign up form-->
           <form action="" method="post">
             <div class="mb-3">
               <label for="email" class="form-label">Введите Ваш e-mail для получения уведомлений о появлении новой статьи на сайте:</label>

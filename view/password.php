@@ -47,9 +47,6 @@ include 'layout/header.php';
               <?php endif ?>
               " id="confirm_password" name="confirm_password" value="<?= $confirm_password ?>">
           </div>
-
-          <input name="email" hidden type="text" value="<?= $_SESSION['user']['email'] ?>">
-
           <div class="mb-3">
             <button class="btn btn-outline-primary" type="submit" name="submit" id="button-addon1">Сменить пароль</button>
           </div>

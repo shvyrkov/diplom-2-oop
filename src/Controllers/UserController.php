@@ -8,12 +8,6 @@ use App\Components\SimpleImage;
 use App\Model\Users;
 use App\Model\Roles;
 use App\View\View;
-// use App\View\LoginView;
-use App\View\RegistrationView;
-// use App\View\LkView;
-use App\View\PasswordView;
-use App\View\UnsubscribeView;
-use App\View\SubscriptionView;
 
 /**
  * Класс UserController - контроллер для работы с пользователем
@@ -24,7 +18,7 @@ class UserController
     /**
      * Вывод страницы авторизации пользователя
      *
-     * @return object LoginView - объект представления страницы авторизации пользователя
+     * @return object View - объект представления страницы авторизации пользователя
      */
     public function login()
     {
@@ -69,39 +63,234 @@ class UserController
      */
     public function exit()
     {
-        return new View('exit', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
+        return new View('exit', ['title' => 'Выход']); // Вывод представления
     }
 
     /**
-     * Подписка на рассылку для неподписанных пользователей.
+     * Отписка от рассылки.
      *
-     * @return UnsubscribeView - объект представления страницы подписки на рассылку для неподписанных пользователей.
+     * @return View - объект представления страницы отписки от рассылки.
      */
     public function unsubscribe()
     {
-        return new UnsubscribeView('unsubscribe', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
+        $result = false;
+        $errors = false;
+        $email = ''; // Для неавторизованных пользователей
+
+        if (isset($_SESSION['user']['email'])) { // Если пользователь авторизован 
+            if ($_SESSION['user']['subscription']) { // и подписан, то подставляем его email.
+                $email = $_SESSION['user']['email'];
+            } else {
+                $errors[] = ' Вы не подписаны на рассылку.';
+            }
+        }
+
+        if (isset($_POST['unsubscribe'])) {
+            if (isset($_POST['email'])) { // Берем email из формы
+                $email = $_POST['email'];
+            }
+            // Валидация e-mail
+            if (!$email) {
+                $errors[] = 'Введите e-mail';
+            }
+
+            if (!Users::checkEmail($email)) { //  Проверка правильности ввода e-mail
+                $errors['checkEmail'] = ' Неправильный email';
+            } elseif (Users::checkEmailExists($email)) { //  Если есть пользователь с таким e-mail
+                $user = Users::getUserByEmail($email);
+
+                if (!$user->subscription) { // и он не подписан
+                    $errors['checkEmailExists'] = ' Вы не подписаны на рассылку.';
+                }
+            } else {
+                $errors['checkEmailExists'] = ' Вы не подписаны на рассылку.';
+            }
+
+            if (!$errors) {
+                if ($user) { // Если пользователь с таким e-mail есть, то
+                    $result = Users::changeSubscription($user->id, 0); // отписываем его от рассылки.
+
+                    if ($result) {
+                        $_SESSION['user']['subscription'] = 0; // Обновляем данные в сессии
+                    } else {
+                        $errors[] = 'Ошибка обработки данных. Обратитесь к Администратору.';
+                    }
+                } else { // если нет, то выдаем ошибку
+                    $errors[] = 'Ошибка получения данных. Обратитесь к Администратору.';
+                }
+            }
+        }
+
+        return new View(
+            'unsubscribe',
+            [
+                'title' => 'Отписка от рассылки',
+                'result' =>  $result ?? '',
+                'email' =>  $email ?? '',
+                'errors' =>  $errors ?? '',
+            ]
+        );
     }
 
     /**
      * Подписка на рассылку
      * 
-     * @return object SubscriptionView - объект представления страницы подписки на рассылку
+     * @return object View - объект представления страницы подписки на рассылку
      */
     public function subscription()
     {
-        $data = ['title' => Menu::showTitle(Menu::getUserMenu())];
+        $result = false;
+        $errors = false;
+        $user = '';
+        $id = $_SESSION['user']['id'] ?? '';
 
-        return new SubscriptionView('subscription', $data); // Вывод представления
+        if (isset($_POST['subscribeAuthUser'])) {
+            if ($id) { // Если пользователь авторизован, то подписываем его на рассылку (кнопка Пописаться видна только у неподписанных пользователей)
+                $result = Users::changeSubscription($id, 1);
+
+                if ($result) { // Только для авторизоанного пользователя запрашиваем новые данные 
+                    $user = Users::getUserById($id);
+                }
+
+                if ($user) { // Если данные правильные, запоминаем пользователя в сессии 
+                    Users::auth($user);
+                } else { // Если данные не получены - показываем ошибку 
+                    $errors[] = 'Ошибка получения данных.';
+                }
+            }
+        }
+
+        if (isset($_POST['subscribeNotAuthUser'])) { // Если пользователь НЕавторизован, то переводим его на страницу подписки для ввода e-mail
+
+            $email = $_POST['email'] ?? '';
+            // Валидация e-mail
+            if (!$email) {
+                $errors[] = 'Введите e-mail';
+            }
+
+            if (!Users::checkEmail($email)) { //  Проверка правильности ввода e-mail
+                $errors['checkEmail'] = ' Неправильный email';
+            }
+
+            if (Users::checkEmailExists($email)) { //  Есть пользователь
+                $user = Users::getUserByEmail($email);
+
+                if ($user->name) { // уже зарегистрированный 
+                    $errors['checkEmailExists'] = ' Такой email уже используется, авторизуйтесь пожалуйста.';
+                } elseif ($user->subscription) { // НЕавторизованный, но подписанный пользователь
+                    $errors['checkEmailExists'] = ' Вы уже подписаны на рассылку.';
+                }
+            }
+
+            if (!$errors) { // Если ошибок нет, то подписываем пользователя на рассылку.
+                if (!$user) {
+                    $user = new Users(); // Если пользователя нет в БД, то регистрируем его 
+                }
+
+                $user->email = $email;
+                $user->role = NO_USER; // как NO_USER
+                $user->subscription = 1; // и подписываем его на рассылку
+                $user->save();
+                $id = $user->id;
+
+                $user = Users::getUserById($id); // Запрашиваем данные подписанного пользователя из БД
+
+                if ($user->subscription) { // Если у него есть подписка, то всё Ок.
+                    $result = true;
+                }
+            }
+        }
+
+        return new View(
+            'subscription',
+            [
+                'title' => 'Подписка на рассылку',
+                'result' => $result ?? '',
+                'email' => $email ?? '',
+                'errors' => $errors ?? '',
+            ]
+        );
     }
 
     /**
      * Вывод страницы регистрации пользователя
      *
-     * @return RegistrationView - объект представления страницы регистрации нового пользователя
+     * @return View - объект представления страницы регистрации нового пользователя
      */
     public function registration()
     {
-        return new RegistrationView('registration', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
+        if (isset($_POST['submit'])) { // Обработка формы авторизации
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirm_password = $_POST['confirm_password'];
+            $rules = $_POST['rules'];
+
+            $errors = false;
+
+            if (!(isset($name) && isset($email) && isset($password) && isset($confirm_password) && isset($rules))) {
+                $errors[] = 'Не все поля заполнены';
+            }
+
+            // Проверка ошибок ввода
+            if (!Users::checkName($name)) {
+                $errors['checkName'] = ' - не должно быть короче 2-х символов';
+            }
+
+            if (!Users::checkEmail($email)) { //  Проверка правильности ввода e-mail
+                $errors['checkEmail'] = ' - неправильный email';
+            }
+
+            if (!Users::checkPassword($password)) {
+                $errors['checkPassword'] = ' - не должен быть короче 6-ти символов';
+            }
+
+            if (!Users::comparePasswords($password, $confirm_password)) {
+                $errors['comparePasswords'] = ' - пароли не совпадают';
+            }
+
+            if (Users::checkEmailExists($email)) {
+                $errors['checkEmailExists'] = ' - такой email уже используется';
+            }
+
+            if (Users::checkNameExists($name)) {
+                $errors['checkNameExists'] = ' - такое имя уже используется';
+            }
+
+            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+            if (!$errors) { // Если ошибок нет, то регистрируем пользователя.
+                Users::register($email, USER, $name, $passwordHash);
+
+                // Проверяем зарегистрировался ли пользователь
+                $user = Users::checkUserData($email, $password);
+
+                if (!$user) {
+                    // Если данные неправильные - показываем ошибку
+                    $errors[] = 'Регистрация не прошла.';
+                    // Если регистрация на прошла - опять на страницу регистрациии
+                } else {
+                    // Если данные правильные, запоминаем пользователя в сессии
+                    Users::auth($user);
+
+                    // Перенаправляем пользователя в закрытую часть - кабинет 
+                    header('Location: /lk');
+                }
+            }
+        }
+
+        return new View(
+            'registration',
+            [
+                'title' => 'Регистрация',
+                'name' => $name ?? '',
+                'email' => $email ?? '',
+                'password' => $password ?? '',
+                'confirm_password' => $confirm_password ?? '',
+                'rules' => $rules ?? '',
+                'errors' => $errors ?? '',
+            ]
+        );
     }
 
     /**
@@ -112,10 +301,6 @@ class UserController
     public function lk()
     {
         if (isset($_SESSION['user']['id'])) {
-            $name = '';
-            $email = '';
-            $subscription = '';
-            $aboutMe = '';
             $errors = false;
 
             if (isset($_POST['submit'])) { // Обработка формы ЛК
@@ -216,8 +401,6 @@ class UserController
 
                             // Перегружаем кабинет с новыми данными
                             header('Location: /lk');
-
-                            return new View('lk', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
                         }
                     } else {
                         $errors[] = 'Ошибка обновления данных.';
@@ -237,7 +420,7 @@ class UserController
                     'errors' =>  $errors ?? '',
 
                 ]
-            ); // Вывод представления
+            );
         } else {
             header('Location: /login');
         }
@@ -246,14 +429,67 @@ class UserController
     /**
      * Вывод страницы для изменения пароля пользователя
      *
-     * @return PasswordView- объект представления страницы изменения пароля пользователя
+     * @return View- объект представления страницы изменения пароля пользователя
      */
     public function password()
     {
-        if (isset($_SESSION['user']['id'])) {
+        if (isset($_SESSION['user']['id'])) { // Пользователь авторизован
+            $email = $_SESSION['user']['email'];
+            $errors = false;
+            $success = '';
+            $user = '';
 
-            return new PasswordView('password', ['title' => Menu::showTitle(Menu::getUserMenu())]); // Вывод представления
-        } else {
+            if (isset($_POST['submit'])) { // Обработка формы авторизации
+                $old_password = $_POST['old_password'] ?? '';
+                $new_password = $_POST['new_password'] ?? '';
+                $confirm_password = $_POST['confirm_password'] ?? '';
+
+                if (!($old_password && $new_password && $confirm_password)) {
+                    $errors[] = 'Не все поля заполнены';
+                }
+                // Проверка ошибок ввода
+                if (!Users::checkUserData($email, $old_password)) { // Check current password
+                    $errors[] = 'Неправильный пароль.';
+                }
+
+                if (!Users::checkPassword($new_password)) {
+                    $errors['checkPassword'] = 'Пароль не должен быть короче 6-ти символов';
+                }
+
+                if (!Users::comparePasswords($new_password, $confirm_password)) {
+                    $errors['comparePasswords'] = 'Пароли не совпадают';
+                }
+
+                $passwordHash = password_hash($new_password, PASSWORD_DEFAULT);
+
+                if (!$errors) { // Если ошибок нет, то меняем пароль.
+                    Users::changePassword($email, $passwordHash);
+
+                    // Проверяем правильно ли сменился пароль
+                    $user = Users::checkUserData($email, $new_password);
+
+                    if (!$user) {
+                        // Если данные неправильные - показываем ошибку
+                        $errors[] = 'Ошибка при смене пароля';
+                    } else {
+                        $success = 'Пароль был успешно изменен!';
+                    }
+                }
+            }
+
+            return new View(
+                'password',
+                [
+                    'title' =>  'Изменение пароля',
+                    'email' => $email ?? '',
+                    'old_password' => $old_password ?? '',
+                    'new_password' => $new_password ?? '',
+                    'confirm_password' => $confirm_password ?? '',
+                    'success' => $success ?? '',
+                    'errors' => $errors ?? '',
+                ]
+            );
+        } else { // Если пользователь неавторизован, то предлагаем авторизоваться
             header('Location: /login');
         }
     }

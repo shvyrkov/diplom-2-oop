@@ -14,11 +14,9 @@ include 'layout/header.php';
           <div class="mb-3">
             <label for="name_lk" class="form-label">Имя</label>
             <input type="text" class="form-control 
-                <?php
-                if ($errors['checkName'] || $errors['checkNameExists']) {
-                  echo "border-error";
-                }
-                ?>
+                <?php if ($errors['checkName'] || $errors['checkNameExists']) : ?>
+                  border-error
+                <?php endif ?>
                 " id="name_lk" name="name" required placeholder="name" value="<?php printf('%s', $_SESSION['user']['name'] ?? ''); ?>">
             <span class="font-error">
               <?php
@@ -31,12 +29,10 @@ include 'layout/header.php';
           <div class="mb-3">
             <label for="email_lk" class="form-label">Email</label>
             <input type="email" class="form-control
-                <?php
-                if ($errors['checkEmail'] || $errors['checkEmailExists']) {
-                  echo "border-error";
-                }
-                ?>
-                " id="email_lk" name="email" required placeholder="name@example.com" value="<?php printf('%s', $_SESSION['user']['email'] ?? ''); ?>">
+                <?php if ($errors['checkEmail'] || $errors['checkEmailExists']) : ?>
+                   border-error 
+                <?php endif ?>
+                " id=" email_lk" name="email" required placeholder="name@example.com" value="<?php printf('%s', $_SESSION['user']['email'] ?? ''); ?>">
             <span class="font-error">
               <?php
               printf('%s', ($email != $_SESSION['user']['email']) ? $email : '');
@@ -86,11 +82,9 @@ include 'layout/header.php';
       <div class="col-sm-4 col-sm-offset-4 padding-right">
         <div class="card
           <?php
-          if ($errors['file']) {
-            echo "border-error";
-          }
-          ?>
-        ">
+          if ($errors['file']) : ?>
+            border-error
+          <?php endif ?> ">
           <img src="<?= AVATARS . $_SESSION['user']['avatar'] ?>" class="card-img-top" alt="avatar">
           <div class="card-body">
             <h5 class="card-title"></h5>
@@ -98,10 +92,9 @@ include 'layout/header.php';
             <input type="file" id="inputFile" class="custom-file-input " multiple name="myfile" accept="image/png, image/jpeg, image/jpg">
             <label class="form-label
               <?php
-              if (isset($errors['file'])) {
-                echo "border-error font-error";
-              }
-              ?>
+              if (isset($errors['file'])) : ?>
+                border-error font-error
+              <?php endif ?>
             " for="upload">
               <?php
               if (isset($errors['file'])) {

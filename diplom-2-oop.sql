@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `articles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 COMMENT='Статьи: название, картинка, дата публикации, краткое описание, полное содержание статьи';
 
--- Дамп данных таблицы diplom_2_oop.articles: ~59 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.articles: ~20 rows (приблизительно)
 DELETE FROM `articles`;
 /*!40000 ALTER TABLE `articles` DISABLE KEYS */;
 INSERT INTO `articles` (`id`, `title`, `subtitle`, `description`, `content`, `people`, `duration`, `author`, `link`, `thumbnail`, `image`, `date`, `user_id`) VALUES
@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   CONSTRAINT `FK2_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8 COMMENT='Комментарии пользователей к статьям';
 
--- Дамп данных таблицы diplom_2_oop.comments: ~68 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.comments: ~70 rows (приблизительно)
 DELETE FROM `comments`;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 INSERT INTO `comments` (`id`, `text`, `date`, `article_id`, `user_id`, `approve`, `deny`) VALUES
@@ -352,7 +352,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8 COMMENT='Высланные оповещения по подписке на рассылку.';
 
--- Дамп данных таблицы diplom_2_oop.posts: ~68 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.posts: ~4 rows (приблизительно)
 DELETE FROM `posts`;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
 INSERT INTO `posts` (`id`, `email`, `subject`, `message`, `link`, `unsubscribe`, `date`) VALUES
@@ -701,20 +701,20 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `name` (`name`),
   KEY `FK1_role` (`role`),
   CONSTRAINT `FK1_role` FOREIGN KEY (`role`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 
 -- Дамп данных таблицы diplom_2_oop.users: ~28 rows (приблизительно)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscription`, `avatar`, `aboutMe`) VALUES
 	(1, 'yuri', 1, 'yu@mail.ru', '$2y$10$ZrnX7dHfFQdoIf6OifK/v.1hGoRBv0TSFryLjOKdKByjr2V2tmfiO', NULL, 0, 'yuri.jpg', 'Это Юрий! Hello!'),
-	(2, 'nataliya ivanovna', 2, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'nat.jpg', 'Это Наталия'),
+	(2, 'nataliya ivanovna', 2, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'nat.jpg', 'Это Наталия'),
 	(3, 'leon', 3, 'leo@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'leon.jpg', 'Leonid'),
 	(4, 'nina', 2, 'nina@mail.ru', '$2y$10$JuZBFGhKypltSBnopzmVpObYixBVAzEGNk6wUDXjUdVDwupIX6/nG', NULL, 0, 'no-photo.jpg', 'Hello'),
-	(7, 'qqq', 3, 'aaa@ddd.ru', '$2y$10$tC41mjnduueRBZJvhv1CIuSqjthKuuTGZRWtUI8PU4hmcUExkuTS6', NULL, 1, 'no-photo.jpg', ''),
-	(8, 'hhh', 3, 'jjj@ddd.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'no-photo.jpg', ''),
+	(7, 'qqq', 3, 'aaa@ddd.ru', '$2y$10$tC41mjnduueRBZJvhv1CIuSqjthKuuTGZRWtUI8PU4hmcUExkuTS6', NULL, 0, 'no-photo.jpg', ''),
+	(8, 'hhh', 3, 'jjj@ddd.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'no-photo.jpg', ''),
 	(9, 'Iren1', 3, 'iren1@mail.ru', '$2y$10$xL1IP.8Gg2o3LgNDg1rHNeG/A80VYeHPfPS6y/15sVeBcduQeEYX2', NULL, 1, 'no-photo.jpg', ''),
-	(11, 'Irena', 3, 'irena@mail.ru', '$2y$10$kKe1a4gRNVJANyk/OBeRWeaCaHyNxhbBN9s8PeX2vrpW9o50cMc3C', NULL, 0, 'Irena.png', 'Hi'),
+	(11, 'Irena', 3, 'irena@mail.ru', '$2y$10$p1Aa89DnHvjM./vXHbMjvuhyD5IeM1zQy6XVeXa.0KTGrOktlu6q.', NULL, 1, 'Irena.png', 'Hi'),
 	(12, 'yuri-12', 3, 'yu-12@mail.ru', '$2y$10$UVF4FljXlD2dQQsVprgVcuxyokubHpwX7IIh/whgMQWiLdVIuFvGW', NULL, 1, 'no-photo.jpg', 'Это тест-2234567'),
 	(13, 'leon12', 3, 'leo12@mail.ru', '$2y$10$xCbo/keNt7I0IQZI7JRqfeM.xAmpTVqL19lIaIAcGPIPec9LDXu6a', NULL, 0, 'no-photo.jpg', 'it\'s me'),
 	(14, 'qw', 3, 'q@w.ry', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'qw.png', 'Hello, people!'),
@@ -734,7 +734,11 @@ INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscri
 	(60, 'рl', 3, 'l@ff.kk', '$2y$10$Wji.0Ythxtdo6Dip8OtIhOXXphOs4SdpvbHsUqiincmPWd2ViCYqe', NULL, 0, 'no-photo.jpg', NULL),
 	(61, 'qqqthhh', 2, 'qq@ww.uu', '$2y$10$A2aZYfJYPZot4qYW8ye3rO337YhGKkw93wJ15FuAvhuVFA57hNMuC', NULL, 1, 'no-photo.jpg', ',jhgol/kj;":L?<'),
 	(62, NULL, 3, 'ee@jjkk.ll', NULL, NULL, 0, 'no-photo.jpg', NULL),
-	(63, NULL, 4, 'eee@dff.kkk', NULL, NULL, 1, 'no-photo.jpg', NULL);
+	(63, NULL, 4, 'eee@dff.kkk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(64, NULL, 4, 'qq@ss.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(65, NULL, 4, 'ee@dd.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(66, 'ыff', 3, 'aa@ss.jj', '$2y$10$COwfzJu5dyw8UnNZSKVpFOl7AIWCQzGMeVvfWlaKudxQhMFSyO6Xe', NULL, 0, 'no-photo.jpg', 'zdfgjxmh,c'),
+	(67, 'dgfxdfghjkl', 3, 'ff@dd.kk', '$2y$10$5GnNDXA4xlp3w9IFC4HRX.TxJSdGddioOX7I4dA/BYu1Ppod5ucQG', NULL, 0, 'dgfxdfghjkl.jpg', 'dtjfyguyhkujlk\r\nhgmbv,knmb ');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
