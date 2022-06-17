@@ -8,6 +8,7 @@ use App\Model\Users;
 
 /**
  * Класс View — шаблонизатор приложения, реализует интерфейс Renderable. Используется для подключения view страницы.
+ * @package App\View
  */
 class View implements Renderable
 {

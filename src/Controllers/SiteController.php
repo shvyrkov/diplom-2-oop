@@ -7,6 +7,10 @@ use App\Components\Menu;
 use App\Components\Pagination;
 use App\Model\Articles;
 
+/**
+ * Класс SiteController - контроллер для работы со страницами меню пользователя
+ * @package App\Controllers
+ */
 class SiteController
 {
     /**

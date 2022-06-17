@@ -3,11 +3,19 @@
 namespace App\Controllers\Admin;
 
 use App\Components\Menu;
+use App\Components\Pagination;
+use App\Model\Articles;
 use App\View\AdminView;
-use App\View\AdminArticlesView;
+
+// use App\View\AdminArticlesView;
 use App\View\AdminCommentsView;
 use App\View\AdminCMSView;
 
+
+/**
+ * Класс ArticleController - контроллер для работы со статьями в админке
+ * @package App\Controllers\Admin
+ */
 class ArticleController
 {
     /**
@@ -19,7 +27,30 @@ class ArticleController
     {
         if (isset($_SESSION['user']['id']) && in_array($_SESSION['user']['role'], [ADMIN, CONTENT_MANAGER])) { // Доступ разрешен только админу и контент-менеджеру
 
-            return new AdminArticlesView('admin-articles', ['title' => Menu::showTitle(Menu::getAdminMenu())]); // Вывод представления
+            $total = Articles::all()->count(); // Всего товаров в БД
+            $uri = AdminView::getURI(); // Получаем строку запроса без корня
+            // $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
+            $page = ($uri == 'admin-articles') ? 1 : preg_replace('~admin-articles/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел /admin-articles, то - 1
+            $selected = Pagination::goodsQuantity($page); // Настройка количества товаров на странице
+            $page = $selected['page']; // Номер страницы
+
+            if ($selected['limit'] == 'all' || $selected['limit'] > $total) {
+                $limit = $total;
+            } else {
+                $limit = $selected['limit']; // Количество статей на странице в админке 
+            }
+
+            return new AdminView(
+                'admin-articles',
+                [
+                    'title' => Menu::showTitle(Menu::getAdminMenu()),
+                    'articles' => Articles::getArticles($limit, $page), // Статей для вывода на страницу
+                    'pagination' => new Pagination($total, $page, $limit, 'page-'), // Постраничная навигация
+                    'total' =>  $total, // Всего товаров в БД
+                    'limit' =>  $limit, //  Количество товаров на странице
+                    'selected' =>  $selected, // Настройка количества товаров на странице
+                ]
+            ); // Вывод представления
         } else {
             header('Location: /');
         }

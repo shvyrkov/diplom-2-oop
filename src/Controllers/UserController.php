@@ -11,8 +11,8 @@ use App\View\View;
 
 /**
  * Класс UserController - контроллер для работы с пользователем
+ * @package App\Controllers
  */
-
 class UserController
 {
     /**

@@ -7,6 +7,10 @@ use App\Model\Articles;
 use App\Model\Comments;
 use App\Model\Methods;
 
+/**
+ * Класс ArticleController - контроллер для работы со статьями
+ * @package App\Controllers
+ */
 class ArticleController
 {
     /**

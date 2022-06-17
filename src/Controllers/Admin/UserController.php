@@ -7,6 +7,10 @@ use App\View\AdminView;
 use App\View\AdminUsersView;
 use App\View\AdminSubscriptionView;
 
+/**
+ * Класс UserController - контроллер для работы с пользователями в админке
+ * @package App\Controllers\Admin
+ */
 class UserController
 {
     /**

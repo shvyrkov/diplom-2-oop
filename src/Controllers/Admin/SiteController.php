@@ -6,6 +6,10 @@ use App\Components\Menu;
 use App\View\AdminView;
 use App\View\AdminSettingsView;
 
+/**
+ * Класс SiteController - контроллер для работы со страницами меню в админке
+ * @package App\Controllers\Admin
+ */
 class SiteController
 {
 

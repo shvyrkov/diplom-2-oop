@@ -7,6 +7,10 @@ use App\Components\Menu;
 use App\Components\Pagination;
 use App\Model\Post;
 
+/**
+ * Класс PostController - контроллер для работы с рассылками
+ * @package App\Controllers
+ */
 class PostController
 {
     public function post()

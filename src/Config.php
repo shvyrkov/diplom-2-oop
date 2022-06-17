@@ -4,6 +4,7 @@ namespace App;
 
 /**
  * Config - класс, содержащий конфигурации приложения. Реализует шаблон Singleton.
+ * @package App
  */
 final class Config
 {

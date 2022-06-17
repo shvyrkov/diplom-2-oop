@@ -11,6 +11,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * Application - основной класс приложения.
+ * @package App
  */
 class Application
 {
