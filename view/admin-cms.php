@@ -11,11 +11,8 @@ include 'layout/admin_header.php';
 <div class="container">
   <br>
   <div class="signup-form">
-    <!--sign up form-->
     <h2><?= $title ?></h2>
     <?php
-    $articleMethods = [];
-
     if ($id) { // Если это редактирование, то загружаем данные из БД
       $articleMethods = ArticleMethods::getMethodsByArticleId($id); // Все связи статьи и методов.
       $article = Articles::getArticleById($id); // Данные статьи
@@ -50,11 +47,9 @@ include 'layout/admin_header.php';
               <label class="form-label" for="upload">Выберите изображение для статьи:</label>
               <input type="file" id="inputFile" class="custom-file-input " multiple name="myfile" accept="image/png, image/jpeg, image/jpg">
               <label class="form-label
-                        <?php
-                        if (isset($errors['file'])) {
-                          echo "border-error font-error";
-                        }
-                        ?>
+                        <?php if (isset($errors['file'])) : ?>
+                          border-error font-error
+                        <?php endif ?>
                       " for="upload">
                 <?php
                 if (isset($errors['file'])) {
@@ -80,10 +75,9 @@ include 'layout/admin_header.php';
               <div class="MMName">Заголовок*:
                 <input type="text" class="form-control 
                           <?php
-                          if ($errors['articleTitle']) {
-                            echo "border-error";
-                          }
-                          ?>
+                          if ($errors['articleTitle']) : ?>
+                            border-error
+                          <?php endif ?>
                           " id="articleTitle" name="articleTitle" required placeholder="Название метода" value="<?php printf('%s', $articleTitle ?? ''); ?>">
               </div>
               <div class="font-error">
@@ -94,11 +88,9 @@ include 'layout/admin_header.php';
 
               <div class="MVName">Подзаголовок:
                 <input type="text" class="form-control 
-                          <?php
-                          if ($errors['subtitle']) {
-                            echo "border-error";
-                          }
-                          ?>
+                          <?php if ($errors['subtitle']) : ?>
+                            border-error
+                          <?php endif ?>
                           " id="subtitle" name="subtitle" placeholder="Пояснение к заголовку" value="<?php printf('%s', $subtitle ?? ''); ?>">
               </div>
               <div class="font-error">
@@ -109,11 +101,9 @@ include 'layout/admin_header.php';
 
               <div class="MPeople">На сколько человек*:
                 <input type="text" class="form-control 
-                          <?php
-                          if ($errors['people']) {
-                            echo "border-error";
-                          }
-                          ?>
+                          <?php if ($errors['people']) : ?>
+                            border-error
+                          <?php endif ?>
                           " id="people" name="people" required placeholder="5-15 человек" value="<?php printf('%s', $people ??  ''); ?>">
               </div>
               <div class="font-error">
@@ -124,11 +114,9 @@ include 'layout/admin_header.php';
 
               <div class="MHours">Длительность*:
                 <input type="text" class="form-control 
-                          <?php
-                          if ($errors['duration']) {
-                            echo "border-error";
-                          }
-                          ?>
+                          <?php if ($errors['duration']) : ?>
+                            border-error
+                          <?php endif ?>
                           " id="duration" name="duration" required placeholder="1-2 часа" value="<?php printf('%s', $duration ?? ''); ?>">
               </div>
               <div class="font-error">
@@ -139,11 +127,9 @@ include 'layout/admin_header.php';
 
               <div class="MIBlock">Назначение описываемого метода*:
                 <input type="text" class="form-control 
-                          <?php
-                          if ($errors['description']) {
-                            echo "border-error";
-                          }
-                          ?>
+                          <?php if ($errors['description']) : ?>
+                            border-error
+                          <?php endif ?>
                           " id="description" name="description" required placeholder="" value="<?php printf('%s', $description ?? ''); ?>">
               </div>
               <div class="font-error">
@@ -159,10 +145,9 @@ include 'layout/admin_header.php';
       <div class="row px-5 pt-4 ShadowBig">
         <div class="Redactor col-md-6">Автор*:
           <input type="text" class="form-control 
-              <?php
-              if ($errors['author']) {
-                echo "border-error";
-              }
+              <?php if ($errors['author']) : ?>
+                border-error
+              <?php endif ?>
               ?>
               " id="author" name="author" placeholder="" value="<?php printf('%s', $author ?? ''); ?>">
           <div class="font-error">
@@ -174,11 +159,9 @@ include 'layout/admin_header.php';
 
         <div class="Redactor col-md-6">Ссылка на страницу автора:
           <input type="text" class="form-control 
-              <?php
-              if ($errors['link']) {
-                echo "border-error";
-              }
-              ?>
+              <?php if ($errors['link']) : ?>
+                border-error
+              <?php endif ?>
               " id="link" name="link" placeholder="" value="<?php printf('%s', $link ?? ''); ?>">
           <div class="font-error">
             <?php
@@ -201,14 +184,12 @@ include 'layout/admin_header.php';
         <!-- Меню типов методов -->
         <div class="container-fluid pl-3 pt-2 pb-2 method_menu">
           <div class="row">
-            <?php
-
-            foreach (Methods::all() as $method) :  // Метод модели all получит все записи из связанной с моделью таблицы БД
+            <?php foreach (Methods::all() as $method) :  // Метод модели all получит все записи из связанной с моделью таблицы БД 
             ?>
               <div class="col-6 col-sm-3 col-md">
                 <div class="Mbt" style="background-image: url('<?= '/' . IMG . '/' . $method->image; ?>'); background-position: left top; background-repeat: no-repeat; cursor:pointer"><?= $method->name ?>
                   <br>
-                  <input class="form-check-input" type="checkbox" name="methods[]" value="<?php printf('%s', $method->id ?? 9); ?>" <?php if (in_array($method->id, $articleMethods)) : ?> checked <?php endif ?>>
+                  <input class="form-check-input" type="checkbox" name="articleMethods[]" value="<?php printf('%s', $method->id ?? 9); ?>" <?php if (in_array($method->id, $articleMethods)) : ?> checked <?php endif ?>>
                 </div>
               </div>
             <?php endforeach ?>

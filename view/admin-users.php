@@ -2,6 +2,7 @@
 include 'layout/admin_header.php';
 include 'layout/admin_title.php';
 include 'layout/admin-pagination.php';
+include 'errors/errors-list.php';
 ?>
 
 <div class="container">

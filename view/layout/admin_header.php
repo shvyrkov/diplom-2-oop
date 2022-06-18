@@ -8,7 +8,6 @@ include 'base/header.php';
   <!-- Меню пользователя -->
   <nav class="navbar navbar-expand-md navbar-dark bg-primary">
     <div class="container-fluid">
-
       <a class="navbar-brand" href="admin">Админка</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -52,12 +51,10 @@ include 'base/header.php';
       </div>
     </div>
   </nav>
-
   <!-- Заголовок - название сайта. -->
   <div class="container-fluid px-5-auto title">
     <div class="SiteName">Библиотека фасилитатора</div>
   </div>
-
   <br>
   <div class="container-fluid">
     <div class="row justify-content-center">

@@ -58,6 +58,8 @@ class ArticleController
 
                 if (!$commentAdded) {
                     $errors[] = 'Ошибка записи комментария. Обратитесь к администртору!';
+                } else {
+                    header('Location: /article/' . $articleId); // Перегружаем с новыми данными для предотвращения переотправки формы
                 }
             }
         }
