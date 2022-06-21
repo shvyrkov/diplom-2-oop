@@ -8,10 +8,6 @@ use App\Model\Roles;
 use App\Model\Users;
 use App\View\AdminView;
 
-use App\View\AdminSubscriptionView;
-// use App\View\AdminUsersView;
-
-
 /**
  * Класс UserController - контроллер для работы с пользователями в админке
  * @package App\Controllers\Admin
@@ -96,8 +92,44 @@ class UserController
     public function adminSubscription()
     {
         if (isset($_SESSION['user']['id']) && $_SESSION['user']['role'] == ADMIN) { // Доступ разрешен только админу 
+            $errors = false;
 
-            return new AdminSubscriptionView('admin-subscription', ['title' => Menu::showTitle(Menu::getAdminMenu())]); // Вывод представления
+            if (isset($_POST['submit'])) { // Измененине подписки на рассылку пользователя
+                $userId = $_POST['id'];
+                $subscription = $_POST['subscription'] ?? 0;
+
+                // Валидация полей
+                if (!(is_numeric($userId) && in_array($subscription, [0, 1]))) { // Индексы д.б.целыми числами.
+                    $errors[] = 'Некорректные данные. Обратитесь к администртору!';
+                } else {
+                    Users::changeSubscription($userId, $subscription);
+                }
+            }
+
+            $total = Users::all()->count(); // Всего товаров в БД
+            $uri = AdminView::getURI() ?? ''; // Получаем строку запроса без корня
+            $page = ($uri == 'admin-subscription') ? 1 : preg_replace('~admin-subscription/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел /admin-articles, то - 1
+            $selected = Pagination::goodsQuantity($page); // Настройка количества товаров на странице
+            $page = $selected['page']; // Номер страницы
+
+            if ($selected['limit'] == 'all' || $selected['limit'] > $total) {
+                $limit = $total;
+            } else {
+                $limit = $selected['limit']; // Количество статей на странице в админке 
+            }
+
+            return new AdminView(
+                'admin-subscription',
+                [
+                    'title' => Menu::showTitle(Menu::getAdminMenu()),
+                    'users' => Users::getUsers($limit, $page), // Пользователи
+                    'pagination' => new Pagination($total, $page, $limit, 'page-'), // Постраничная навигация
+                    'total' =>  $total, // Всего товаров в БД
+                    'limit' =>  $limit, //  Количество товаров на странице
+                    'selected' =>  $selected, // Настройка количества товаров на странице
+                    'errors' => $errors
+                ]
+            ); // Вывод представления
         } elseif (isset($_SESSION['user']['id']) && $_SESSION['user']['role'] == CONTENT_MANAGER) { // Если контент-менеджер пытается зайти в админскую часть, то кидаем его в админ-меню
 
             return new AdminView('admin', ['title' => Menu::showTitle(Menu::getAdminMenu())]);

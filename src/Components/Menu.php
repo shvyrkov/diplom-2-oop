@@ -32,11 +32,11 @@ class Menu
      *
      * @param string $url - данные пункта меню array['path']
      * 
-     * @return bool - true, если $_SERVER["REQUEST_URI"] == $url
+     * @return bool - true, если $url начинает $_SERVER["REQUEST_URI"]
      */
     public static function isCurrentUrl(string $url = '/'): bool
     {
-        return parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) == $url;
+        return preg_match('~^' . $url . '~', $_SERVER["REQUEST_URI"] );
     }
 
     /**

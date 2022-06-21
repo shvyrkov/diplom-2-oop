@@ -71,8 +71,8 @@ class ArticleController
 
             if (isset($_POST['submit'])) { // Измененине комментария
                 $id = $_POST['id'];
-                $approve = $_POST['approve'];
-                $deny = $_POST['deny'];
+                $approve = $_POST['approve'] ?? 0;
+                $deny = $_POST['deny'] ?? 0;
 
                 // Валидация полей
                 if (!(is_numeric($id) && in_array($approve, [0, 1]) && in_array($deny, [0, 1]))) { // Индексы д.б.целыми числами.
@@ -328,7 +328,7 @@ class ArticleController
     {
         if (isset($_SESSION['user']['id']) && in_array($_SESSION['user']['role'], [ADMIN, CONTENT_MANAGER])) { // Доступ разрешен только админу и контент-менеджеру
 
-            return new AdminView('article-delete', ['title' => 'Page deleted', 'success' => $success]); // Вывод представления
+            return new AdminView('article-delete', ['title' => 'Page deleted', 'success' => $success]);
         } else {
             header('Location: /');
         }
