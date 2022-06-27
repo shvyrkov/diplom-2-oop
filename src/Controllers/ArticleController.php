@@ -11,7 +11,7 @@ use App\Model\Methods;
  * Класс ArticleController - контроллер для работы со статьями
  * @package App\Controllers
  */
-class ArticleController
+class ArticleController extends AbstractPrivateController
 {
     /**
      * Вывод страницы выбранной статьи
@@ -22,16 +22,11 @@ class ArticleController
      */
     public function article($id)
     {
-        $text = '';
-        $articleId = '';
-        $userId = '';
-        $role = '';
-
         if (isset($_POST['loadComment'])) { // Обработка формы добавления комментария
-            $text = $_POST['text'];
-            $articleId = $_POST['articleId'];
-            $userId = $_POST['userId'];
-            $role = $_POST['role'];
+            $text = $_POST['text'] ?? '';
+            $articleId = $_POST['articleId'] ?? '';
+            $userId = $_POST['userId'] ?? ''; // Уязвимость - см.AbstractPrivateController
+            $role = $_POST['role'] ?? '';
 
             $errors = false;
 
