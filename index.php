@@ -38,8 +38,9 @@ $router->get('contacts', [SiteController::class, 'contacts']); // Использ
 $router->get('rules', [SiteController::class, 'rules']); // Правила сайта
 
 // --- Статьи -----
-$router->get('article/*', [ArticleController::class, 'article']); // Маршрут для выбранной статьи
-$router->post('article/*', [ArticleController::class, 'article']); // Маршрут для выбранной статьи
+$router->get('article/*', [ArticleController::class, 'showArticle']); // Маршрут для выбранной статьи
+// $router->post('article/*', [ArticleController::class, 'showArticle']); // Маршрут для выбранной статьи
+$router->post('article/*', [ArticleController::class, 'addComment']); // Добавление комментария для выбранной статьи
 
 // --- Пользовтель -----
 $router->get('subscription', [UserController::class, 'subscription']); // Подписка на рассылку

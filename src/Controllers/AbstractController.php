@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Model\Users;
-
 /**
  * Класс AbstractController - контроллер для утилит, используемых в приложении
  * @package App\Controllers
@@ -17,7 +15,7 @@ class AbstractController
      */
     public function redirect(string $url)
     {
-        header('Location' . $url);
+        header('Location: ' . $url);
         die();
     }
 }

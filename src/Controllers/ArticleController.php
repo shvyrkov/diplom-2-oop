@@ -2,10 +2,11 @@
 
 namespace App\Controllers;
 
-use App\View\View;
 use App\Model\Articles;
 use App\Model\Comments;
 use App\Model\Methods;
+use App\Validator\ArticleValidator;
+use App\View\View;
 
 /**
  * Класс ArticleController - контроллер для работы со статьями
@@ -13,52 +14,52 @@ use App\Model\Methods;
  */
 class ArticleController extends AbstractPrivateController
 {
-    /**
-     * Вывод страницы выбранной статьи
-     *
-     * @var string $id - данные строки запроса - id-статьи
-     *
-     * @return ArticleView - объект представления страницы выбранной статьи
-     */
-    public function article($id)
+    public function addComment($id)
     {
         if (isset($_POST['loadComment'])) { // Обработка формы добавления комментария
-            $text = $_POST['text'] ?? '';
-            $articleId = $_POST['articleId'] ?? '';
-            $userId = $_POST['userId'] ?? ''; // Уязвимость - см.AbstractPrivateController
-            $role = $_POST['role'] ?? '';
+            $text = $_POST['text'] ?? null;
+            // $errors = null;
 
-            $errors = false;
-
-            // Валидация полей
-            if (!$userId) {
+            if (!$this->user) {
                 $errors[] = 'Авторизуйтесь пожалуйста.';
-            } elseif (!(is_numeric($articleId) && is_numeric($userId) && is_numeric($role))) { // Индексы д.б.целыми числами.
-                $errors[] = 'Некорректные данные. Обратитесь к администртору!';
-            } elseif ($userId != $_SESSION['user']['id']) { // Подтверждение, что это тот пользователь, который залогинился.
-                $errors[] = 'Неавторизованный пользователь. Обратитесь к администртору!';
-            } elseif ($role != $_SESSION['user']['role']) { // Подтверждение роли пользователь, который залогинился.
-                $errors[] = 'Некорректная роль пользователя. Обратитесь к администртору!';
-            } elseif ($articleId != $id) { // Индекс статьи не был изменен в средствах разработчика.
-                $errors[] = 'Ошибка данных статьи. Обратитесь к администртору!';
-            } elseif (strlen($text) >= MAX_COMMENT_LENGTH) {
-                $errors[] = 'Длина комментария ' . strlen($text) . ' байт, что больше допустимой в ' . MAX_COMMENT_LENGTH . ' байт';
-            } elseif (empty($text)) {
-                $errors[] = 'Внесите комментарий';
+            } else {
+                $errors = ArticleValidator::validate($text);
             }
 
             if (!$errors) {
-                // Если данные правильные, вносим комментарий в БД
-                $commentAdded = Comments::addComment($text, $articleId, $userId, $role);
+                $commentAdded = Comments::addComment($text, $id, $this->user);
 
                 if (!$commentAdded) {
                     $errors[] = 'Ошибка записи комментария. Обратитесь к администртору!';
                 } else {
-                    header('Location: /article/' . $articleId); // Перегружаем с новыми данными для предотвращения переотправки формы
+                    $this->redirect('/article/' . $id); // Перегружаем с новыми данными для предотвращения переотправки формы
                 }
             }
-        }
 
+            $article = Articles::getArticleById($id); // Статья для вывода на страницу
+
+            return new View(
+                'article',
+                [
+                    'id' => $id,
+                    'article' => $article,
+                    'title' => $article->title, // Название статьи для <title> и др.в вётстке
+                    'comments' => Comments::getCommentsByArticleId($id), // Комментарии к статье
+                    'user' => $this->user,
+                    'errors' =>  $errors ?? ''
+                ]
+            );
+        }
+    }
+    /**
+     * Вывод страницы выбранной статьи
+     *
+     * @var string $id - данные строки запроса - id-статьи в БД
+     *
+     * @return View - объект представления страницы выбранной статьи
+     */
+    public function showArticle($id)
+    {
         if (isset($_POST['approve'])) { // Утверждение комментария.
             Comments::approveComment($_POST['approve']);
         }
@@ -76,6 +77,7 @@ class ArticleController extends AbstractPrivateController
                 'article' => $article,
                 'title' => $article->title, // Название статьи для <title>
                 'comments' => Comments::getCommentsByArticleId($id), // Комментарии к статье
+                'user' => $this->user,
                 'errors' =>  $errors ?? ''
             ]
         );

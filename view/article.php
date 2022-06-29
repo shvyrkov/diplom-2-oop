@@ -57,20 +57,10 @@ include 'layout/header.php';
                 <div class="col-md-12 col-lg-12">
                     <div class="card shadow-0 border" style="background-color: #f0f2f5;">
                         <div class="card-body p-4">
-                            <?php if (isset($errors) && is_array($errors)) : ?>
-                                <ul>
-                                    <?php foreach ($errors as $error) : ?>
-                                        <li class="font-error"> <?php echo $error; ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            <?php endif; ?>
-
+                            <?php include 'errors/errors-list.php'; ?>
                             <div class="form-outline mb-4">
                                 <form action="" id="comment_form" enctype="multipart/form-data" method="post">
                                     <input type="text" name="text" class="form-control" placeholder="Type comment..." />
-                                    <input type="text" name="userId" hidden value="<?= $_SESSION['user']['id'] ?? '' ?>">
-                                    <input type="text" name="articleId" hidden value="<?= $id ?? '' ?>">
-                                    <input type="text" name="role" hidden value="<?= $_SESSION['user']['role'] ?? ''  ?>">
                                     <button class="btn btn-outline-primary" name="loadComment" for="addANote">Добавить комментарий</button>
                                 </form>
                             </div>

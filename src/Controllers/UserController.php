@@ -13,7 +13,7 @@ use App\View\View;
  * Класс UserController - контроллер для работы с пользователем
  * @package App\Controllers
  */
-class UserController
+class UserController extends AbstractPrivateController
 {
     /**
      * Вывод страницы авторизации пользователя
@@ -36,7 +36,7 @@ class UserController
                     // Если данные правильные, запоминаем пользователя (сессия)
                     Users::auth($user);
                     // Перенаправляем пользователя в закрытую часть - кабинет 
-                    header('Location: /lk');
+                    $this->redirect('/lk');
                 } else {
                     // Если данные неправильные - показываем ошибку
                     $errors['wrongData'] = 'Неправильные данные для входа.<br>
@@ -274,7 +274,7 @@ class UserController
                     Users::auth($user);
 
                     // Перенаправляем пользователя в закрытую часть - кабинет 
-                    header('Location: /lk');
+                    $this->redirect('/lk');
                 }
             }
         }
@@ -372,7 +372,7 @@ class UserController
                             Users::auth($user);
 
                             // Перегружаем кабинет с новыми данными
-                            header('Location: /lk');
+                            $this->redirect('/lk');
                         }
                     } else {
                         $errors[] = 'Ошибка обновления данных.';
@@ -400,7 +400,7 @@ class UserController
                             Users::auth($user);
 
                             // Перегружаем кабинет с новыми данными
-                            header('Location: /lk');
+                            $this->redirect('/lk');
                         }
                     } else {
                         $errors[] = 'Ошибка обновления данных.';
@@ -422,7 +422,7 @@ class UserController
                 ]
             );
         } else {
-            header('Location: /login');
+            $this->redirect('/login');
         }
     }
 
@@ -490,7 +490,7 @@ class UserController
                 ]
             );
         } else { // Если пользователь неавторизован, то предлагаем авторизоваться
-            header('Location: /login');
+            $this->redirect('/login');
         }
     }
 }

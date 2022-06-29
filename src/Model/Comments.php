@@ -45,21 +45,20 @@ class Comments extends Model
      * 
      * @param string $text <p>Текст комментария</p>
      * @param string $articleId <p>id-статьи</p>
-     * @param string $userId <p>id-пользователя</p>
-     * @param string $role <p>Роль пользователя</p>
+     * @param Users $user <p>Данные пользователя</p>
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function addComment($text, $articleId, $userId, $role)
+    public static function addComment(string $text, string $articleId, Users $user)
     {
         $approve = 0;
 
-        if (in_array($role, [ADMIN, CONTENT_MANAGER])) {
+        if (in_array($user->role, [ADMIN, CONTENT_MANAGER])) {
             $approve = 1;
         }
 
         $id = Comments::insertGetId(
-            ['text' => $text, 'article_id' => $articleId, 'user_id' => $userId, 'approve' => $approve]
+            ['text' => $text, 'article_id' => $articleId, 'user_id' => $user->id, 'approve' => $approve]
         );
 
         return $id ? true : false;

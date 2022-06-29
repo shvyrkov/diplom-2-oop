@@ -27,11 +27,11 @@ class ArticleMethods extends Model
   /**
    * Получение методов для статьи из БД по id
    * 
-   * @param string $id статьи
+   * @param int $id статьи
    * 
    * @return array $articleMethods - методы для статьи.
    */
-  public static function getMethodsByArticleId($id)
+  public static function getMethodsByArticleId(int $id): array
   {
     $articleMethods = [];
 

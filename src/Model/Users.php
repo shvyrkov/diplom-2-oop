@@ -31,7 +31,7 @@ class Users extends Model
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkEmail($email)
+    public static function checkEmail(string $email): bool
     {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
@@ -42,9 +42,9 @@ class Users extends Model
      * @param string $email
      * @param string $password
      * 
-     * @return object $user or null
+     * @return Users $user or null
      */
-    public static function checkUserData($email, $password)
+    public static function checkUserData(string $email, string $password)
     {
         $user = Users::where('email', $email)
             ->first();
@@ -66,7 +66,7 @@ class Users extends Model
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkName($name)
+    public static function checkName(string $name): bool
     {
         return mb_strlen($name, 'UTF-8') >= MIN_NAME_LENGTH;
     }
@@ -78,7 +78,7 @@ class Users extends Model
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkPassword($password)
+    public static function checkPassword(string $password): bool
     {
         return mb_strlen($password, 'UTF-8') >= MIN_PASSWORD_LENGTH;
     }
@@ -91,7 +91,7 @@ class Users extends Model
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function comparePasswords($password_1, $password_2)
+    public static function comparePasswords(string $password_1, string $password_2): bool
     {
         return $password_1 == $password_2;
     }
@@ -103,7 +103,7 @@ class Users extends Model
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkEmailExists($email)
+    public static function checkEmailExists(string $email): bool
     {
         $user = Users::where('email', $email)
             ->first();
@@ -118,7 +118,7 @@ class Users extends Model
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkNameExists($name)
+    public static function checkNameExists(string $name): bool
     {
         $user = Users::where('name', $name)
             ->first();
@@ -129,13 +129,14 @@ class Users extends Model
     /**
      * Регистрация пользователя 
      * 
-     * @param string $name <p>Имя</p>
      * @param string $email <p>E-mail</p>
+     * @param int $role <p>Имя</p>
+     * @param string $name <p>E-mail</p>
      * @param string $password <p>Пароль</p>
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function register($email, $role = null, $name = null, $password = null)
+    public static function register(string $email, int $role = null, string $name = null, $password = null): bool
     {
         $id = Users::insertGetId(
             ['email' => $email, 'role' => $role, 'name' => $name, 'password' => $password]
@@ -147,14 +148,14 @@ class Users extends Model
     /**
      * Обновление данных пользователя 
      * 
-     * @param string $id <p>id-пользователя в БД</p>
+     * @param int $id <p>id-пользователя в БД</p>
      * @param string $name <p>Имя</p>
      * @param string $email <p>E-mail</p>
      * @param string $aboutMe <p>О себе</p>
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function updateUser($id, $name, $email, $aboutMe, $avatar)
+    public static function updateUser(int $id, string $name, string $email, string $aboutMe, string $avatar): bool
     {
         $result = Users::where('id', $id)
             ->update(['name' => $name, 'email' => $email, 'aboutMe' => $aboutMe, 'avatar' => $avatar]);
@@ -167,9 +168,9 @@ class Users extends Model
      * 
      * @param string $email
      * 
-     * @return object $user or null
+     * @return object $user or null or null
      */
-    public static function getUserByEmail($email)
+    public static function getUserByEmail(string $email)
     {
         $user = Users::where('email', $email)
             ->first();
@@ -180,9 +181,9 @@ class Users extends Model
     /**
      * Запоминаем пользователя в переменной сессии
      * 
-     * @param object $user - объект данных пользователя
+     * @param Users $user - объект данных пользователя
      */
-    public static function auth($user)
+    public static function auth(Users $user)
     {
         // Записываем данные пользователя в сессию
         foreach ($user->attributes as $key => $value) {
@@ -206,11 +207,11 @@ class Users extends Model
     /**
      * Получение данных пользователя
      * 
-     * @param string $id 
+     * @param int $id 
      * 
-     * @return array $user - массив с данными пользователя
+     * @return object $user or null
      */
-    public static function getUserById($id = 1)
+    public static function getUserById(int $id)
     {
         $user = Users::where('id', $id)
             ->first();
@@ -220,7 +221,7 @@ class Users extends Model
     /**
      * Получение данных пользователя
      * 
-     * @return array $users - массив с пользователями, подписанными на рассылку
+     * @return object $users - массив с пользователями, подписанными на рассылку
      */
     public static function getSubscribedUsers()
     {
@@ -238,7 +239,7 @@ class Users extends Model
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function changePassword($email, $password)
+    public static function changePassword(string $email, string $password): bool
     {
         $result = Users::where('email', $email)
             ->update(['password' => $password]);
@@ -249,12 +250,12 @@ class Users extends Model
     /**
      * Изменение роли пользователя 
      * 
-     * @param string $id <p>id-пользователя в БД</p>
-     * @param string $role <p>Роль пользователя (номер)</p>
+     * @param int $id <p>id-пользователя в БД</p>
+     * @param int $role <p>Роль пользователя (номер)</p>
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function changeRole($id, $role)
+    public static function changeRole(int $id, int $role): bool
     {
         $result = Users::where('id', $id)
             ->update(['role' => $role]);
@@ -266,11 +267,11 @@ class Users extends Model
      * Изменение подписки пользователя 
      * 
      * @param string $id <p>id-пользователя в БД, null - если пользователя нет(?)</p>
-     * @param string $subscription <p>Подписан ли пользователь на рассылку (0 - нет, 1 - да)</p>
+     * @param int $subscription <p>Подписан ли пользователь на рассылку (0 - нет, 1 - да)</p>
      * 
-     * @return boolean <p>Результат выполнения метода</p>
+     * @return bool <p>Результат выполнения метода</p>
      */
-    public static function changeSubscription($id, $subscription)
+    public static function changeSubscription(string $id, int $subscription): bool
     {
         $result = Users::where('id', $id)
             ->update(['subscription' => $subscription]);
@@ -284,9 +285,9 @@ class Users extends Model
      * @param int $limit [optional] Количество пользователей на странице
      * @param int $page [optional] Номер страницы
      * 
-     * @return object $users - объект с пользователеми.
+     * @return object $users or null
      */
-    public static function getUsers($limit = 20, $page = 1)
+    public static function getUsers(int $limit = 20, int $page = 1)
     {
         $offset = ($page - 1) * $limit;
 

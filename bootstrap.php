@@ -19,7 +19,10 @@ define('FILE_SIZE', 2097152); // Максимальный размер файл�
 define('AVATAR_STORAGE', $_SERVER["DOCUMENT_ROOT"] . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'avatars' . DIRECTORY_SEPARATOR); // Папка для хранения файла загрузки аватара.
 define('AVATARS', DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'avatars' . DIRECTORY_SEPARATOR); // Папка для хранения файла загрузки.
 define('DEFAULT_AVATAR', 'no-photo.jpg'); // Имя файла, если аватар не загружен
-define('MAX_COMMENT_LENGTH', 5000); // Максимальный размер комментария в байтах.
+
+define('MIN_COMMENT_LENGTH', 2); // Минимальный размер комментария в символах.
+define('MAX_COMMENT_LENGTH', 5000); // Максимальный размер комментария в символах.
+
 define('ADMIN', 1); // Роль админа.
 define('CONTENT_MANAGER', 2); // Роль контент-менеджера.
 define('USER', 3); // Роль контент-менеджера.

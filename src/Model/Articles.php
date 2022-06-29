@@ -31,7 +31,7 @@ class Articles extends Model
      *
      * @return array $methodTypes - массив методов, к которым принадлежит статья.
      */
-    public static function getMethods($articleId = 0)
+    public static function getMethods(int $articleId = 0): array
     {
         $methods = []; // методы, к которым принадлежит статья
 
@@ -55,9 +55,9 @@ class Articles extends Model
      * @param int $limit [optional] Количество статей на странице
      * @param int $page [optional] Номер страницы
      * 
-     * @return array $articles - массив со статьями.
+     * @return object $articles - массив со статьями.
      */
-    public static function getArticles($limit = 20, $page = 1)
+    public static function getArticles(int $limit = 20, int $page = 1): object
     {
         $offset = ($page - 1) * $limit;
 
