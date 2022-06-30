@@ -13,7 +13,7 @@ use App\View\View;
  * Класс UserController - контроллер для работы с пользователем
  * @package App\Controllers
  */
-class UserController extends AbstractPrivateController
+class UserController extends AbstractController
 {
     /**
      * Вывод страницы авторизации пользователя

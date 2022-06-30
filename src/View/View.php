@@ -46,9 +46,9 @@ class View implements Renderable
      * @return srting 
      */
     public static function getURI(): string
-    // protected function getURI()
     {
         if (!empty($_SERVER['REQUEST_URI'])) {
+
             return trim($_SERVER['REQUEST_URI'], '/');
         }
     }
@@ -58,20 +58,18 @@ class View implements Renderable
      */
     public function render()
     {
-        /** метод должен выводить необходимый шаблон. Внутри метода данные свойства $data распаковать в переменные через extract(), а затем подключить страницу шаблона, получив полный путь к ней с помощью другого метода этого класса getIncludeTemplate().
-         */
-        extract($this->data); // ['title' => 'Index Page'] -> $title = 'Index Page' - получаем данные из контроллера
+        extract($this->data);
         $menu = Menu::getUserMenu(); // Меню пользователя есть на всех страницах
-        $templateFile = $this->getIncludeTemplate($this->view); // Полное имя файла
+        $templateFile = $this->getIncludeTemplate($this->view); 
 
         if (isset($_POST['exit'])) { // Выход из сессии, если был вход или регистрация
             Users::exit();
         }
 
         if (file_exists($templateFile)) {
-            include $templateFile; // Вывод представления
-        } else { // Если файл не найден
-            throw new ApplicationException("$templateFile - шаблон не найден", 442); // Если запрашиваемого файла с шаблоном не найдено, то метод должен выбросить исключение ApplicationException, с таким текстом ошибки: "<имя файла шаблона> шаблон не найден". 
+            include $templateFile;
+        } else { 
+            throw new ApplicationException("$templateFile - шаблон не найден", 442);
         }
     }
 }

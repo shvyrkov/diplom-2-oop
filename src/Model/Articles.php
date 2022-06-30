@@ -29,11 +29,11 @@ class Articles extends Model
      *
      * @var int - $articleId - id-статьи в БД
      *
-     * @return array $methodTypes - массив методов, к которым принадлежит статья.
+     * @return array $methods - массив методов, к которым принадлежит статья.
      */
     public static function getMethods(int $articleId = 0): array
     {
-        $methods = []; // методы, к которым принадлежит статья
+        $methods = [];
 
         foreach (ArticleMethods::all() as $articleMethod) {
             if ($articleId == $articleMethod->id_article) {
@@ -55,9 +55,9 @@ class Articles extends Model
      * @param int $limit [optional] Количество статей на странице
      * @param int $page [optional] Номер страницы
      * 
-     * @return object $articles - массив со статьями.
+     * @return object $articles - объект со статьями.
      */
-    public static function getArticles(int $limit = 20, int $page = 1): object
+    public static function getArticles(int $limit = 20, int $page = 1)
     {
         $offset = ($page - 1) * $limit;
 
@@ -73,11 +73,11 @@ class Articles extends Model
     /**
      * Получение статьи из БД по id
      * 
-     * @param string $id 
+     * @param int $id 
      * 
-     * @return array $article[0] - данные по статье.
+     * @return object $article - объект данных по статье.
      */
-    public static function getArticleById($id = 1)
+    public static function getArticleById(int $id = 1)
     {
         $article = Articles::where('id', $id)
             ->first();
@@ -88,13 +88,13 @@ class Articles extends Model
     /**
      * Получение статьи по типу метода
      * 
-     * @param string $methodId
+     * @param int $methodId - номер типа метода
      * 
-     * @return array $articles - массив со статьями.
+     * @return array $articles - массив со статьями, которые принадлежат данному методу
      */
-    public static function getArticlesByMethod($methodId = 4)
+    public static function getArticlesByMethod(int $methodId): array
     {
-        $articles = []; // статьи, которые принадлежат данному методу
+        $articles = [];
 
         foreach (ArticleMethods::all() as $articleMethod) {
             if ($methodId == $articleMethod->id_method) {

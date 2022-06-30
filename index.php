@@ -1,6 +1,7 @@
 <?php
 
 use App\Application;
+use App\Controllers\CommentController;
 use App\Controllers\SiteController;
 use App\Controllers\UserController;
 use App\Controllers\ArticleController;
@@ -17,30 +18,31 @@ ini_set('display_errors', true);
 
 require_once __DIR__ . '/bootstrap.php';
 
-$router = new Router(); // Объект Маршрутизатора
-$application = new Application($router); // Для запуска Eloquent
+$router = new Router();
+$application = new Application($router); // Для запуска Eloquent, чтобы получить доступ к Methods
 
-// Требуется запустить Eloquent. Как вариант - загружать методы из конфиг-файла
-foreach (Methods::all() as $method) {  // Метод модели all получит все записи из связанной с моделью таблицы БД
-    $router->get($method->uri,      [ArticleController::class, 'method']);
-    $router->get($method->uri . '/page-*',      [ArticleController::class, 'method']);
+foreach (Methods::all() as $method) {
+    $router->get($method->uri,      [ArticleController::class, 'showArticleByMethod']);
+    $router->get($method->uri . '/page-*',      [ArticleController::class, 'showArticleByMethod']);
 }
-
 // --- Страницы сайта -----
 $router->get('',      [SiteController::class, 'index']); // Маршрут для корня сайта (/) - метод index в App\Controllers\SiteController
-$router->post('',      [SiteController::class, 'index']); // Для подписки на рассылку
+$router->post('',      [SiteController::class, 'index']); // @TODO: Для обработки формы (?) - @TODO: м.б.сделать ссылку на стр.подписки? - НЕТ
 
 $router->get('page-*', [SiteController::class, 'index']); // Маршрут для page-1 - пагинация - метод index в App\Controllers\SiteController
-$router->post('page-*', [SiteController::class, 'index']); // Для подписки на рассылку
+$router->post('page-*', [SiteController::class, 'index']); //  @TODO: Для обработки формы (?)
 
-$router->get('about', [SiteController::class, 'about']); // Маршрут для about
-$router->get('contacts', [SiteController::class, 'contacts']); // Используем метод contacts класса ArticleController
+$router->get('about', [SiteController::class, 'about']);
+$router->get('contacts', [SiteController::class, 'contacts']);
 $router->get('rules', [SiteController::class, 'rules']); // Правила сайта
 
 // --- Статьи -----
-$router->get('article/*', [ArticleController::class, 'showArticle']); // Маршрут для выбранной статьи
-// $router->post('article/*', [ArticleController::class, 'showArticle']); // Маршрут для выбранной статьи
-$router->post('article/*', [ArticleController::class, 'addComment']); // Добавление комментария для выбранной статьи
+$router->get('article/*', [ArticleController::class, 'showArticle']);
+
+// ---Комментарии -----
+$router->post('article/*', [CommentController::class, 'addComment']);
+$router->post('article/*/*/approve', [CommentController::class, 'approveComment']);
+$router->post('article/*/*/deny', [CommentController::class, 'denyComment']);
 
 // --- Пользовтель -----
 $router->get('subscription', [UserController::class, 'subscription']); // Подписка на рассылку
@@ -49,20 +51,20 @@ $router->post('subscription', [UserController::class, 'subscription']); // По�
 $router->get('unsubscribe', [UserController::class, 'unsubscribe']); // Отписка от рассылки
 $router->post('unsubscribe', [UserController::class, 'unsubscribe']); // Отписка от рассылки
 
-$router->get('login', [UserController::class, 'login']); // Используем метод login/get для вывода страницы авторизации
-$router->post('login', [UserController::class, 'login']); // Используем метод login/post для обработки авторизации
+$router->get('login', [UserController::class, 'login']);
+$router->post('login', [UserController::class, 'login']);
 
-$router->get('lk', [UserController::class, 'lk']); // Используем метод lk для входа в личный кабинет по url = lk
-$router->post('lk', [UserController::class, 'lk']); // Используем метод lk для входа в личный кабинет по url = lk
+$router->get('lk', [UserController::class, 'lk']);
+$router->post('lk', [UserController::class, 'lk']);
 
-$router->get('registration', [UserController::class, 'registration']); // Используем метод registration класса ArticleController для регистрации
-$router->post('registration', [UserController::class, 'registration']); // Используем метод registration класса ArticleController для регистрации
+$router->get('registration', [UserController::class, 'registration']); 
+$router->post('registration', [UserController::class, 'registration']); 
 
-$router->get('exit', [UserController::class, 'exit']); // Используем метод exit класса ArticleController для выхода
-$router->post('exit', [UserController::class, 'exit']); // Используем метод exit класса ArticleController для выхода
+$router->get('exit', [UserController::class, 'exit']);
+$router->post('exit', [UserController::class, 'exit']);
 
-$router->get('password', [UserController::class, 'password']); // Используем метод password класса ArticleController для выхода
-$router->post('password', [UserController::class, 'password']); // Используем метод password класса ArticleController для выхода
+$router->get('password', [UserController::class, 'password']);
+$router->post('password', [UserController::class, 'password']);
 
 // --- Подписка - лог рассылки -----
 $router->get('post', [PostController::class, 'post']); // PostController::post - обработка запроса

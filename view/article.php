@@ -16,7 +16,7 @@ include 'layout/header.php';
             <div class="col-md-4 MethodOpis_Block">
                 <div class="card-body ">
                     <div class="MMarkers">
-                        <?php foreach (Articles::getMethods($id) as $method) : ?>
+                        <?php foreach (Articles::getMethods($article->id) as $method) : ?>
                             <img src="<?= DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR . $method->image; ?>">
                         <?php endforeach ?>
                     </div>
@@ -100,9 +100,11 @@ include 'layout/header.php';
                                                     )
                                                 ) : // Утверждать могут только админ и контент-менеджер
                                                 ?>
-                                                    <form action="" id="approve_form" enctype="multipart/form-data" method="post">
-                                                        <button class="btn btn-outline-primary" name="approve" value="<?= $comment->id ?>">Утвердить комментарий</button>
-                                                        <button class="btn btn-outline-danger" name="deny" value="<?= $comment->id ?>">Отклонить комментарий</button>
+                                                    <form action="<?= $article->id ?>/<?= $comment->id ?>/approve" id="approve_form" enctype="multipart/form-data" method="post">
+                                                        <button class="btn btn-outline-primary" name="approve">Утвердить комментарий</button>
+                                                    </form>
+                                                    <form action="<?= $article->id ?>/<?= $comment->id ?>/deny" id="deny_form" enctype="multipart/form-data" method="post">
+                                                        <button class="btn btn-outline-danger" name="deny">Отклонить комментарий</button>
                                                     </form>
                                             <?php
                                                 endif;

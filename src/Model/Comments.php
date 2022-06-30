@@ -27,11 +27,11 @@ class Comments extends Model
     /**
      * Получение комментариев к статье по её id
      * 
-     * @param string $id статьи
+     * @param int $id статьи
      * 
-     * @return array $comments - массив с комментариями.
+     * @return object $comments - объект с комментариями к статье
      */
-    public static function getCommentsByArticleId($id = 1)
+    public static function getCommentsByArticleId(int $id)
     {
         $comments = Comments::where('article_id', $id)
             ->orderBy('date', 'desc')
@@ -44,12 +44,12 @@ class Comments extends Model
      * Добавление комментария пользователя к статье
      * 
      * @param string $text <p>Текст комментария</p>
-     * @param string $articleId <p>id-статьи</p>
+     * @param int $articleId <p>id-статьи</p>
      * @param Users $user <p>Данные пользователя</p>
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function addComment(string $text, string $articleId, Users $user)
+    public static function addComment(string $text, int $articleId, Users $user): bool
     {
         $approve = 0;
 
@@ -67,11 +67,11 @@ class Comments extends Model
     /**
      * Утверждение комментария
      * 
-     * @param string $commentId <p>id-комментария</p>
+     * @param int $commentId <p>id-комментария</p>
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function approveComment($commentId)
+    public static function approveComment(int $commentId): bool
     {
         $result = Comments::where('id', $commentId)
             ->update(['approve' => 1]);
@@ -82,11 +82,11 @@ class Comments extends Model
     /**
      * Отклонение комментария
      * 
-     * @param string $commentId <p>id-комментария</p>
+     * @param int $commentId <p>id-комментария</p>
      * 
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function denyComment($commentId)
+    public static function denyComment(int $commentId): bool
     {
         $result = Comments::where('id', $commentId)
             ->update(['deny' => 1]);

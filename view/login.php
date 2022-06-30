@@ -6,15 +6,13 @@ include 'layout/header.php';
   <br>
   <div class="row">
     <div class="col-sm-8 col-sm-offset-4 padding-right">
-      <?php if (isset($errors) && is_array($errors)) : ?>
-        <ul>
-          <?php foreach ($errors as $error) : ?>
-            <li class="font-error"> <?= $error ?></li>
-          <?php endforeach; ?>
-        </ul>
-      <?php endif; ?>
       <div class="signup-form">
         <h2>Вход </h2>
+        <?php if (preg_match('~article\/\w~', $_SERVER['HTTP_REFERER'])) : ?>
+          <h4 class="font-error">Авторизуйтесь пожалуйста.</h4>
+        <?php endif;
+        include 'errors/errors-list.php';
+        ?>
         <form action="" method="post">
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
