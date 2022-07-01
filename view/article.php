@@ -60,15 +60,15 @@ include 'layout/header.php';
                             <?php include 'errors/errors-list.php'; ?>
                             <div class="form-outline mb-4">
                                 <form action="" id="comment_form" enctype="multipart/form-data" method="post">
-                                    <input type="text" name="text" class="form-control" placeholder="Type comment..." />
+                                    <input type="text" name="text" class="form-control" placeholder="Type comment..." value="<?=$text ?? '' ?>"/>
                                     <button class="btn btn-outline-primary" name="loadComment" for="addANote">Добавить комментарий</button>
                                 </form>
                             </div>
                             <?php
                             foreach ($comments as $comment) :
                                 if (($comment->approve // Если коммент утвержден
-                                        || in_array($_SESSION['user']['role'] ?? NO_USER, [ADMIN, CONTENT_MANAGER]) // или вы имеете право модерировать
-                                        || (($_SESSION['user']['id'] ?? NO_USER) == $comment->user_id)) // или вы тот, кто написал этот коммент
+                                        || in_array($user->role ?? NO_USER, [ADMIN, CONTENT_MANAGER]) // или вы имеете право модерировать
+                                        || (($user->id ?? NO_USER) == $comment->user_id)) // или вы тот, кто написал этот коммент
                                     && !$comment->deny
                                 ) : // Если коммент не отклонен 
                             ?>
@@ -88,15 +88,15 @@ include 'layout/header.php';
                                             <?php
                                             if (
                                                 !$comment->approve
-                                                && (in_array($_SESSION['user']['role'] ?? NO_USER, [ADMIN, CONTENT_MANAGER])
-                                                    || (($_SESSION['user']['id'] ?? NO_USER) == $comment->user_id))
+                                                && (in_array($user->role ?? NO_USER, [ADMIN, CONTENT_MANAGER])
+                                                    || (($user->id ?? NO_USER) == $comment->user_id))
                                             ) :  // Немодерированный коммент виден только админу, контент-менеджеру и тому кто написал
                                             ?>
                                                 <p class="text-danger">Коммментарий не утвержден</p>
                                                 <?php
                                                 if (
                                                     !$comment->approve
-                                                    && (in_array($_SESSION['user']['role'] ?? NO_USER, [ADMIN, CONTENT_MANAGER])
+                                                    && (in_array($user->role ?? NO_USER, [ADMIN, CONTENT_MANAGER])
                                                     )
                                                 ) : // Утверждать могут только админ и контент-менеджер
                                                 ?>

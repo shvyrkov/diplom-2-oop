@@ -22,15 +22,15 @@ $router = new Router();
 $application = new Application($router); // Для запуска Eloquent, чтобы получить доступ к Methods
 
 foreach (Methods::all() as $method) {
-    $router->get($method->uri,      [ArticleController::class, 'showArticleByMethod']);
-    $router->get($method->uri . '/page-*',      [ArticleController::class, 'showArticleByMethod']);
+    $router->get($method->uri,      [ArticleController::class, 'showArticlesByMethod']);
+    $router->get($method->uri . '/page-*',      [ArticleController::class, 'showArticlesByMethod']);
 }
 // --- Страницы сайта -----
 $router->get('',      [SiteController::class, 'index']); // Маршрут для корня сайта (/) - метод index в App\Controllers\SiteController
-$router->post('',      [SiteController::class, 'index']); // @TODO: Для обработки формы (?) - @TODO: м.б.сделать ссылку на стр.подписки? - НЕТ
+$router->post('',      [UserController::class, 'subscription']); // Подписка на рассылку на Главной
 
 $router->get('page-*', [SiteController::class, 'index']); // Маршрут для page-1 - пагинация - метод index в App\Controllers\SiteController
-$router->post('page-*', [SiteController::class, 'index']); //  @TODO: Для обработки формы (?)
+$router->post('page-*', [UserController::class, 'subscription']); // Подписка на рассылку на Главной в пагинации
 
 $router->get('about', [SiteController::class, 'about']);
 $router->get('contacts', [SiteController::class, 'contacts']);

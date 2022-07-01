@@ -40,7 +40,7 @@ class ArticleController extends AbstractController
      *  
      * @return View - объект представления вывода статей по типу метода
      */
-    public function showArticleByMethod(): View
+    public function showArticlesByMethod(): View
     {
         $method = Methods::getMethodByURI(View::getURI());
 

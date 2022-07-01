@@ -11,14 +11,14 @@ use App\Model\Articles;
  * Класс SiteController - контроллер для работы со страницами меню пользователя
  * @package App\Controllers
  */
-class SiteController
+class SiteController extends AbstractController
 {
     /**
      * Запускает Главную страниц
      * 
-     * @return object View - объект представления Главной страницы со списком статей
+     * @return View - объект представления Главной страницы со списком статей
      */
-    public function index()
+    public function index(): View
     {
         // Pagination
         $uri = View::getURI(); // Получаем строку запроса без корня
@@ -34,6 +34,7 @@ class SiteController
             'pagination' => new Pagination($total, $page, $limit, 'page-'), // Постраничная навигация
             'total' =>  $total, // Всего товаров в БД
             'limit' =>  $limit, //  Количество товаров на странице
+            'user' => $this->user
         ];
 
         return new View('homepage', $data); // Вывод представления
@@ -44,7 +45,7 @@ class SiteController
      *
      * @return View - объект представления страницы "О нас"
      */
-    public function about()
+    public function about(): View
     {
         return new View(
             'about', // about.php - имя файла с Представлением
@@ -59,7 +60,7 @@ class SiteController
      *
      * @return View - объект представления страницы "Контакты"
      */
-    public function contacts()
+    public function contacts(): View
     {
         return new View(
             'contacts',
@@ -74,7 +75,7 @@ class SiteController
      *
      * @return View - объект представления страницы с правилами сайта
      */
-    public function rules()
+    public function rules(): View
     {
         return new View(
             'rules',

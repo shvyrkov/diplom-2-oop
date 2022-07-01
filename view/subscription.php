@@ -1,7 +1,14 @@
 <?php
 include 'layout/header.php';
-include 'errors/errors-list.php';
-
+?>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-4 padding-right">
+      <?php include 'errors/errors-list.php'; ?>
+    </div>
+  </div>
+</div>
+<?php
 if (
   !isset($_SESSION['user']) // Пользователь неавторизован 
   && !$result               // и подписка не прошла (и для авторизованных) - $result

@@ -7,6 +7,7 @@ use App\Components\Menu;
 use App\Components\SimpleImage;
 use App\Model\Users;
 use App\Model\Roles;
+use App\Validator\UserValidator;
 use App\View\View;
 
 /**
@@ -18,27 +19,24 @@ class UserController extends AbstractController
     /**
      * Вывод страницы авторизации пользователя
      *
-     * @return object View - объект представления страницы авторизации пользователя
+     * @return View - объект представления страницы авторизации пользователя
      */
-    public function login()
+    public function login(): View
     {
         if (isset($_POST['submit'])) { // Обработка формы авторизации
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+            $email = $_POST['email'] ?? null;
+            $password = $_POST['password'] ?? null;
 
-            // Валидация полей
-            if (!Users::checkEmail($email)) {
-                $errors['email'] = 'Некорректный email';
-            } else {
+            $errors = UserValidator::loginValidate($email);
+
+            if (!$errors) {
                 $user = Users::checkUserData($email, $password);
 
                 if ($user) {
-                    // Если данные правильные, запоминаем пользователя (сессия)
-                    Users::auth($user);
-                    // Перенаправляем пользователя в закрытую часть - кабинет 
+                    Users::auth($user); // Если данные правильные, запоминаем пользователя в сессии
+
                     $this->redirect('/lk');
                 } else {
-                    // Если данные неправильные - показываем ошибку
                     $errors['wrongData'] = 'Неправильные данные для входа.<br>
                                 Возможно нажата клавиша CapsLock или несоответствующая раскладка клавиатуры';
                 }
@@ -71,52 +69,34 @@ class UserController extends AbstractController
      *
      * @return View - объект представления страницы отписки от рассылки.
      */
-    public function unsubscribe()
+    public function unsubscribe(): View
     {
-        $result = false;
-        $errors = false;
-        $email = ''; // Для неавторизованных пользователей
-
-        if (isset($_SESSION['user']['email'])) { // Если пользователь авторизован 
-            if ($_SESSION['user']['subscription']) { // и подписан, то подставляем его email.
-                $email = $_SESSION['user']['email'];
+        if ($this->user) { // Если пользователь авторизован 
+            if ($this->user->subscription) { // и подписан, 
+                $email = $this->user->email; // то подставляем его email в поле формы.
             } else {
                 $errors[] = ' Вы не подписаны на рассылку.';
             }
         }
 
         if (isset($_POST['unsubscribe'])) {
-            if (isset($_POST['email'])) { // Берем email из формы
-                $email = $_POST['email'];
-            }
-            // Валидация e-mail
-            if (!$email) {
-                $errors[] = 'Введите e-mail';
-            }
+            $email = $_POST['email'] ?? null;
 
-            if (!Users::checkEmail($email)) { //  Проверка правильности ввода e-mail
-                $errors['checkEmail'] = ' Неправильный email';
-            } elseif (Users::checkEmailExists($email)) { //  Если есть пользователь с таким e-mail
-                $user = Users::getUserByEmail($email);
-
-                if (!$user->subscription) { // и он не подписан
-                    $errors['checkEmailExists'] = ' Вы не подписаны на рассылку.';
-                }
-            } else {
-                $errors['checkEmailExists'] = ' Вы не подписаны на рассылку.';
-            }
+            $errors = UserValidator::subscribeValidate($email);
 
             if (!$errors) {
-                if ($user) { // Если пользователь с таким e-mail есть, то
-                    $result = Users::changeSubscription($user->id, 0); // отписываем его от рассылки.
+                $unsubscribeUser = Users::getUserByEmail($email);
+
+                if (!$unsubscribeUser->subscription) { // пользователь не подписан
+                    $errors['checkEmailExists'] = ' Вы не подписаны на рассылку.';
+                } else {
+                    $result = Users::changeSubscription($unsubscribeUser->id, 0);
 
                     if ($result) {
-                        $_SESSION['user']['subscription'] = 0; // Обновляем данные в сессии
+                        Users::auth(Users::getUserById($unsubscribeUser->id));
                     } else {
                         $errors[] = 'Ошибка обработки данных. Обратитесь к Администратору.';
                     }
-                } else { // если нет, то выдаем ошибку
-                    $errors[] = 'Ошибка получения данных. Обратитесь к Администратору.';
                 }
             }
         }
@@ -125,9 +105,9 @@ class UserController extends AbstractController
             'unsubscribe',
             [
                 'title' => 'Отписка от рассылки',
-                'result' =>  $result ?? '',
-                'email' =>  $email ?? '',
-                'errors' =>  $errors ?? '',
+                'email' =>  $email ?? null,
+                'result' =>  $result ?? null,
+                'errors' =>  $errors ?? null,
             ]
         );
     }
@@ -135,13 +115,13 @@ class UserController extends AbstractController
     /**
      * Подписка на рассылку
      * 
-     * @return object View - объект представления страницы подписки на рассылку
+     * @return View - объект представления страницы подписки на рассылку
      */
-    public function subscription()
+    public function subscription(): View
     {
-        $result = false;
-        $errors = false;
-        $user = '';
+        // $result = false;
+        // $errors = false;
+        // $user = '';
         $id = $_SESSION['user']['id'] ?? '';
 
         if (isset($_POST['subscribeAuthUser'])) {
@@ -205,9 +185,9 @@ class UserController extends AbstractController
             'subscription',
             [
                 'title' => 'Подписка на рассылку',
-                'result' => $result ?? '',
-                'email' => $email ?? '',
-                'errors' => $errors ?? '',
+                'email' =>  $email ?? null,
+                'result' =>  $result ?? null,
+                'errors' =>  $errors ?? null,
             ]
         );
     }

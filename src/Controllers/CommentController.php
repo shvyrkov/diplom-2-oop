@@ -20,7 +20,7 @@ class CommentController extends AbstractPrivateController
      *
      * @return View - объект представления страницы выбранной статьи
      */
-    public function addComment($id)
+    public function addComment(int $id)
     {
         if (isset($_POST['loadComment'])) {
             $text = $_POST['text'] ?? null;
@@ -28,12 +28,10 @@ class CommentController extends AbstractPrivateController
             $errors = ArticleValidator::validate($text);
 
             if (!$errors) {
-                $commentAdded = Comments::addComment($text, $id, $this->user);
-
-                if (!$commentAdded) {
+                if (!Comments::addComment($text, $id, $this->user)) {
                     $errors[] = 'Ошибка записи комментария. Обратитесь к администртору!';
                 } else {
-                    $this->redirect('/article/' . $id); // Перегружаем с новыми данными для предотвращения переотправки формы
+                    $this->redirect('/article/' . $id); // Предотвращает переотправку формы.
                 }
             }
 
@@ -46,6 +44,7 @@ class CommentController extends AbstractPrivateController
                     'title' => $article->title, // Название статьи для <title> и др.в вётстке
                     'comments' => Comments::getCommentsByArticleId($id),
                     'user' => $this->user,
+                    'text' => $text,
                     'errors' =>  $errors ?? null
                 ]
             );
@@ -55,11 +54,12 @@ class CommentController extends AbstractPrivateController
     /**
      * Утверждение комментария.
      *
-     * @var int $id - данные строки запроса - id-статьи в БД
+     * @var int $articleId - данные строки запроса - id-статьи в БД
+     * @var int $commentId - данные строки запроса - id-комментария к статье в БД
      */
     public function approveComment(int $articleId, int $commentId)
     {
-        if (isset($_POST['approve'])) { // 
+        if (isset($_POST['approve'])) {
             Comments::approveComment($commentId);
         }
 
@@ -69,7 +69,8 @@ class CommentController extends AbstractPrivateController
     /**
      * Отклонение комментария.
      *
-     * @var int $id - данные строки запроса - id-статьи в БД
+     * @var int $articleId - данные строки запроса - id-статьи в БД
+     * @var int $commentId - данные строки запроса - id-комментария к статье в БД
      */
     public function denyComment(int $articleId, int $commentId)
     {
