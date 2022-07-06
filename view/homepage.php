@@ -18,7 +18,7 @@ include 'layout/header.php';
         <div class="row ">
             <div class="col-sm-4 " align="center">
                 <form action="" method="POST">
-                    <button type="submit" name="subscribeAuthUser" value="1" class="btn btn-primary">Подписаться на рассылку.</button>
+                    <button type="submit" name="subscribe" value="1" class="btn btn-primary">Подписаться на рассылку.</button>
                 </form>
                 <br>
             </div>

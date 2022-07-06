@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Model\Articles;
 use App\Model\Comments;
-use App\Validator\ArticleValidator;
+use App\Validator\CommentValidator;
 use App\View\View;
 
 /**
@@ -25,7 +25,7 @@ class CommentController extends AbstractPrivateController
         if (isset($_POST['loadComment'])) {
             $text = $_POST['text'] ?? null;
 
-            $errors = ArticleValidator::validate($text);
+            $errors = CommentValidator::validate($text);
 
             if (!$errors) {
                 if (!Comments::addComment($text, $id, $this->user)) {

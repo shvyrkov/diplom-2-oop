@@ -8,7 +8,7 @@ include 'layout/header.php';
     <div class="col-sm-8 col-sm-offset-4 padding-right">
       <div class="signup-form">
         <h2>Вход </h2>
-        <?php if (preg_match('~article\/\w~', $_SERVER['HTTP_REFERER'])) : ?>
+        <?php if (preg_match('~article\/\w~', $_SERVER['HTTP_REFERER'] ?? '')) : ?>
           <h4 class="font-error">Авторизуйтесь пожалуйста.</h4>
         <?php endif;
         include 'errors/errors-list.php';

@@ -10,9 +10,9 @@ include 'layout/header.php';
 </div>
 <?php
 if (
-  !isset($_SESSION['user']) // Пользователь неавторизован 
-  && !$result               // и подписка не прошла (и для авторизованных) - $result
-  || $errors                // или ошибка
+  !isset($user) // Пользователь неавторизован 
+  && !$result   // и подписка не прошла (и для авторизованных) - $result
+  || $errors    // или ошибка
 ) {
 ?>
   <div class="container">
@@ -24,14 +24,14 @@ if (
               <label for="email" class="form-label">Введите Ваш e-mail для получения уведомлений о появлении новой статьи на сайте:</label>
               <input type="email" class="form-control
                   <?php
-                  if ($errors['checkEmail'] || $errors['checkEmailExists']) {
+                  if ($errors) {
                     echo "border-error";
                   }
                   ?>
                   " id="email" name="email" required placeholder="name@example.com" value="<?php printf('%s', $email ?? ''); ?>">
             </div>
             <div class="mb-3">
-              <button type="submit" name="subscribeNotAuthUser" class="btn btn-primary">Подписаться на рассылку.</button>
+              <button type="submit" name="subscribe" class="btn btn-primary">Подписаться на рассылку.</button>
             </div>
           </form>
         </div>

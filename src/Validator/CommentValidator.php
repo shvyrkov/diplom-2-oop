@@ -5,10 +5,10 @@ namespace App\Validator;
 use App\Components\Helper;
 
 /**
- * Класс ArticleValidator - контроллер для валидации данных на странице статьи
+ * Класс CommentValidator - контроллер для валидации данных на странице статьи
  * @package App\Validator
  */
-class ArticleValidator
+class CommentValidator
 {
     /**
      * Валидация текста комментария

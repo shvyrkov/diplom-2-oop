@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use \SplFileInfo;
+use App\Components\Helper;
 use App\Components\Menu;
 use App\Components\SimpleImage;
 use App\Model\Users;
@@ -23,24 +24,28 @@ class UserController extends AbstractController
      */
     public function login(): View
     {
-        if (isset($_POST['submit'])) { // Обработка формы авторизации
-            $email = $_POST['email'] ?? null;
-            $password = $_POST['password'] ?? null;
+        if (!$this->user) {
+            if (isset($_POST['submit'])) {
+                $email = $_POST['email'] ?? null;
+                $password = $_POST['password'] ?? null;
 
-            $errors = UserValidator::loginValidate($email);
+                $errors = UserValidator::loginValidate($email);
 
-            if (!$errors) {
-                $user = Users::checkUserData($email, $password);
+                if (!$errors) {
+                    $user = Users::checkUserData($email, $password);
 
-                if ($user) {
-                    Users::auth($user); // Если данные правильные, запоминаем пользователя в сессии
+                    if ($user) {
+                        Users::auth($user); // Если данные правильные, запоминаем пользователя в сессии
 
-                    $this->redirect('/lk');
-                } else {
-                    $errors['wrongData'] = 'Неправильные данные для входа.<br>
+                        $this->redirect('/lk');
+                    } else {
+                        $errors['wrongData'] = 'Неправильные данные для входа.<br>
                                 Возможно нажата клавиша CapsLock или несоответствующая раскладка клавиатуры';
+                    }
                 }
             }
+        } else {
+            $this->redirect('/lk');
         }
 
         return new View(
@@ -82,18 +87,20 @@ class UserController extends AbstractController
         if (isset($_POST['unsubscribe'])) {
             $email = $_POST['email'] ?? null;
 
-            $errors = UserValidator::subscribeValidate($email);
+            $errors = UserValidator::unsubscribeValidate($email);
 
             if (!$errors) {
                 $unsubscribeUser = Users::getUserByEmail($email);
 
                 if (!$unsubscribeUser->subscription) { // пользователь не подписан
-                    $errors['checkEmailExists'] = ' Вы не подписаны на рассылку.';
+                    $errors['subscription'] = ' Вы не подписаны на рассылку.';
                 } else {
                     $result = Users::changeSubscription($unsubscribeUser->id, 0);
 
                     if ($result) {
-                        Users::auth(Users::getUserById($unsubscribeUser->id));
+                        if ($this->user) {
+                            Users::auth(Users::getUserById($unsubscribeUser->id));
+                        }
                     } else {
                         $errors[] = 'Ошибка обработки данных. Обратитесь к Администратору.';
                     }
@@ -119,64 +126,30 @@ class UserController extends AbstractController
      */
     public function subscription(): View
     {
-        // $result = false;
-        // $errors = false;
-        // $user = '';
-        $id = $_SESSION['user']['id'] ?? '';
+        if (isset($_POST['subscribe'])) {
+            if ($this->user) { // Если пользователь авторизован, то подписываем его на рассылку (кнопка Пописаться на Главной видна только у неподписанных пользователей)
+                $result = Users::changeSubscription($this->user->id, 1);
 
-        if (isset($_POST['subscribeAuthUser'])) {
-            if ($id) { // Если пользователь авторизован, то подписываем его на рассылку (кнопка Пописаться видна только у неподписанных пользователей)
-                $result = Users::changeSubscription($id, 1);
-
-                if ($result) { // Только для авторизоанного пользователя запрашиваем новые данные 
-                    $user = Users::getUserById($id);
+                if ($result) { // Для авторизоанного пользователя обновляем данные в сессии
+                    Users::auth(Users::getUserById($this->user->id));
+                } else {
+                    $errors[] = 'Ошибка. Обратитесь к администратору.';
                 }
+            } else { // Если пользователь НЕавторизован, то переводим его на страницу подписки для ввода e-mail
+                $email = $_POST['email'] ?? '';
 
-                if ($user) { // Если данные правильные, запоминаем пользователя в сессии 
-                    Users::auth($user);
-                } else { // Если данные не получены - показываем ошибку 
-                    $errors[] = 'Ошибка получения данных.';
-                }
-            }
-        }
+                $errors = UserValidator::subscribeValidate($email);
 
-        if (isset($_POST['subscribeNotAuthUser'])) { // Если пользователь НЕавторизован, то переводим его на страницу подписки для ввода e-mail
+                if (!$errors) {
+                    $id = Users::insertGetId(
+                        ['email' => $email, 'role' => NO_USER, 'subscription' => 1]
+                    );
 
-            $email = $_POST['email'] ?? '';
-            // Валидация e-mail
-            if (!$email) {
-                $errors[] = 'Введите e-mail';
-            }
-
-            if (!Users::checkEmail($email)) { //  Проверка правильности ввода e-mail
-                $errors['checkEmail'] = ' Неправильный email';
-            }
-
-            if (Users::checkEmailExists($email)) { //  Есть пользователь
-                $user = Users::getUserByEmail($email);
-
-                if ($user->name) { // уже зарегистрированный 
-                    $errors['checkEmailExists'] = ' Такой email уже используется, авторизуйтесь пожалуйста.';
-                } elseif ($user->subscription) { // НЕавторизованный, но подписанный пользователь
-                    $errors['checkEmailExists'] = ' Вы уже подписаны на рассылку.';
-                }
-            }
-
-            if (!$errors) { // Если ошибок нет, то подписываем пользователя на рассылку.
-                if (!$user) {
-                    $user = new Users(); // Если пользователя нет в БД, то регистрируем его 
-                }
-
-                $user->email = $email;
-                $user->role = NO_USER; // как NO_USER
-                $user->subscription = 1; // и подписываем его на рассылку
-                $user->save();
-                $id = $user->id;
-
-                $user = Users::getUserById($id); // Запрашиваем данные подписанного пользователя из БД
-
-                if ($user->subscription) { // Если у него есть подписка, то всё Ок.
-                    $result = true;
+                    if (Users::getUserById($id)->subscription) {
+                        $result = true;
+                    } else {
+                        $errors[] = 'Ошибка. Обратитесь к администратору.';
+                    }
                 }
             }
         }
@@ -186,6 +159,7 @@ class UserController extends AbstractController
             [
                 'title' => 'Подписка на рассылку',
                 'email' =>  $email ?? null,
+                'user' =>  $this->user ?? null,
                 'result' =>  $result ?? null,
                 'errors' =>  $errors ?? null,
             ]
@@ -199,64 +173,38 @@ class UserController extends AbstractController
      */
     public function registration()
     {
-        if (isset($_POST['submit'])) { // Обработка формы авторизации
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-            $confirm_password = $_POST['confirm_password'];
-            $rules = $_POST['rules'];
+        if (!$this->user) {
+            if (isset($_POST['submit'])) {
+                $name = $_POST['name'] ?? null;
+                $email = $_POST['email'] ?? null;
+                $password = $_POST['password'] ?? null;
+                $confirm_password = $_POST['confirm_password'] ?? null;
+                $rules = isset($_POST['rules']) ? true : false;
 
-            $errors = false;
+                $errors = UserValidator::registrationValidate(
+                    $name,
+                    $email,
+                    $password,
+                    $confirm_password,
+                    $rules
+                );
 
-            if (!(isset($name) && isset($email) && isset($password) && isset($confirm_password) && isset($rules))) {
-                $errors[] = 'Не все поля заполнены';
-            }
+                if (!$errors) {
+                    Users::register($email, USER, $name, password_hash($password, PASSWORD_DEFAULT));
 
-            // Проверка ошибок ввода
-            if (!Users::checkName($name)) {
-                $errors['checkName'] = ' - не должно быть короче 2-х символов';
-            }
+                    $user = Users::checkUserData($email, $password);
 
-            if (!Users::checkEmail($email)) { //  Проверка правильности ввода e-mail
-                $errors['checkEmail'] = ' - неправильный email';
-            }
+                    if (!$user) {
+                        $errors[] = 'Регистрация не прошла.';
+                    } else {
+                        Users::auth($user); // Если данные правильные, запоминаем пользователя в сессии
 
-            if (!Users::checkPassword($password)) {
-                $errors['checkPassword'] = ' - не должен быть короче 6-ти символов';
-            }
-
-            if (!Users::comparePasswords($password, $confirm_password)) {
-                $errors['comparePasswords'] = ' - пароли не совпадают';
-            }
-
-            if (Users::checkEmailExists($email)) {
-                $errors['checkEmailExists'] = ' - такой email уже используется';
-            }
-
-            if (Users::checkNameExists($name)) {
-                $errors['checkNameExists'] = ' - такое имя уже используется';
-            }
-
-            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-            if (!$errors) { // Если ошибок нет, то регистрируем пользователя.
-                Users::register($email, USER, $name, $passwordHash);
-
-                // Проверяем зарегистрировался ли пользователь
-                $user = Users::checkUserData($email, $password);
-
-                if (!$user) {
-                    // Если данные неправильные - показываем ошибку
-                    $errors[] = 'Регистрация не прошла.';
-                    // Если регистрация на прошла - опять на страницу регистрациии
-                } else {
-                    // Если данные правильные, запоминаем пользователя в сессии
-                    Users::auth($user);
-
-                    // Перенаправляем пользователя в закрытую часть - кабинет 
-                    $this->redirect('/lk');
+                        $this->redirect('/lk');
+                    }
                 }
             }
+        } else {
+            $this->redirect('/lk');
         }
 
         return new View(
@@ -280,17 +228,16 @@ class UserController extends AbstractController
      */
     public function lk()
     {
-        if (isset($_SESSION['user']['id'])) {
-            $errors = false;
-
+        if ($this->user) {
             if (isset($_POST['submit'])) { // Обработка формы ЛК
-                $name = $_POST['name'];
-                $email = $_POST['email'];
-                $aboutMe = $_POST['aboutMe'];
+                $name = $_POST['name'] ?? $this->user->name;
+                $email = $_POST['email'] ?? $this->user->email;
+                $aboutMe = $_POST['aboutMe'] ?? $this->user->aboutMe;
 
+                $errors = null;
                 // Проверка ошибок ввода
                 if (!Users::checkName($name)) {
-                    $errors['checkName'] = '- не должно быть короче 2-х символов';
+                    $errors['checkName'] = '- не должно быть короче ' . MIN_NAME_LENGTH . '-х символов';
                 }
 
                 if (!($name == $_SESSION['user']['name'])) { // Если имя было изменено
@@ -309,6 +256,10 @@ class UserController extends AbstractController
                     }
                 }
 
+                if (!Helper::checkLength($aboutMe, MIN_ABOUTME_LENGTH, MAX_ABOUTME_LENGTH)) {
+                    $errors['checkAboutMe'] = 'не должно быть меньше ' . MIN_ABOUTME_LENGTH . ' и не больше ' . MAX_ABOUTME_LENGTH . ' символов';
+                }
+
                 if ($_FILES['myfile']['name'] != '') { // Проверка на наличие файла для загрузки
                     $types = include(CONFIG_DIR . IMAGE_TYPES);
                     $fileError = SimpleImage::imageFileValidation($types, FILE_SIZE, $_FILES); // Валидация файла изображения
@@ -317,10 +268,9 @@ class UserController extends AbstractController
                         $errors['file'] = $fileError; // Если валидация не прошла, то добавляем её ошибки
                     }
 
-                    if ($errors === false) { // Загружаем файл на сервер
+                    if (!$errors) { // Загружаем файл на сервер
 
                         if ((DEFAULT_AVATAR != $_SESSION['user']['avatar']) // Если это не заставка 
-                            // && ($name != $_SESSION['user']['name']) // и было изменено имя пользователя,
                             && file_exists(AVATAR_STORAGE . $_SESSION['user']['avatar'])
                         ) {
                             unlink(AVATAR_STORAGE . $_SESSION['user']['avatar']); // то удаляем старый аватар на сервере 
@@ -338,7 +288,7 @@ class UserController extends AbstractController
                     }
                 }
 
-                if ($errors === false) { // Если ошибок нет, то обновляем данные пользователя.
+                if (!$errors) { // Если ошибок нет, то обновляем данные пользователя.
                     if (Users::updateUser($_SESSION['user']['id'], $name, $email, $aboutMe, ($_FILES['myfile']['name'] != '') ? $fileName : $_SESSION['user']['avatar'])) { // Если обновление прошло нормально
 
                         // Получаем обновленные данные пользователя
@@ -373,20 +323,17 @@ class UserController extends AbstractController
                         $user = Users::getUserById($_SESSION['user']['id']);
 
                         if (!$user) {
-                            // Если данные не получены - показываем ошибку
                             $errors[] = 'Ошибка получения данных.';
                         } else {
-                            // Если данные правильные, запоминаем пользователя в сессии
-                            Users::auth($user);
+                            Users::auth($user); // Если данные правильные, запоминаем пользователя в сессии
 
-                            // Перегружаем кабинет с новыми данными
-                            $this->redirect('/lk');
+                            $this->redirect('/lk'); // Перегружаем кабинет с новыми данными
                         }
                     } else {
                         $errors[] = 'Ошибка обновления данных.';
                     }
                 }
-            }
+            } 
 
             return new View(
                 'lk',
