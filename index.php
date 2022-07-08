@@ -27,10 +27,8 @@ foreach (Methods::all() as $method) {
 }
 // --- Страницы сайта -----
 $router->get('',      [SiteController::class, 'index']); // Маршрут для корня сайта (/) - метод index в App\Controllers\SiteController
-$router->post('',      [UserController::class, 'subscription']); // Подписка на рассылку на Главной
 
 $router->get('page-*', [SiteController::class, 'index']); // Маршрут для page-1 - пагинация - метод index в App\Controllers\SiteController
-$router->post('page-*', [UserController::class, 'subscription']); // Подписка на рассылку на Главной в пагинации
 
 $router->get('about', [SiteController::class, 'about']);
 $router->get('contacts', [SiteController::class, 'contacts']);

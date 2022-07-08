@@ -23,7 +23,7 @@ if (
               <label for="email" class="form-label">Введите Ваш e-mail для прекращения получения уведомлений:</label>
               <input type="email" class="form-control
                   <?php
-                  if ($errors['checkEmail'] || $errors['checkEmailExists']) {
+                  if (isset($errors['email'])) {
                     echo "border-error";
                   }
                   ?>

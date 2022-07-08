@@ -11,7 +11,7 @@ use App\Model\Post;
  * Класс PostController - контроллер для работы с рассылками
  * @package App\Controllers
  */
-class PostController
+class PostController extends AbstractController
 {
     public function post()
     {

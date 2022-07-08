@@ -6,14 +6,7 @@ include 'layout/header.php';
   <br>
   <div class="row">
     <div class="col-sm-8 col-sm-offset-4 padding-right">
-      <?php if (isset($errors) && is_array($errors)) : ?>
-        <ul>
-          <?php foreach ($errors as $error) : ?>
-            <li class="font-error"> <?php echo $error; ?></li>
-          <?php endforeach; ?>
-        </ul>
-      <?php endif; ?>
-
+      <?php include 'errors/errors-list.php'; ?>
       <div class="signup-form">
         <h2>Смена пароля </h2>
         <?php
@@ -24,7 +17,7 @@ include 'layout/header.php';
           <div class="mb-3">
             <label for="old_password" class="form-label">Старый пароль</label>
             <input type="password" class="form-control 
-              <?php if ($errors) : ?>
+              <?php if (isset($old_password) && isset($errors['wrongPassword'])) : ?>
                 border-error
               <?php endif ?>
               " id="old_password" name="old_password" value="<?= $old_password ?>">
@@ -33,7 +26,7 @@ include 'layout/header.php';
           <div class="mb-3">
             <label for="new_password" class="form-label">Новый пароль</label>
             <input type="password" class="form-control 
-              <?php if ($errors) : ?>
+              <?php if (isset($old_password) && isset($errors['checkPassword'])) : ?>
                 border-error
               <?php endif ?>
               " id="new_password" name="new_password" value="<?= $new_password ?>">
@@ -42,7 +35,7 @@ include 'layout/header.php';
           <div class="mb-3">
             <label for="confirm_password" class="form-label">Ещё раз новый пароль</label>
             <input type="password" class="form-control
-              <?php if ($errors) : ?>
+              <?php if (isset($confirm_password) && isset($errors['comparePasswords'])) : ?>
                 border-error
               <?php endif ?>
               " id="confirm_password" name="confirm_password" value="<?= $confirm_password ?>">

@@ -45,4 +45,22 @@ class Helper
 
         return $bytes;
     }
+
+    /**
+     * Вывод массива ошибок в верстку
+     *
+     * @param array $errors
+     * HTML с ошибками
+     * @return string  $errorString - HTML с ошибкамив в виде списка: <li>error</li>
+     */
+    public static function getErrors(array $errors = []): string
+    {
+        $errorString = '';
+
+        foreach ($errors as $error) {
+            $errorString .=  $errorString . '<li class="font-error">' . $error . '</li>';
+        }
+
+        return $errorString;
+    }
 }

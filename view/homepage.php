@@ -13,14 +13,12 @@ include 'layout/header.php';
     <?php
     include 'layout/pagination.php';
 
-    if (!($user->subscription ?? 0)) : // Если пользователь неподписан или неавторизован 
+    if (!($user->subscription ?? null)) : // Если пользователь неподписан или неавторизован 
     ?>
         <div class="row ">
             <div class="col-sm-4 " align="center">
-                <form action="" method="POST">
-                    <button type="submit" name="subscribe" value="1" class="btn btn-primary">Подписаться на рассылку.</button>
-                </form>
-                <br>
+                <a href="/subscription"><button type="submit" class="btn btn-primary">Подписаться на рассылку</button></a>
+                <br><br>
             </div>
         </div>
     <?php endif ?>

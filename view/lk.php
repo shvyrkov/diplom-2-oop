@@ -4,7 +4,19 @@ use App\Components\Helper;
 
 include 'layout/header.php';
 ?>
-
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-4 padding-right">
+      <ul>
+        <?php
+        if (isset($errors['user'])) {
+          printf('%s', Helper::getErrors($errors['user']));
+        }
+        ?>
+      </ul>
+    </div>
+  </div>
+</div>
 <div class="container">
   <h1><?= $title ?></h1>
   <form action="" enctype="multipart/form-data" id="loadUser" method="post">
@@ -14,37 +26,31 @@ include 'layout/header.php';
           <div class="mb-3">
             <label for="name_lk" class="form-label">Имя</label>
             <input type="text" class="form-control 
-                <?php if ($errors['checkName'] || $errors['checkNameExists']) : ?>
+                <?php if (isset($errors['name'])) : ?>
                   border-error
                 <?php endif ?>
-                " id="name_lk" name="name" required placeholder="name" value="<?php printf('%s', $_SESSION['user']['name'] ?? ''); ?>">
+                " id="name_lk" name="name" required placeholder="name" value="<?php printf('%s', $name ? $name : $user->name); ?>">
             <span class="font-error">
-              <?php
-              printf('%s', ($name != $_SESSION['user']['name']) ? $name : '');
-              printf(' %s', $errors['checkName'] ?? '');
-              printf(' %s', $errors['checkNameExists'] ?? '');
-              ?>
+              <?php printf(' %s', $errors['name'] ?? ''); ?>
             </span>
           </div>
           <div class="mb-3">
             <label for="email_lk" class="form-label">Email</label>
             <input type="email" class="form-control
-                <?php if ($errors['checkEmail'] || $errors['checkEmailExists']) : ?>
+                <?php if (isset($errors['email'])) : ?>
                    border-error 
                 <?php endif ?>
-                " id=" email_lk" name="email" required placeholder="name@example.com" value="<?php printf('%s', $_SESSION['user']['email'] ?? ''); ?>">
+                " id=" email_lk" name="email" required placeholder="name@example.com" value="<?php printf('%s', $email ? $email : $user->email); ?>">
             <span class="font-error">
               <?php
-              printf('%s', ($email != $_SESSION['user']['email']) ? $email : '');
-              printf(' %s', $errors['checkEmail'] ?? '');
-              printf(' %s', $errors['checkEmailExists'] ?? '');
+              printf(' %s', $errors['email'] ?? '');
               ?>
             </span>
           </div>
           <div class="mb-3">
             <?php
             foreach ($roles as $role) {
-              if ($_SESSION['user']['role'] == $role['id']) {
+              if ($user->role == $role['id']) {
                 $userRole = $role['name'];
               }
             }
@@ -53,24 +59,35 @@ include 'layout/header.php';
           </div>
           <div class="mb-3">
             <label for="about_me_lk" class="form-label">О себе</label>
-            <textarea class="form-control" id="about_me_lk" name="aboutMe" rows="3"><?php printf('%s', $_SESSION['user']['aboutMe'] ?? ''); ?></textarea>
+            <textarea class="form-control <?php if ($errors['aboutMe']) : ?> border-error <?php endif ?>" id="about_me_lk" name="aboutMe" rows="3"><?php printf('%s', $aboutMe ?  $aboutMe : $user->aboutMe); ?></textarea>
+            <span class="font-error">
+              <?php
+              printf(' %s', $errors['aboutMe'] ?? '');
+              ?>
+            </span>
           </div>
+
           <div class="mb-3">
             <button class="btn btn-outline-primary" type="submit" name="submit" id="submit">Сохранить изменения</button>
+          </div>
+
+          <div class="mb-3">
             <a href="password"><button class="btn btn-outline-secondary" type="button" name="pwd" id="pwd">Сменить пароль</button></a>
           </div>
+
           <div class="mb-3">
             <?php
-            if (!$_SESSION['user']['subscription']) { ?>
-              <button class="btn btn-outline-warning" type="submit" name="subscription" value="1" id="subscriptOn">Подписаться на рассылку</button>
+            if (!$user->subscription) { ?>
+              <a href="/subscription"><button type="submit" class="btn btn-outline-warning">Подписаться на рассылку</button></a>
             <?php
             } else { ?>
-              <button class="btn btn-outline-danger" type="submit" name="subscription" value="0" id="subscriptOff">Отписаться от рассылки</button>
+              <a href="/unsubscribe"><button type="submit" class="btn btn-outline-danger">Отписаться от рассылки</button></a>
             <?php } ?>
           </div>
+
           <div class="mb-3">
             <?php
-            if ($_SESSION['user']['role'] <= CONTENT_MANAGER) : // 1 - admin, 2 - content-manager 
+            if (in_array($user->role, [ADMIN, CONTENT_MANAGER])) :
             ?>
               <a href="admin"><button class="btn btn-outline-dark" type="button" name="admin" id="admin">Админка</button></a>
             <?php endif ?>
@@ -82,10 +99,10 @@ include 'layout/header.php';
       <div class="col-sm-4 col-sm-offset-4 padding-right">
         <div class="card
           <?php
-          if ($errors['file']) : ?>
+          if (isset($errors['file'])) : ?>
             border-error
           <?php endif ?> ">
-          <img src="<?= AVATARS . $_SESSION['user']['avatar'] ?>" class="card-img-top" alt="avatar">
+          <img src="<?= AVATARS . $user->avatar ?>" class="card-img-top" alt="avatar">
           <div class="card-body">
             <h5 class="card-title"></h5>
             <p class="card-text"></p>
