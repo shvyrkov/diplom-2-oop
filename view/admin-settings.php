@@ -1,13 +1,13 @@
 <?php
 include 'layout/admin_header.php';
 include 'layout/admin_title.php';
+include 'errors/errors-list.php';
 ?>
 
 <div class="container">
   <div class="row">
     <div class="col-sm-12 col-sm-offset-4 padding-right">
       <div class="signup-form">
-        <h2><?= $title ?></h2>
         <table class="table" width="100%">
           <thead>
             <tr>

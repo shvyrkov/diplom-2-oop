@@ -78,10 +78,10 @@ include 'layout/header.php';
           <div class="mb-3">
             <?php
             if (!$user->subscription) { ?>
-              <a href="/subscription"><button type="submit" class="btn btn-outline-warning">Подписаться на рассылку</button></a>
+              <a href="subscription"><button type="button" class="btn btn-outline-warning">Подписаться на рассылку</button></a>
             <?php
             } else { ?>
-              <a href="/unsubscribe"><button type="submit" class="btn btn-outline-danger">Отписаться от рассылки</button></a>
+              <a href="unsubscribe"><button type="button" class="btn btn-outline-danger">Отписаться от рассылки</button></a>
             <?php } ?>
           </div>
 

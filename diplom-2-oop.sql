@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `articles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8 COMMENT='Статьи: название, картинка, дата публикации, краткое описание, полное содержание статьи';
 
--- Дамп данных таблицы diplom_2_oop.articles: ~52 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.articles: ~30 rows (приблизительно)
 DELETE FROM `articles`;
 /*!40000 ALTER TABLE `articles` DISABLE KEYS */;
 INSERT INTO `articles` (`id`, `title`, `subtitle`, `description`, `content`, `people`, `duration`, `author`, `link`, `thumbnail`, `image`, `date`, `user_id`) VALUES
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `article_methods` (
   CONSTRAINT `FK2_id_method` FOREIGN KEY (`id_method`) REFERENCES `methods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица соответствия между статьями и типами методов, к которым они принадлежат.';
 
--- Дамп данных таблицы diplom_2_oop.article_methods: ~119 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.article_methods: ~80 rows (приблизительно)
 DELETE FROM `article_methods`;
 /*!40000 ALTER TABLE `article_methods` DISABLE KEYS */;
 INSERT INTO `article_methods` (`id_article`, `id_method`, `description`) VALUES
@@ -206,9 +206,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
   KEY `FK2_user_id` (`user_id`),
   CONSTRAINT `FK1_article_id` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK2_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8 COMMENT='Комментарии пользователей к статьям';
+) ENGINE=InnoDB AUTO_INCREMENT=215 DEFAULT CHARSET=utf8 COMMENT='Комментарии пользователей к статьям';
 
--- Дамп данных таблицы diplom_2_oop.comments: ~70 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.comments: ~123 rows (приблизительно)
 DELETE FROM `comments`;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 INSERT INTO `comments` (`id`, `text`, `date`, `article_id`, `user_id`, `approve`, `deny`) VALUES
@@ -277,7 +277,64 @@ INSERT INTO `comments` (`id`, `text`, `date`, `article_id`, `user_id`, `approve`
 	(152, 'test2', '2022-06-16 13:21:00', 102, 11, 1, 0),
 	(155, 'erdhtfhg', '2022-06-18 17:39:11', 112, 1, 1, 0),
 	(156, 'erdhtfhg', '2022-06-18 17:39:17', 112, 1, 1, 0),
-	(157, 'xfghjkl', '2022-06-18 17:51:01', 114, 1, 0, 1);
+	(157, 'xfghjkl', '2022-06-18 17:51:01', 114, 1, 0, 1),
+	(158, 'тест111', '2022-06-27 16:16:14', 118, 1, 1, 0),
+	(159, 'g', '2022-06-27 16:19:44', 118, 1, 1, 0),
+	(160, 'jj', '2022-06-28 11:42:39', 118, 1, 1, 0),
+	(161, 'fvv', '2022-06-28 12:21:43', 118, 1, 1, 0),
+	(162, 'ghh', '2022-06-28 12:26:24', 118, 11, 0, 1),
+	(163, 'vhuovhi', '2022-06-28 12:29:49', 116, 11, 1, 0),
+	(164, 'cvb', '2022-06-28 12:30:35', 116, 11, 0, 1),
+	(165, 'sdfvbn', '2022-06-28 12:43:07', 116, 3, 1, 0),
+	(166, 'а', '2022-06-28 13:51:56', 118, 1, 1, 0),
+	(167, 'ывапрол', '2022-06-28 13:53:10', 118, 1, 1, 0),
+	(168, 'ло', '2022-06-28 13:57:33', 118, 1, 1, 0),
+	(169, 'ыв', '2022-06-29 11:12:30', 116, 1, 1, 0),
+	(170, 'dfvbnm,', '2022-06-29 11:29:28', 118, 1, 1, 0),
+	(171, 'zzzzzzzzzzzz', '2022-06-29 11:31:40', 116, 1, 1, 0),
+	(172, 'sdfghm', '2022-06-29 13:14:12', 118, 66, 1, 0),
+	(173, 'zxcvbn', '2022-06-29 13:42:34', 118, 67, 1, 0),
+	(174, 'прол', '2022-06-29 13:49:30', 116, 66, 1, 0),
+	(175, 'ывапролдж', '2022-06-29 13:50:40', 116, 3, 0, 1),
+	(176, 'xcvvvvvvvvvvvvv', '2022-06-29 16:10:50', 116, 66, 1, 0),
+	(177, 'vdgvsf', '2022-06-29 16:42:52', 116, 66, 0, 1),
+	(178, 'сссссссссс', '2022-06-29 18:28:00', 116, 1, 1, 0),
+	(179, 'ffffffffff', '2022-06-29 18:32:44', 116, 1, 1, 0),
+	(180, 'zdgzgszd', '2022-06-29 18:32:48', 116, 1, 1, 0),
+	(181, 'mjgvkj,hv,nb', '2022-06-30 11:06:48', 116, 66, 1, 0),
+	(182, 'чччччччччччч', '2022-06-30 12:15:48', 114, 2, 1, 0),
+	(183, 'xcvbn', '2022-06-30 12:19:42', 116, 2, 1, 0),
+	(184, 'zxcvbnm,./', '2022-06-30 12:23:27', 116, 2, 1, 0),
+	(185, 'cccc               bbbbbbbbbbb', '2022-06-30 12:24:00', 116, 2, 1, 0),
+	(186, 'ssss', '2022-06-30 12:35:18', 114, 2, 1, 0),
+	(187, 'xfghjk,m', '2022-06-30 12:50:44', 114, 3, 0, 1),
+	(188, 'vb vbvbbxc', '2022-06-30 12:50:48', 114, 3, 1, 0),
+	(189, 'fhfdhdtjyuu', '2022-06-30 12:50:51', 114, 3, 0, 1),
+	(190, 'yjfyj mhmhk jgjj', '2022-06-30 12:50:58', 114, 3, 1, 0),
+	(191, 'zzzzzzzzzzz', '2022-06-30 13:02:58', 112, 11, 1, 0),
+	(192, 'xxxxxxxxxxxxxxxxxxx', '2022-06-30 13:03:03', 112, 11, 0, 1),
+	(193, 'sssssssssssssss', '2022-06-30 13:03:08', 112, 11, 1, 0),
+	(194, 'jjjjjjjjjjjjjjjjjjjjjj', '2022-06-30 13:03:13', 112, 11, 0, 1),
+	(195, 'vvvvvvvvvvvvvv', '2022-06-30 13:09:02', 112, 66, 0, 1),
+	(196, 'bbbbbbbbbbbbbbbbbb', '2022-06-30 13:09:06', 112, 66, 0, 1),
+	(197, 'nnnnnnnnnnnnnnnnn', '2022-06-30 13:09:09', 112, 66, 0, 1),
+	(198, 'mmmmmmmmmmmmmmmmmmmm', '2022-06-30 13:09:13', 112, 66, 1, 0),
+	(199, 'vvvvvvvvvvvv', '2022-06-30 13:16:10', 118, 2, 1, 0),
+	(200, 'ооооооооооо', '2022-06-30 17:07:06', 112, 2, 1, 0),
+	(201, 'яяяяяяяяяяяя', '2022-06-30 17:15:29', 112, 3, 1, 0),
+	(202, 'ччччччччччччччччч', '2022-06-30 17:15:34', 112, 3, 0, 1),
+	(203, 'ффффффффффффффффф', '2022-06-30 17:15:40', 112, 3, 0, 1),
+	(204, 'йййййййййййй', '2022-06-30 17:15:44', 112, 3, 1, 0),
+	(205, 'ка', '2022-07-01 12:31:34', 114, 1, 1, 0),
+	(206, 'ыыыыыыыыы', '2022-07-01 12:32:47', 114, 1, 1, 0),
+	(207, 'ыыыыыыыыы', '2022-07-01 12:40:48', 114, 1, 1, 0),
+	(208, 'ыыыыыыыыы', '2022-07-01 12:41:33', 114, 1, 1, 0),
+	(209, 'kkkk', '2022-07-01 12:41:42', 114, 1, 1, 0),
+	(210, 'vjj', '2022-07-01 12:45:31', 114, 1, 1, 0),
+	(211, 'hu', '2022-07-01 12:46:21', 114, 1, 1, 0),
+	(212, 'gjkgjkk', '2022-07-01 12:47:05', 112, 66, 0, 1),
+	(213, 'vmbncnc', '2022-07-01 12:47:09', 112, 66, 1, 0),
+	(214, 'xccccccc', '2022-07-06 10:50:48', 110, 11, 0, 0);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.methods
@@ -318,7 +375,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=365 DEFAULT CHARSET=utf8 COMMENT='Высланные оповещения по подписке на рассылку.';
 
--- Дамп данных таблицы diplom_2_oop.posts: ~242 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.posts: ~288 rows (приблизительно)
 DELETE FROM `posts`;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
 INSERT INTO `posts` (`id`, `email`, `subject`, `message`, `link`, `unsubscribe`, `date`) VALUES
@@ -820,7 +877,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 DELETE FROM `settings`;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` (`id`, `name`, `value`, `description`) VALUES
-	(1, 'article_quantity_on_page', '8', 'Количество статей выводимое на страницу');
+	(1, 'article_quantity_on_page', '4', 'Количество статей выводимое на страницу');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 
 -- Дамп структуры для таблица diplom_2_oop.users
@@ -840,30 +897,30 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `name` (`name`),
   KEY `FK1_role` (`role`),
   CONSTRAINT `FK1_role` FOREIGN KEY (`role`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы diplom_2_oop.users: ~34 rows (приблизительно)
+-- Дамп данных таблицы diplom_2_oop.users: ~44 rows (приблизительно)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscription`, `avatar`, `aboutMe`) VALUES
-	(1, 'yuri', 1, 'yu@mail.ru', '$2y$10$ZrnX7dHfFQdoIf6OifK/v.1hGoRBv0TSFryLjOKdKByjr2V2tmfiO', NULL, 0, 'yuri.jpg', 'Это Юрий! Hello!'),
+	(1, 'yuri', 1, 'yu@mail.ru', '$2y$10$G0NP8CNU/pH3LZfwn7fB.ui/kfYguOzKjQrN7sy3b8eI18eMO.LFC', NULL, 1, 'yuri.jpg', 'Это Юрий! Hello!'),
 	(2, 'nataliya ivanovna', 2, 'nat@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'nat.jpg', 'Это Наталия'),
 	(3, 'leon', 3, 'leo@mail.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'leon.jpg', 'Leonid'),
-	(4, 'nina', 2, 'nina@mail.ru', '$2y$10$JuZBFGhKypltSBnopzmVpObYixBVAzEGNk6wUDXjUdVDwupIX6/nG', NULL, 0, 'no-photo.jpg', 'Hello'),
+	(4, 'nina', 3, 'nina@mail.ru', '$2y$10$JuZBFGhKypltSBnopzmVpObYixBVAzEGNk6wUDXjUdVDwupIX6/nG', NULL, 0, 'no-photo.jpg', 'Hello'),
 	(7, 'qqq', 3, 'aaa@ddd.ru', '$2y$10$tC41mjnduueRBZJvhv1CIuSqjthKuuTGZRWtUI8PU4hmcUExkuTS6', NULL, 0, 'no-photo.jpg', ''),
 	(8, 'hhh', 3, 'jjj@ddd.ru', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 1, 'no-photo.jpg', ''),
-	(9, 'Iren1', 3, 'iren1@mail.ru', '$2y$10$xL1IP.8Gg2o3LgNDg1rHNeG/A80VYeHPfPS6y/15sVeBcduQeEYX2', NULL, 1, 'no-photo.jpg', ''),
+	(9, 'Iren1', 3, 'iren1@mail.ru', '$2y$10$xL1IP.8Gg2o3LgNDg1rHNeG/A80VYeHPfPS6y/15sVeBcduQeEYX2', NULL, 0, 'no-photo.jpg', ''),
 	(11, 'Irena', 3, 'irena@mail.ru', '$2y$10$p1Aa89DnHvjM./vXHbMjvuhyD5IeM1zQy6XVeXa.0KTGrOktlu6q.', NULL, 1, 'Irena.png', 'Hi'),
 	(12, 'yuri-12', 3, 'yu-12@mail.ru', '$2y$10$UVF4FljXlD2dQQsVprgVcuxyokubHpwX7IIh/whgMQWiLdVIuFvGW', NULL, 1, 'no-photo.jpg', 'Это тест-2234567'),
 	(13, 'leon12', 3, 'leo12@mail.ru', '$2y$10$xCbo/keNt7I0IQZI7JRqfeM.xAmpTVqL19lIaIAcGPIPec9LDXu6a', NULL, 0, 'no-photo.jpg', 'it\'s me'),
 	(14, 'qw', 3, 'q@w.ry', '$2y$10$LTzOUOsuoWyu3cFJfhsGD.enRr.9nYNuVYLzXwPlrp/ERAWlsdRG6', NULL, 0, 'qw.png', 'Hello, people!'),
 	(15, 'Nicole', 2, 'nici@xc.ry', '$2y$10$IhFs2OIAtuL.eHFJJmZI8.TXG8l/xWsGFz.A.jJ4AiNQmYGJej8bm', NULL, 1, 'no-photo.jpg', 'hfbm,'),
 	(16, 'zuko', 2, 'zx@qq.kk', '$2y$10$6ox46q38666BPHq1YtVK7.E9N6sR7kxFpMLQpgZJKtkf3Z.VeEHF2', NULL, 0, 'zukag.jpg', 'ajkhihk'),
-	(17, NULL, 4, 'zz1@zz.rr', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(17, NULL, 3, 'zz1@zz.rr', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(18, NULL, 4, 'zz2@zz.rr', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(19, NULL, 4, 'zz3@zz.rr', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(39, NULL, 4, 'ee@gg.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(40, NULL, 4, 'ww@dd.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(40, NULL, 4, 'ww@dd.jj', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(41, NULL, 4, 'ss@dd.nn', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(55, NULL, 4, 'kk@ded.lkl', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(56, NULL, 4, 'ee@vv.jj', NULL, NULL, 0, 'no-photo.jpg', NULL),
@@ -875,11 +932,21 @@ INSERT INTO `users` (`id`, `name`, `role`, `email`, `password`, `link`, `subscri
 	(62, NULL, 3, 'ee@jjkk.ll', NULL, NULL, 0, 'no-photo.jpg', NULL),
 	(63, NULL, 4, 'eee@dff.kkk', NULL, NULL, 1, 'no-photo.jpg', NULL),
 	(64, NULL, 4, 'qq@ss.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(65, NULL, 1, 'ee@dd.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(66, 'ыff', 2, 'aa@ss.jj', '$2y$10$COwfzJu5dyw8UnNZSKVpFOl7AIWCQzGMeVvfWlaKudxQhMFSyO6Xe', NULL, 0, 'no-photo.jpg', 'zdfgjxmh,c'),
-	(67, 'dgfxdfghjkl', 2, 'ff@dd.kk', '$2y$10$5GnNDXA4xlp3w9IFC4HRX.TxJSdGddioOX7I4dA/BYu1Ppod5ucQG', NULL, 1, 'dgfxdfghjkl.jpg', 'dtjfyguyhkujlk\r\nhgmbv,knmb '),
-	(68, NULL, 3, 'dd@ss.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
-	(69, 'еrt', 2, 'zz@s.kk', '$2y$10$70ls49g0a.oMSsjM4tkY4OoG.5A9inefVeurg3E1c6Pkxmrgqzg/O', NULL, 0, 'no-photo.jpg', NULL);
+	(65, NULL, 2, 'ee@dd.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(66, 'Петр', 3, 'aa@ss.jj', '$2y$10$NpdToOgo2ppwIO1/iDuYjucSdRthxIPpup3Gp0CGSEE7bTwGCOtRm', NULL, 0, 'Петр.jpg', 'ssxxadddsss'),
+	(67, 'dgfxdfghjkl', 3, 'ff@dd.kkj', '$2y$10$5GnNDXA4xlp3w9IFC4HRX.TxJSdGddioOX7I4dA/BYu1Ppod5ucQG', NULL, 0, 'dgfxdfghjkl.jpg', 'dtjfyguyhkujlk\r\nhgmbv,knmb '),
+	(68, NULL, 3, 'dd@ss.kk', NULL, NULL, 0, 'no-photo.jpg', NULL),
+	(69, 'еrt', 2, 'zz@s.kk', '$2y$10$70ls49g0a.oMSsjM4tkY4OoG.5A9inefVeurg3E1c6Pkxmrgqzg/O', NULL, 1, 'no-photo.jpg', NULL),
+	(70, NULL, 4, 'sxd@dd.kkk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(71, NULL, 4, 'lll@fff.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(72, NULL, 4, 'aa@sb.jj', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(73, 'aa', 3, 'aa@dw.kk', '$2y$10$vUXpJVlVZSqlg8atMerr8uKwt6EDc.z7ujbbw9deIvmvBikeLbAeG', NULL, 0, 'aa.jpg', 'ss'),
+	(74, 'll', 2, 'aa@dw.uu', '$2y$10$XzRO2nPhn/4hZ6LCqSAD0ea1TdvrrPfCBq7LK7.1IG5Cdsq0eoSnK', NULL, 0, 'no-photo.jpg', 'Биржевая цена газа на площадке ICE Futures превысила $1900 за 1 тыс. куб. м. Стоимость августовского фьючерса на хабе TTF в Нидерландах выросла более чем на 5%, достигнув €179,75 за 1 МВт·ч, или $1922,85 за 1 тыс. куб. м с учетом текущего курса, свидетельствуют данные биржи ICE на 10:06 мск. На пике стоимость газа на хабе TTF поднималась 7 июля до €183,5 за 1 МВт·ч, или $1962,97 за 1 тыс. куб.\r\n\r\nВыше отметки в $1900 за 1 тыс. куб. м стоимость газа поднялась впервые с 9 марта 2022 года.\r\n\r\nИсторический рекорд по газу в Европе был зафиксирован 7 марта — котировки достигли €345 за 1 МВт·ч, или $3931 за 1 тыс. куб. м с учетом курса на тот день на рынке Форекс. В это время валютные торги на Мосбирже не проводились из-за государственного праздника.\r\n\r\nПодробнее на РБК:\r\nhttps://quote.ru/news/article/62c6870f9a79472f4099e938?from=from_main_3\r\nБиржевая цена газа на площадке ICE Futures превысила $1900 за 1 тыс. куб. м. Стоимость августовского фьючерса на хабе TTF в Нидерландах выросла более чем на 5%, достигнув €179,75 за 1 МВт·ч, или $1922,85 за 1 тыс. куб. м с учетом текущего курса, свидетельствуют данные биржи ICE на 10:06 мск. На пике стоимость газа на хабе TTF поднималась 7 июля до €183,5 за 1 МВт·ч, или $1962,97 за 1 тыс. куб.\r\n\r\nВыше отметки в $1900 за 1 тыс. куб. м стоимость газа поднялась впервые с 9 марта 2022 года.\r\n\r\nИсторический рекорд по газу в Европе был зафиксирован 7 марта — котировки достигли €345 за 1 МВт·ч, или $3931 за 1 тыс. куб. м с учетом курса на тот день на рынке Форекс. В это время валютные торги на Мосбирже не проводились из-за государственного праздника.\r\n\r\nПодробнее на РБК:\r\nhttps://quote.ru/news/article/62c6870f9a79472f4099e938?from=from_main_3\r\nБиржевая цена газа на площадке ICE Futures превысила $1900 за 1 тыс. куб. м. Стоимость августовского фьючерса на хабе TTF в Нидерландах выросла более чем на 5%, достигнув €179,75 за 1 МВт·ч, или $1922,85 за 1 тыс. куб. м с учетом текущего курса, свидетельствуют данные биржи ICE на 10:06 мск. На пике стоимость газа на хабе TTF поднималась 7 июля до €183,5 за 1 МВт·ч, или $1962,97 за 1 тыс. куб.\r\n\r\nВыше отметки в $1900 за 1 тыс. куб. м стоимость газа поднялась впервые с 9 марта 2022 года.\r\n\r\nИсторический рекорд по газу в Европе был зафиксирован 7 марта — котировки достигли €345 за 1 МВт·ч, или $3931 за 1 тыс. куб. м с учетом курса на тот день на рынке Форекс. В это время валютные торги на Мосбирже не проводились из-за государственного праздника.\r\n\r\nПодробнее на РБК:\r\nhttps://quote.ru/news/article/62c6870f9a79472f4099e938?from=from_main_3'),
+	(75, 'fghdfghdf', 3, 'sdrrgtstg@fgh.jkj', '$2y$10$Le3Cwdz6vkrQFcVO1ruY8u4zaU4t4VfN8dONLQDfcgH1B3RxPY3Yy', NULL, 1, 'no-photo.jpg', 'ertghj'),
+	(76, 'vkk', 2, 'vg@dd.kk', '$2y$10$eDxKFYfQ.ePV32I.JHLTTuhTdVULH9tHN/8iuR2D9Urn.4CuZRGdK', NULL, 0, 'qq.jpg', 'dd'),
+	(77, NULL, 4, 'sdd@dd.kk', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(79, NULL, 3, 'sdd@dd.mm', NULL, NULL, 1, 'no-photo.jpg', NULL),
+	(80, NULL, 3, 'zz@ss.kk', NULL, NULL, 0, 'no-photo.jpg', NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

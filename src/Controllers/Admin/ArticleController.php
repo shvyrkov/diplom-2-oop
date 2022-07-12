@@ -19,7 +19,7 @@ use App\View\AdminView;
  * Класс ArticleController - контроллер для работы со статьями в админке
  * @package App\Controllers\Admin
  */
-class ArticleController
+class ArticleController extends \App\Controllers\AbstractPrivateController
 {
     /**
      * Вывод страницы 'Управление статьями'

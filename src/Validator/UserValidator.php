@@ -3,10 +3,11 @@
 namespace App\Validator;
 
 use App\Components\Helper;
+use App\Model\Roles;
 use App\Model\Users;
 
 /**
- * Класс UserValidator - контроллер валидации данных пользователя
+ * Класс UserValidator - используется для валидации данных пользователя
  * @package App\Validator
  */
 class UserValidator
@@ -181,6 +182,50 @@ class UserValidator
             $errors['checkPassword'] = 'Пароль не должен быть короче 6-ти символов';
         } elseif (!Users::comparePasswords($newPassword, $confirmPassword)) {
             $errors['comparePasswords'] = 'Пароли не совпадают';
+        }
+
+        return $errors ?? null;
+    }
+
+    /**
+     * Валидация данных для управления ролями пользователей в админке
+     * 
+     * @param int $userId - id-пользователя
+     * @param int $roleId - id-роли пользователя
+     * 
+     * @return array $errors - если валидация не прошла или null
+     */
+    public static function adminUserValidate(
+        int $userId,
+        int $roleId
+    ) {
+        if (!$roleId) {
+            $errors[] = 'Выберите роль пользователя';
+        } elseif (!Users::getUserById($userId)) {
+            $errors[] = 'Неверные данные пользователя. Обратитесь к администртору!';
+        } elseif (!Roles::where('id', $roleId)->first()) {
+            $errors['role'] = 'Неверные данные роли пользователя. Обратитесь к администртору!';
+        }
+
+        return $errors ?? null;
+    }
+
+    /**
+     * Валидация данных для управления ролями пользователей в админке
+     * 
+     * @param int $userId - id-пользователя
+     * @param int $subscription - 1 - подписать, 0 - отписать от рассылки
+     * 
+     * @return array $errors - если валидация не прошла или null
+     */
+    public static function adminUserSubscriptionValidate(
+        int $userId,
+        int $subscription
+    ) {
+        if (!Users::getUserById($userId)) {
+            $errors[] = 'Неверные данные пользователя. Обратитесь к администртору!';
+        } elseif (!in_array($subscription, [0, 1])) {
+            $errors['subscription'] = 'Неверные данные по подписке пользователя. Обратитесь к администртору!';
         }
 
         return $errors ?? null;

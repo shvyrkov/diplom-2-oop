@@ -13,11 +13,15 @@ use App\Model\Post;
  */
 class PostController extends AbstractController
 {
+    /**
+     * Вывод страницы с логом рассылок по подписке
+     *
+     * @return View 
+     */
     public function post()
     {
         $total = Post::all()->count(); // Всего товаров в БД
         $uri =  View::getURI(); // Получаем строку запроса без корня
-        // $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
         $page = ($uri == 'post') ? 1 : preg_replace('~post/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел, то - 1
         $selected = Pagination::goodsQuantity($page); // Настройка количества товаров на странице
         $page = $selected['page']; // Номер страницы
@@ -38,6 +42,6 @@ class PostController extends AbstractController
                 'limit' =>  $limit, //  Количество товаров на странице
                 'selected' =>  $selected, // Настройка количества товаров на странице
             ]
-        ); // Вывод представления
+        ); 
     }
 }

@@ -6,26 +6,26 @@ use App\Components\Menu;
 use App\Components\Pagination;
 use App\Model\Roles;
 use App\Model\Users;
+use App\Validator\UserValidator;
 use App\View\AdminView;
 
 /**
  * Класс UserController - контроллер для работы с пользователями в админке
  * @package App\Controllers\Admin
  */
-class UserController
+class UserController extends \App\Controllers\AbstractPrivateController
 {
     /**
-     * Вывод страницы Административной панели
+     * Вывод Главной страницы Административной панели
      *
      * @return AdminView
      */
     public function admin()
     {
-        if (isset($_SESSION['user']['id']) && in_array($_SESSION['user']['role'], [ADMIN, CONTENT_MANAGER])) { // Доступ разрешен только админу и контент-менеджеру
-
-            return new AdminView('admin', ['title' => 'Админка']); // Вывод представления
+        if (in_array($this->user->role, [ADMIN, CONTENT_MANAGER])) { // Доступ разрешен только админу и контент-менеджеру
+            return new AdminView('admin', ['title' => 'Админка']);
         } else {
-            header('Location: /');
+            $this->redirect('/lk');
         }
     }
 
@@ -36,51 +36,41 @@ class UserController
      */
     public function adminUsers()
     {
-        if (isset($_SESSION['user']['id']) && $_SESSION['user']['role'] == ADMIN) { // Доступ разрешен только админу 
-            $errors = false;
+        if (in_array($this->user->role, [ADMIN])) { // Доступ разрешен только админу 
 
-            if (isset($_POST['submit'])) { // Измененине роли пользователя
-                $userId = $_POST['userId'] ?? '';
-                $role = $_POST['role'] ?? '';
+            $paginationData = $this->getPaginationData(Users::class, AdminView::class, 'admin-users', '~admin-users/' . PAGINATION_PAGE . '([0-9]+)~');
 
-                // Валидация полей
-                if (!(is_numeric($userId) && is_numeric($role))) { // Индексы д.б.целыми числами.
-                    $errors[] = 'Некорректные данные. Обратитесь к администртору!';
-                } else {
+            if (isset($_POST['submit'])) {
+                $userId = $_POST['userId'] ?? 0;
+                $role = $_POST['role'] ?? 0;
+
+                $errors = UserValidator::adminUserValidate($userId, $role);
+
+                if (!$errors) {
                     Users::changeRole($userId, $role);
+                    $this->redirect('/admin-users/' . PAGINATION_PAGE . $paginationData['page']);
+                }else {
+                    $errors[] = 'Изменение роли пользователя не прошло';
                 }
-            }
-
-            $total = Users::all()->count(); // Всего пользователей в БД
-            $uri = AdminView::getURI() ?? ''; // Получаем строку запроса без корня
-            $page = ($uri == 'admin-users') ? 1 : preg_replace('~admin-users/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел /admin-articles, то - 1
-            $selected = Pagination::goodsQuantity($page); // Настройка количества товаров на странице
-            $page = $selected['page']; // Номер страницы
-
-            if ($selected['limit'] == 'all' || $selected['limit'] > $total) {
-                $limit = $total;
-            } else {
-                $limit = $selected['limit']; // Количество статей на странице в админке 
             }
 
             return new AdminView(
                 'admin-users',
                 [
                     'title' => Menu::showTitle(Menu::getAdminMenu()),
-                    'users' => Users::getUsers($limit, $page), // Пользователи
+                    'users' => Users::getUsers($paginationData['limit'], $paginationData['page']), // Пользователи
                     'roles' => Roles::all(), // Роли пользователей
-                    'pagination' => new Pagination($total, $page, $limit, 'page-'), // Постраничная навигация
-                    'total' =>  $total, // Всего товаров в БД
-                    'limit' =>  $limit, //  Количество товаров на странице
-                    'selected' =>  $selected, // Настройка количества товаров на странице
-                    'errors' => $errors
+                    'pagination' => new Pagination($paginationData['total'], $paginationData['page'], $paginationData['limit'], PAGINATION_PAGE), // Постраничная навигация
+                    'total' =>  $paginationData['total'], // Всего товаров в БД
+                    'limit' =>  $paginationData['limit'], //  Количество товаров на странице
+                    'selected' =>  $paginationData['selected'], // Настройка количества товаров на странице
+                    'errors' => $errors ?? null
                 ]
-            ); // Вывод представления
-        } elseif (isset($_SESSION['user']['id']) && $_SESSION['user']['role'] == CONTENT_MANAGER) { // Если контент-менеджер пытается зайти в админскую часть, то кидаем его в админ-меню
-
-            return new AdminView('admin', ['title' => Menu::showTitle(Menu::getAdminMenu())]);
+            );
+        } elseif (in_array($this->user->role, [CONTENT_MANAGER])) { // Если контент-менеджер пытается зайти в админскую часть, то кидаем его в админ-меню
+            $this->redirect('/admin');
         } else {
-            header('Location: /');
+            $this->redirect('/lk');
         }
     }
 
@@ -91,50 +81,40 @@ class UserController
      */
     public function adminSubscription()
     {
-        if (isset($_SESSION['user']['id']) && $_SESSION['user']['role'] == ADMIN) { // Доступ разрешен только админу 
-            $errors = false;
+        if (in_array($this->user->role, [ADMIN])) { // Доступ разрешен только админу 
+
+            $paginationData = $this->getPaginationData(Users::class, AdminView::class, 'admin-subscription', '~admin-subscription/' . PAGINATION_PAGE . '([0-9]+)~');
 
             if (isset($_POST['submit'])) { // Измененине подписки на рассылку пользователя
-                $userId = $_POST['id'];
+                $userId = $_POST['id'] ?? 0;
                 $subscription = $_POST['subscription'] ?? 0;
 
-                // Валидация полей
-                if (!(is_numeric($userId) && in_array($subscription, [0, 1]))) { // Индексы д.б.целыми числами.
-                    $errors[] = 'Некорректные данные. Обратитесь к администртору!';
-                } else {
+                $errors = UserValidator::adminUserSubscriptionValidate($userId, $subscription);
+
+                if (!$errors) {
                     Users::changeSubscription($userId, $subscription);
+                    $this->redirect('/admin-subscription/' . PAGINATION_PAGE . $paginationData['page']);
+                } else {
+                    $errors[] = 'Изменение подписки не прошло';
                 }
-            }
-
-            $total = Users::all()->count(); // Всего товаров в БД
-            $uri = AdminView::getURI() ?? ''; // Получаем строку запроса без корня
-            $page = ($uri == 'admin-subscription') ? 1 : preg_replace('~admin-subscription/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел /admin-articles, то - 1
-            $selected = Pagination::goodsQuantity($page); // Настройка количества товаров на странице
-            $page = $selected['page']; // Номер страницы
-
-            if ($selected['limit'] == 'all' || $selected['limit'] > $total) {
-                $limit = $total;
-            } else {
-                $limit = $selected['limit']; // Количество статей на странице в админке 
             }
 
             return new AdminView(
                 'admin-subscription',
                 [
                     'title' => Menu::showTitle(Menu::getAdminMenu()),
-                    'users' => Users::getUsers($limit, $page), // Пользователи
-                    'pagination' => new Pagination($total, $page, $limit, 'page-'), // Постраничная навигация
-                    'total' =>  $total, // Всего товаров в БД
-                    'limit' =>  $limit, //  Количество товаров на странице
-                    'selected' =>  $selected, // Настройка количества товаров на странице
-                    'errors' => $errors
+                    'users' => Users::getUsers($paginationData['limit'], $paginationData['page']), // Пользователи
+                    'pagination' => new Pagination($paginationData['total'], $paginationData['page'], $paginationData['limit'], PAGINATION_PAGE), // Постраничная навигация
+                    'total' =>  $paginationData['total'], // Всего товаров в БД
+                    'limit' =>  $paginationData['limit'], //  Количество товаров на странице
+                    'selected' =>  $paginationData['selected'], // Настройка количества товаров на странице
+                    'errors' => $errors ?? null
                 ]
-            ); // Вывод представления
-        } elseif (isset($_SESSION['user']['id']) && $_SESSION['user']['role'] == CONTENT_MANAGER) { // Если контент-менеджер пытается зайти в админскую часть, то кидаем его в админ-меню
-
-            return new AdminView('admin', ['title' => Menu::showTitle(Menu::getAdminMenu())]);
+            );
+        } elseif (in_array($this->user->role, [CONTENT_MANAGER])) { // Если контент-менеджер пытается зайти в админскую часть, то кидаем его в админ-меню
+            $this->redirect('/admin');
         } else {
-            header('Location: /');
+            $this->redirect('/lk');
         }
     }
 }

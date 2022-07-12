@@ -143,7 +143,7 @@ class UserController extends AbstractController
                 }
             } else {
                 $email = $this->user->email; // подставляем email пользователя в поле формы.
-                $errors[] = ' Вы не подписаны на рассылку.';
+                $errors[] = ' Вы уже подписаны на рассылку.';
             }
         }
 
@@ -290,21 +290,12 @@ class UserController extends AbstractController
                     }
                 }
 
-                if (!$errors) { // Если ошибок нет, то обновляем данные пользователя.
-                    if (Users::updateUser($this->user->id, $name, $email, $aboutMe, ($_FILES['myfile']['name'] != '') ? $fileName : $this->user->avatar)) { // Если обновление прошло нормально
+                if (!$errors) {
+                    Users::updateUser($this->user->id, $name, $email, $aboutMe, ($_FILES['myfile']['name'] != '') ? $fileName : $this->user->avatar);
 
-                        $user = Users::getUserById($this->user->id);
+                    Users::auth($this->user); // Если данные правильные, запоминаем пользователя в сессии
 
-                        if (!$user) {
-                            $errors['user'][] = 'Ошибка получения данных.';
-                        } else {
-                            Users::auth($user); // Если данные правильные, запоминаем пользователя в сессии
-
-                            $this->redirect('/lk');
-                        }
-                    } else {
-                        $errors['user'][] = 'Ошибка обновления данных.';
-                    }
+                    $this->redirect('/lk');
                 }
             }
 
@@ -334,13 +325,8 @@ class UserController extends AbstractController
      */
     public function password()
     {
-        if ($this->user) { // Пользователь авторизован
-            // $email = $_SESSION['user']['email'];
-            // $errors = false;
-            // $success = '';
-            // $user = '';
-
-            if (isset($_POST['submit'])) { // Обработка формы авторизации
+        if ($this->user) {
+            if (isset($_POST['submit'])) {
                 $oldPassword = $_POST['old_password'] ?? null;
                 $newPassword = $_POST['new_password'] ?? null;
                 $confirmPassword = $_POST['confirm_password'] ?? null;
@@ -351,15 +337,13 @@ class UserController extends AbstractController
                     $confirmPassword,
                     $this->user
                 );
-                
+
                 $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
 
                 if (!$errors) {
                     Users::changePassword($this->user->email, $passwordHash);
 
-                    $user = Users::checkUserData($this->user->email, $newPassword);
-
-                    if (!$user) {
+                    if (!Users::checkUserData($this->user->email, $newPassword)) {
                         $errors[] = 'Ошибка при смене пароля';
                     } else {
                         $success = 'Пароль был успешно изменен!';
@@ -379,7 +363,7 @@ class UserController extends AbstractController
                     'errors' => $errors ?? null,
                 ]
             );
-        } else { // Если пользователь неавторизован, то предлагаем авторизоваться
+        } else {
             $this->redirect('/login');
         }
     }
