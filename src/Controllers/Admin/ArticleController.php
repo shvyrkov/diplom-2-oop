@@ -13,6 +13,7 @@ use App\Model\Comments;
 use App\Model\Methods;
 use App\Model\Post;
 use App\Model\Users;
+use App\Validator\CommentValidator;
 use App\View\AdminView;
 
 /**
@@ -28,34 +29,23 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
      */
     public function adminArticles()
     {
-        if (isset($_SESSION['user']['id']) && in_array($_SESSION['user']['role'], [ADMIN, CONTENT_MANAGER])) { // Доступ разрешен только админу и контент-менеджеру, которые вошли в свой аккаунт
-
-            $total = Articles::all()->count(); // Всего товаров в БД
-            $uri = AdminView::getURI(); // Получаем строку запроса без корня
-            // $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
-            $page = ($uri == 'admin-articles') ? 1 : preg_replace('~admin-articles/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел /admin-articles, то - 1
-            $selected = Pagination::goodsQuantity($page); // Настройка количества товаров на странице
-            $page = $selected['page']; // Номер страницы
-
-            if ($selected['limit'] == 'all' || $selected['limit'] > $total) {
-                $limit = $total;
-            } else {
-                $limit = $selected['limit']; // Количество статей на странице в админке 
-            }
+        if (in_array($this->user->role, [ADMIN, CONTENT_MANAGER])) {
+            $paginationData = $this->getPaginationData(Articles::class, AdminView::class, 'admin-articles', '~admin-articles/' . PAGINATION_PAGE . '([0-9]+)~');
 
             return new AdminView(
                 'admin-articles',
                 [
                     'title' => Menu::showTitle(Menu::getAdminMenu()),
-                    'articles' => Articles::getArticles($limit, $page), // Статей для вывода на страницу
-                    'pagination' => new Pagination($total, $page, $limit, 'page-'), // Постраничная навигация
-                    'total' =>  $total, // Всего товаров в БД
-                    'limit' =>  $limit, //  Количество товаров на странице
-                    'selected' =>  $selected, // Настройка количества товаров на странице
+                    'articles' => Articles::getArticles($paginationData['limit'], $paginationData['page']), // Статей для вывода на страницу
+                    'pagination' => new Pagination($paginationData['total'], $paginationData['page'], $paginationData['limit'], PAGINATION_PAGE), // Постраничная навигация
+                    'total' =>  $paginationData['total'], // Всего товаров в БД
+                    'limit' =>  $paginationData['limit'], //  Количество товаров на странице
+                    'selected' =>  $paginationData['selected'], // Настройка количества товаров на странице
+                    'errors' => $errors ?? null
                 ]
             );
         } else {
-            header('Location: /');
+            $this->redirect('/lk');
         }
     }
 
@@ -66,51 +56,39 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
      */
     public function adminComments()
     {
-        if (isset($_SESSION['user']['id']) && in_array($_SESSION['user']['role'], [ADMIN, CONTENT_MANAGER])) { // Доступ разрешен только админу и контент-менеджеру
-            $errors = false;
+        if (in_array($this->user->role, [ADMIN, CONTENT_MANAGER])) {
 
-            if (isset($_POST['submit'])) { // Измененине комментария
-                $id = $_POST['id'];
+            $paginationData = $this->getPaginationData(Comments::class, AdminView::class, 'admin-comments', '~admin-comments/' . PAGINATION_PAGE . '([0-9]+)~');
+
+            if (isset($_POST['submit'])) {
+                $id = $_POST['id'] ?? 0;
                 $approve = $_POST['approve'] ?? 0;
                 $deny = $_POST['deny'] ?? 0;
 
-                // Валидация полей
-                if (!(is_numeric($id) && in_array($approve, [0, 1]) && in_array($deny, [0, 1]))) { // Индексы д.б.целыми числами.
-                    $errors[] = 'Некорректные данные. Обратитесь к администртору!';
-                }
+                $errors = CommentValidator::approveValidate($id, $approve, $deny);
 
-                if ($errors === false) { // Если ошибок нет, то
+                if (!$errors) {
                     Comments::changeComment($id, $approve, $deny);
+                    $this->redirect('/admin-comments/' . PAGINATION_PAGE . $paginationData['page']);
+                } else {
+                    $errors[] = 'Ошибка управления комментарием. Обратитесь к администртору!';
                 }
-            }
-
-            $total = Comments::all()->count(); // Всего товаров в БД
-            $uri = AdminView::getURI(); // Получаем строку запроса без корня
-            // $page = $uri ? preg_replace(PAGE_PATTERN, '$1', $uri) : 1; // получить номер текущей страницы
-            $page = ($uri == 'admin-comments') ? 1 : preg_replace('~admin-comments/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел /admin-articles, то - 1
-            $selected = Pagination::goodsQuantity($page); // Настройка количества товаров на странице
-            $page = $selected['page']; // Номер страницы
-
-            if ($selected['limit'] == 'all' || $selected['limit'] > $total) {
-                $limit = $total;
-            } else {
-                $limit = $selected['limit']; // Количество статей на странице в админке 
             }
 
             return new AdminView(
                 'admin-comments',
                 [
                     'title' => Menu::showTitle(Menu::getAdminMenu()),
-                    'comments' => Comments::getComments($limit, $page), // Комментарии для вывода на страницу
-                    'pagination' => new Pagination($total, $page, $limit, 'page-'), // Постраничная навигация
-                    'total' =>  $total, // Всего товаров в БД
-                    'limit' =>  $limit, //  Количество товаров на странице
-                    'selected' =>  $selected, // Настройка количества товаров на странице
-                    'errors' => $errors
+                    'comments' => Comments::getComments($paginationData['limit'], $paginationData['page']), // Комментарии для вывода на страницу
+                    'pagination' => new Pagination($paginationData['total'], $paginationData['page'], $paginationData['limit'], PAGINATION_PAGE), // Постраничная навигация
+                    'total' =>  $paginationData['total'], // Всего товаров в БД
+                    'limit' =>  $paginationData['limit'], //  Количество товаров на странице
+                    'selected' =>  $paginationData['selected'], // Настройка количества товаров на странице
+                    'errors' => $errors ?? null
                 ]
             );
         } else {
-            header('Location: /');
+            $this->redirect('/lk');
         }
     }
 
@@ -121,7 +99,7 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
      */
     public function adminCMS($id = 0)
     {
-        if (isset($_SESSION['user']['id']) && in_array($_SESSION['user']['role'], [ADMIN, CONTENT_MANAGER])) { // Доступ разрешен только админу и контент-менеджеру
+        if (in_array($this->user->role, [ADMIN, CONTENT_MANAGER])) {
             $image = '';
             $thumbnail = '';
             $errors = false;
@@ -130,7 +108,7 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
             if (isset($_POST['delete'])) { // Удаление статьи
                 $success = Articles::where('id', $id)->delete(); // Удаляет всё и из article-methods
 
-                header("Location: /article-delete/$success");
+                $this->redirect('/article-delete/' . $success);
             }
 
             if (isset($_POST['submit'])) { // Обработка формы добавления/редактирования статьи
@@ -315,7 +293,7 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                 ]
             );
         } else {
-            header('Location: /');
+            $this->redirect('/lk');
         }
     }
 
@@ -326,11 +304,11 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
      */
     public function articleDelete($success = 0)
     {
-        if (isset($_SESSION['user']['id']) && in_array($_SESSION['user']['role'], [ADMIN, CONTENT_MANAGER])) { // Доступ разрешен только админу и контент-менеджеру
+        if (in_array($this->user->role, [ADMIN, CONTENT_MANAGER])) {
 
             return new AdminView('article-delete', ['title' => 'Page deleted', 'success' => $success]);
         } else {
-            header('Location: /');
+            $this->redirect('/lk');
         }
     }
 }

@@ -35,7 +35,7 @@ class AbstractController
     }
 
     /**
-     * Полечение данных для пагинации
+     * Получение данных для пагинации
      *
      * @var string $modelClass - класс модели для таблицы в БД
      * @var string $viewClass - класс представления

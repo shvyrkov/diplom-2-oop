@@ -25,7 +25,7 @@ class CommentController extends AbstractPrivateController
         if (isset($_POST['loadComment'])) {
             $text = $_POST['text'] ?? null;
 
-            $errors = CommentValidator::validate($text);
+            $errors = CommentValidator::textValidate($text);
 
             if (!$errors) {
                 if (!Comments::addComment($text, $id, $this->user)) {
