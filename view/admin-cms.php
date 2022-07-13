@@ -6,12 +6,13 @@ use App\Model\Articles;
 use App\Model\ArticleMethods;
 
 include 'layout/admin_header.php';
+include 'layout/admin_title.php';
 ?>
 
 <div class="container">
-  <br>
+  <!-- <br> -->
   <div class="signup-form">
-    <h2><?= $title ?></h2>
+    <!-- <h2><?= $title ?></h2> -->
     <?php
     if ($id) { // Если это редактирование, то загружаем данные из БД
       $articleMethods = ArticleMethods::getMethodsByArticleId($id); // Все связи статьи и методов.
@@ -32,10 +33,12 @@ include 'layout/admin_header.php';
     <form action="" enctype="multipart/form-data" id="loadArticle" method="post">
       <div class="row">
         <?php
-        if ($success) {
-          echo "<h4 class='font-success'>$success</h4>";
-        }
-        ?>
+        if (isset($result) && $result) { ?>
+          <h4 class='font-success'>Статья успешно изменена!</h4>
+        <?php
+        } elseif (isset($result) && !$result) { ?>
+          <h4 class='font-error'>Статья не была добавлена/изменена! Обратитесь к Администратору!</h4>
+        <?php   } ?>
       </div>
       <!-- Горизонтальная карточка от Bootstrap-->
       <div class="card mt-3 article">
@@ -206,7 +209,7 @@ include 'layout/admin_header.php';
           <button class="btn btn-outline-primary" type="submit" name="submit" id="submit">Сохранить изменения</button>
           <?php
           if ($id) : ?>
-            <button type="submit" name="delete" class="btn btn-outline-danger">Удалить статью</button>
+            <a href="/article-delete/<?= $id ?>"><button type="button" class="btn btn-outline-danger"> Удалить статью </button></a>
           <?php endif ?>
         </div>
 

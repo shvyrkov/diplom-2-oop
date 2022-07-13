@@ -25,27 +25,6 @@ class Post extends Model
     public $timestamps = false;
 
     /**
-     * Рассылка подписчикам при создании новой статьи
-     * 
-     * @param string $email - подписчика
-     * @param string $subject - Название новой статьи
-     * @param string $message - Краткое описание статьи
-     * @param string $link - ссылка на страницу со статьей
-     * @param string $unsubscribe  - ссылка на страницу со отпиской от рассылки
-     * 
-     * @return bool - результат рассылки
-     */
-    public static function mailing($email, $subject, $message, $link, $unsubscribe)
-    {
-        // Запись в БД
-        $id = Post::insertGetId(
-            ['email' => $email, 'subject' => $subject, 'message' => $message, 'link' => $link, 'unsubscribe' => $unsubscribe]
-        );
-
-        return $id ? true : false;
-    }
-
-    /**
      * Получение писем рассылки из БД
      * 
      * @param int $limit [optional] Количество на странице
@@ -64,5 +43,37 @@ class Post extends Model
             ->get();
 
         return $mails;
+    }
+
+    /**
+     * Рассылка по подписке
+     *
+     * @param Articles $article
+     */
+    public static function mailing(Articles $article)
+    {
+        $users = Users::getSubscribedUsers(); // Пользователи, подписанные на рассылку
+
+        $subject = 'На сайте добавлена новая статья: "' . $article->title . '".'; // Заголовок письма: На сайте добавлена новая запись: “#Название новой статьи#”
+        $message = 'Новая статья: ' // Содержимое письма
+            . $article->title
+            . ', <br>Краткое описание статьи: '
+            . $article->description; // Краткое описание статьи
+
+        $link = DIRECTORY_SEPARATOR . $_SERVER["HTTP_HOST"] . DIRECTORY_SEPARATOR . ARTICLE . DIRECTORY_SEPARATOR . $article->id; // Ссылка на страницу новой статьи
+        $unsubscribe = UNSUBSCRIBE; // Ссылка на страницу отписки
+
+        foreach ($users as $user) { // Все, кто подписан - TODO: сделать метод на запрос
+
+            Post::insertGetId(
+                [
+                    'email' => $user->email,
+                    'subject' => $subject,
+                    'message' => $message,
+                    'link' => $link,
+                    'unsubscribe' => $unsubscribe
+                ]
+            );
+        }
     }
 }

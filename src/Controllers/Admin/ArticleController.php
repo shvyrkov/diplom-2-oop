@@ -3,16 +3,14 @@
 namespace App\Controllers\Admin;
 
 use \SplFileInfo;
-use App\Components\Helper;
 use App\Components\Menu;
 use App\Components\Pagination;
 use App\Components\SimpleImage;
 use App\Model\Articles;
 use App\Model\ArticleMethods;
 use App\Model\Comments;
-use App\Model\Methods;
 use App\Model\Post;
-use App\Model\Users;
+use App\Validator\ArticleValidator;
 use App\Validator\CommentValidator;
 use App\View\AdminView;
 
@@ -102,14 +100,6 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
         if (in_array($this->user->role, [ADMIN, CONTENT_MANAGER])) {
             $image = '';
             $thumbnail = '';
-            $errors = false;
-            $success = false;
-
-            if (isset($_POST['delete'])) { // Удаление статьи
-                $success = Articles::where('id', $id)->delete(); // Удаляет всё и из article-methods
-
-                $this->redirect('/article-delete/' . $success);
-            }
 
             if (isset($_POST['submit'])) { // Обработка формы добавления/редактирования статьи
                 $articleTitle = $_POST['articleTitle'] ?? '';
@@ -122,54 +112,17 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                 $articleMethods = $_POST['articleMethods'] ?? [];
                 $content = $_POST['content'] ?? '';
 
-                // Валидация данных ввода
-                if (!Helper::checkLength($articleTitle, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH)) {
-                    $errors['articleTitle'] = 'Название статьи не должно быть меньше ' . MIN_TITLE_LENGTH . ' и не больше ' . MAX_TITLE_LENGTH . ' символов';
-                }
-
-                if ($subtitle && !Helper::checkLength($subtitle, 0, MAX_SUBTITLE_LENGTH)) {
-                    $errors['subtitle'] = 'Название подзаголовка не должно быть больше ' . MAX_SUBTITLE_LENGTH . ' символов';
-                }
-
-                if (!Helper::checkLength($people, MIN_PEOPLE_LENGTH, MAX_PEOPLE_LENGTH)) {
-                    $errors['people'] = 'Количество символов в поле не должно быть больше ' . MAX_PEOPLE_LENGTH;
-                }
-
-                if (!Helper::checkLength($duration, MIN_PEOPLE_LENGTH, MAX_DURATION_LENGTH)) {
-                    $errors['duration'] = 'Количество символов в поле не должно быть больше ' . MAX_DURATION_LENGTH;
-                }
-
-                if ($description && !Helper::checkLength($description, MIN_TITLE_LENGTH, MAX_DESCRIPTION_LENGTH)) {
-                    $errors['description'] = 'Должно быть не меньше ' . MIN_TITLE_LENGTH . ' и не больше ' . MAX_DESCRIPTION_LENGTH . ' символов';
-                }
-
-                if (!Helper::checkLength($author, MIN_TITLE_LENGTH, MAX_AUTHOR_LENGTH)) {
-                    $errors['author'] = 'Должно быть не меньше ' . MIN_TITLE_LENGTH . ' и не больше ' . MAX_AUTHOR_LENGTH . ' символов';
-                }
-
-                if ($link && !Helper::checkLength($link, 0, MAX_LINK_LENGTH)) {
-                    $errors['link'] = 'Количество символов в поле не должно быть больше ' . MAX_LINK_LENGTH;
-                }
-
-                if ($content && !Helper::checkLength($content, 0, MAX_CONTENT_LENGTH)) {
-                    $errors['content'] = 'Количество символов в поле не должно быть больше ' . MAX_CONTENT_LENGTH;
-                }
-
-                // Валидация типов методов
-                $methodsObj = Methods::all();
-                $methodsArr = [];
-
-                foreach ($methodsObj as $method) {
-                    $methodsArr[] = $method->id;
-                }
-
-                if (is_array($articleMethods)) {
-                    foreach ($articleMethods as $method) {
-                        if (!in_array($method, $methodsArr)) {
-                            $errors['method'] = 'Ошибка ввода типа метода. Обратитесь к Администратору.';
-                        }
-                    }
-                }
+                $errors = ArticleValidator::articleValidate(
+                    $articleTitle,
+                    $subtitle,
+                    $people,
+                    $duration,
+                    $description,
+                    $author,
+                    $link,
+                    $articleMethods,
+                    $content,
+                );
 
                 if ($_FILES['myfile']['name'] != '') { // Проверка на наличие файла для загрузки
                     $types = include(CONFIG_DIR . IMAGE_TYPES); // Допустимые типы файла изображения
@@ -179,7 +132,7 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                         $errors['file'] = $fileError; // Если валидация не прошла, то добавляем её ошибки
                     }
 
-                    if ($errors === false) { // Загружаем файл на сервер
+                    if (!$errors) { // Загружаем файл на сервер
 
                         $myfile = new SplFileInfo($_FILES['myfile']['name']); // Загружаемое имя файла с расширением
                         $image = $myfile->getFilename();
@@ -203,7 +156,7 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                     }
                 }
 
-                if ($errors === false) { // Если ошибок нет, то добавляем данные.
+                if (!$errors) { // Если ошибок нет, то добавляем данные.
                     $newArticle = false;
 
                     if ($id) { // Редактирование существующей статьи
@@ -234,41 +187,29 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                     if ($article->id) { // Добавление новых связей статья-метод
                         $id = $article->id;
 
-                        // Удалить старые связи статья-метод, если они есть--------
+                        // Удалить старые связи статья-метод, если они есть
                         ArticleMethods::where('id_article', $id)->delete();
 
                         foreach ($articleMethods as $method) { // Внести новые связи статья-метод
                             ArticleMethods::upsert(
                                 [
-                                    'id_article' => $article->id,
+                                    'id_article' => $id,
                                     'id_method' => $method
                                 ],
                                 [],
                                 []
                             );
                         }
-                        $success = 'Статья успешно добавлена/изменена!';
-                        // Рассылка при добавлении новой статьи
+
                         if ($newArticle) {
-                            $users = Users::getSubscribedUsers(); // Пользователи, подписанные на рассылку
+                            Post::mailing($article); // Рассылка при добавлении новой статьи
 
-                            $subject = 'На сайте добавлена новая статья: "' . $article->title . '".'; // Заголовок письма: На сайте добавлена новая запись: “#Название новой статьи#”
-                            $message = 'Новая статья: ' // Содержимое письма
-                                . $article->title
-                                . ', Краткое описание статьи: '
-                                . $article->description; // Краткое описание статьи
-
-                            $link = DIRECTORY_SEPARATOR . $_SERVER["HTTP_HOST"] . DIRECTORY_SEPARATOR . ARTICLE . DIRECTORY_SEPARATOR . $article->id; // Ссылка на страницу новой статьи
-                            $unsubscribe = UNSUBSCRIBE; // Ссылка на страницу отписки
-
-                            foreach ($users as $user) { // Все, кто подписан - TODO: сделать метод на запрос
-                                Post::mailing($user->email, $subject, $message, $link, $unsubscribe);
-                            }
-
-                            header('Location: /admin-cms/' . $article->id); // Перегружаем CMS с новыми данными для предотвращения переотправки формы
+                            $this->redirect('/new-article');
+                        } else {
+                            $result = true;
                         }
                     } else {
-                        $success = 'Статья не была добавлена/изменена! Обратитесь к Администратору!';
+                        $result = false;
                     }
                 }
             }
@@ -277,7 +218,7 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                 'admin-cms',
                 [
                     'title' => Menu::showTitle(Menu::getAdminMenu()),
-                    'id' => $id,
+                    'id' => $id ?? 0,
                     'articleTitle' => $articleTitle ?? '',
                     'subtitle' => $subtitle ?? '',
                     'people' =>  $people ?? '',
@@ -288,8 +229,8 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                     'articleMethods' => $articleMethods ?? [],
                     'content' => $content ?? '',
                     'image' => $image ?? '',
-                    'success' => $success,
-                    'errors' => $errors
+                    'result' => $result ?? null,
+                    'errors' => $errors ?? null
                 ]
             );
         } else {
@@ -302,11 +243,45 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
      *
      * @return AdminView
      */
-    public function articleDelete($success = 0)
+    public function articleDelete($id)
     {
         if (in_array($this->user->role, [ADMIN, CONTENT_MANAGER])) {
 
-            return new AdminView('article-delete', ['title' => 'Page deleted', 'success' => $success]);
+            if (Articles::where('id', $id)->first()) {
+                $success = Articles::where('id', $id)->delete();
+            } else {
+                $errors[] = 'Ошибка в данных статьи. Обратитесь к администратору';
+            }
+
+            return new AdminView(
+                'article-delete',
+                [
+                    'title' => 'Page deletion',
+                    'id' => $id ?? null,
+                    'success' => $success ?? null,
+                    'errors' => $errors ?? null
+                ]
+            );
+        } else {
+            $this->redirect('/lk');
+        }
+    }
+
+    /**
+     * Вывод страницы-сообщения о создании новой статьи.
+     *
+     * @return AdminView
+     */
+    public function newArticle()
+    {
+        if (in_array($this->user->role, [ADMIN, CONTENT_MANAGER])) {
+
+            return new AdminView(
+                'new-article',
+                [
+                    'title' => 'New article',
+                ]
+            );
         } else {
             $this->redirect('/lk');
         }

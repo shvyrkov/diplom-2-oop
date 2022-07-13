@@ -3,8 +3,6 @@
 namespace App\View;
 
 use App\Exceptions\ApplicationException;
-use App\Components\Menu;
-use App\Model\Users;
 
 /**
  * Класс View — шаблонизатор приложения, реализует интерфейс Renderable. Используется для подключения view страницы.
@@ -59,17 +57,13 @@ class View implements Renderable
     public function render()
     {
         extract($this->data);
-        $menu = Menu::getUserMenu(); // Меню пользователя есть на всех страницах
-        $templateFile = $this->getIncludeTemplate($this->view); 
 
-        if (isset($_POST['exit'])) { // Выход из сессии, если был вход или регистрация
-            Users::exit();
-        }
+        $templateFile = $this->getIncludeTemplate($this->view); 
 
         if (file_exists($templateFile)) {
             include $templateFile;
         } else { 
-            throw new ApplicationException("$templateFile - шаблон не найден", 442);
+            throw new ApplicationException("$templateFile - шаблон не найден", 441);
         }
     }
 }

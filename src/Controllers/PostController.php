@@ -18,30 +18,20 @@ class PostController extends AbstractController
      *
      * @return View 
      */
-    public function post()
+    public function mailingLog()
     {
-        $total = Post::all()->count(); // Всего товаров в БД
-        $uri =  View::getURI(); // Получаем строку запроса без корня
-        $page = ($uri == 'post') ? 1 : preg_replace('~post/page-([0-9]+)~', '$1', $uri); // получить номер текущей страницы: если это первый приход в раздел, то - 1
-        $selected = Pagination::goodsQuantity($page); // Настройка количества товаров на странице
-        $page = $selected['page']; // Номер страницы
-
-        if ($selected['limit'] == 'all' || $selected['limit'] > $total) {
-            $limit = $total;
-        } else {
-            $limit = $selected['limit']; // Количество статей на странице в админке 
-        }
+        $paginationData = $this->getPaginationData(Post::class, View::class, 'post', '~post/' . PAGINATION_PAGE . '([0-9]+)~');
 
         return new View(
             'post',
             [
                 'title' => Menu::showTitle(Menu::getUserMenu()),
-                'mails' => Post::getMails($limit, $page), // Статей для вывода на страницу
-                'pagination' => new Pagination($total, $page, $limit, 'page-'), // Постраничная навигация
-                'total' =>  $total, // Всего товаров в БД
-                'limit' =>  $limit, //  Количество товаров на странице
-                'selected' =>  $selected, // Настройка количества товаров на странице
+                'mails' => Post::getMails($paginationData['limit'], $paginationData['page']), // Статей для вывода на страницу
+                'pagination' => new Pagination($paginationData['total'], $paginationData['page'], $paginationData['limit'], PAGINATION_PAGE), // Постраничная навигация
+                'total' =>  $paginationData['total'], // Всего товаров в БД
+                'limit' =>  $paginationData['limit'], //  Количество товаров на странице
+                'selected' =>  $paginationData['selected'] // Настройка количества товаров на странице
             ]
-        ); 
+        );
     }
 }

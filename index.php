@@ -59,22 +59,20 @@ $router->get('registration', [UserController::class, 'registration']);
 $router->post('registration', [UserController::class, 'registration']); 
 
 $router->get('exit', [UserController::class, 'exit']);
-$router->post('exit', [UserController::class, 'exit']);
 
 $router->get('password', [UserController::class, 'password']);
 $router->post('password', [UserController::class, 'password']);
 
 // --- Подписка - лог рассылки -----
-$router->get('post', [PostController::class, 'post']); // PostController::post - обработка запроса
-$router->get('post?*=*', [PostController::class, 'post']);  // 1-я страница - учесть GET-запрос в обработке url
-$router->get('post/page-*', [PostController::class, 'post']); // page-* - страница пагинации
-$router->get('post/page-*?*=*', [PostController::class, 'post']); // Учесть GET-запрос в обработке url на page-* - странице пагинации
+$router->get('post', [PostController::class, 'mailingLog']); // PostController::mailingLog - вывод лога рассылки
+$router->get('post?*=*', [PostController::class, 'mailingLog']);  // 1-я страница - учесть GET-запрос в обработке url
+$router->get('post/page-*', [PostController::class, 'mailingLog']); // page-* - страница пагинации
+$router->get('post/page-*?*=*', [PostController::class, 'mailingLog']); // Учесть GET-запрос в обработке url на page-* - странице пагинации
 
 // --- Admin ------
 $router->get('admin', [AdminUserController::class, 'admin']); // Маршрут для перехода в админку
-$router->get('article-delete/*', [AdminArticleController::class, 'articleDelete']); // Вывод страницы-сообщения об удалении статьи.
 
-foreach (Menu::getAdminMenu() as $key => $value) { // Загрузка маршрутов для админки
+foreach (Menu::getAdminMenu() as $key => $value) { // Загрузка маршрутов для страниц админки
     $router->get($key, [$value['class'], $value['method']]); // 1-я страница
     $router->get($key . '?*=*', [$value['class'], $value['method']]);  // 1-я страница - учесть GET-запрос в обработке url
     $router->get($key . '/page-*', [$value['class'], $value['method']]); // page-* - страница пагинации
@@ -87,6 +85,9 @@ foreach (Menu::getAdminMenu() as $key => $value) { // Загрузка марш�
 
 $router->get('admin-cms/*', [AdminArticleController::class, 'adminCMS']); // Для редактирования статьи
 $router->post('admin-cms/*', [AdminArticleController::class, 'adminCMS']);
+
+$router->get('new-article', [AdminArticleController::class, 'newArticle']);
+$router->get('article-delete/*', [AdminArticleController::class, 'articleDelete']); 
 
 // Создание объекта приложения
 $application = new Application($router); // Передаем объект Маршрутизатора с маршрутами в объект Приложения

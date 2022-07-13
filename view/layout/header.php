@@ -1,8 +1,11 @@
 <?php
 
 use App\Model\Methods;
+use App\Components\Menu;
 
+$menu = Menu::getUserMenu(); // Меню пользователя есть на всех страницах
 $title = $title ?? ''; // Заголовок не всегда передается
+
 include 'base/header.php';
 ?>
 <title><?= $title ?></title>
@@ -36,9 +39,7 @@ include 'base/header.php';
         <?php
         if (isset($_SESSION['user']['id'])) { // Если была регистрация или вход в л.к.-->
         ?>
-          <form class="d-flex" name="exit" action="/exit" method="post">
-            <button type="submit" class="btn btn-outline-success my-2 my-sm-0" name="exit">Выход</button>
-          </form>
+          <a href="/exit"><button type="button" class="btn btn-outline-success my-2 my-sm-0" name="exit">Выход</button></a>
         <?php
         } else { // Если входа или регистрации не было
         ?>

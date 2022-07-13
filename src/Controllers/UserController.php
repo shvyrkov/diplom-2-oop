@@ -65,6 +65,8 @@ class UserController extends AbstractController
      */
     public function exit()
     {
+        Users::exit();
+
         return new View('exit', ['title' => 'Выход']); // Вывод представления
     }
 
