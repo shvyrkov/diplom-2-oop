@@ -47,6 +47,7 @@ define('MAX_PEOPLE_LENGTH', 50); // Макс. кол-во символов в к
 define('MAX_DURATION_LENGTH', 50); // Макс. кол-во символов в длительности 
 define('MAX_AUTHOR_LENGTH', 150); // Макс. кол-во символов в имени автора статьи
 define('MAX_LINK_LENGTH', 350); // Макс. кол-во символов в ссылке на автора статьи
+define('DEFAULT_ARTICLE_THUMBNAIL', 'cs-small.png'); // Имя файла, если изображение статьи для Главной не загружено
 define('DEFAULT_ARTICLE_IMAGE', 'cs-big.png'); // Имя файла, если изображение для статьи не загружено
 define('IMG_STORAGE', $_SERVER["DOCUMENT_ROOT"] . DIRECTORY_SEPARATOR . IMG . DIRECTORY_SEPARATOR); // Папка для хранения файла изображения
 

@@ -98,10 +98,8 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
     public function adminCMS($id = 0)
     {
         if (in_array($this->user->role, [ADMIN, CONTENT_MANAGER])) {
-            $image = '';
-            $thumbnail = '';
 
-            if (isset($_POST['submit'])) { // Обработка формы добавления/редактирования статьи
+            if (isset($_POST['submit'])) {
                 $articleTitle = $_POST['articleTitle'] ?? '';
                 $subtitle = $_POST['subtitle'] ?? '';
                 $people = $_POST['people'] ?? '';
@@ -126,33 +124,15 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
 
                 if ($_FILES['myfile']['name'] != '') { // Проверка на наличие файла для загрузки
                     $types = include(CONFIG_DIR . IMAGE_TYPES); // Допустимые типы файла изображения
+
                     $fileError = SimpleImage::imageFileValidation($types, FILE_SIZE, $_FILES); // Валидация файла изображения
 
                     if ($fileError) {
                         $errors['file'] = $fileError; // Если валидация не прошла, то добавляем её ошибки
                     }
 
-                    if (!$errors) { // Загружаем файл на сервер
-
-                        $myfile = new SplFileInfo($_FILES['myfile']['name']); // Загружаемое имя файла с расширением
-                        $image = $myfile->getFilename();
-                        $fileMoved = move_uploaded_file($_FILES['myfile']['tmp_name'], IMG_STORAGE . $image); // Загрузка файла на сервер
-
-                        $thumbnail = 'small-' . $image;
-
-                        $thumbnailObj = new SimpleImage();
-                        $thumbnailObj->load(IMG_STORAGE . $image);
-                        $thumbnailObj->resize(490, 280); // Изменение размера изображения для Главной.
-                        $thumbnailObj->save(IMG_STORAGE . $thumbnail);
-
-                        $imageObj = new SimpleImage();
-                        $imageObj->load(IMG_STORAGE . $image);
-                        $imageObj->resize(1100, 620); // Изменение размера изображения для страницы статьи.
-                        $imageObj->save(IMG_STORAGE . $image);
-
-                        if (!$fileMoved) {
-                            $errors['file']['LoadServerError'] = 'Файл ' . $image . ' не был загружен на сервер';
-                        }
+                    if (!$errors) {
+                        $myfile = new SplFileInfo($_FILES['myfile']['name']);
                     }
                 }
 
@@ -161,11 +141,6 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
 
                     if ($id) { // Редактирование существующей статьи
                         $article = Articles::getArticleById($id);
-
-                        if (!$image) { // Если фото не менялось, берем старое.
-                            $image = $article->image;
-                            $thumbnail = $article->thumbnail;
-                        }
                     } else { // Создание новой статьи
                         $article = new Articles();
                         $newArticle = true; // Рассылка при добавлении новой статьи: флаг $newArticle
@@ -179,16 +154,13 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                     $article->subtitle = $subtitle;
                     $article->link = $link;
                     $article->content = $content;
-                    $article->image = $image ? $image : DEFAULT_ARTICLE_IMAGE;
-                    $article->thumbnail = $thumbnail ? $thumbnail : DEFAULT_ARTICLE_IMAGE;
 
-                    $article->save();
+                    $article->save(); // Либо новая статья, либо редактирование
 
-                    if ($article->id) { // Добавление новых связей статья-метод
-                        $id = $article->id;
+                    if ($article->id) {
+                        $id = $article->id; // Если это новая статья, то id-статьи создается. Если это редактирование существующей, то без изменений - далее используется в return
 
-                        // Удалить старые связи статья-метод, если они есть
-                        ArticleMethods::where('id_article', $id)->delete();
+                        ArticleMethods::where('id_article', $id)->delete(); // Удалить старые связи статья-метод, если они есть
 
                         foreach ($articleMethods as $method) { // Внести новые связи статья-метод
                             ArticleMethods::upsert(
@@ -201,11 +173,66 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                             );
                         }
 
+                        if (isset($myfile)) { // Есть файл для загрузки
+// Варианты: 
+// 1. Новая статья: 1.1 без фото - Ок, 1.2 с фото - Ок
+// 2. Редактирование существующей статьи: 1.1 без фото - Ок, 1.2 с фото - Ок
+
+                            // ПЕРЕД ЗАГРУЗКОЙ удаляем старый файл на сервере, т.к. м.б. разные расширения и тогда на сервере будет 2 и более файла с одним именем и разными рсширениями.
+                            if (DEFAULT_ARTICLE_IMAGE != $article->image) { // Если это не заставка  и это не новая стаья- только для редактирования, чтобы не удалить заставку.
+                                if (file_exists(IMG_STORAGE . $article->image) && is_file(IMG_STORAGE . $article->image)) {
+                                    unlink(IMG_STORAGE . $article->image); 
+                                }
+
+                                if (file_exists(IMG_STORAGE . $article->thumbnail && is_file(IMG_STORAGE . $article->thumbnail))) {
+                                    unlink(IMG_STORAGE . $article->thumbnail);
+                                }
+                            }
+
+                            $image = 'image_article_' . rand(1,999) . '-'. $id . '.' . $myfile->getExtension();
+
+                            if (move_uploaded_file($_FILES['myfile']['tmp_name'], IMG_STORAGE . $image)) {
+                                $thumbnail = 'thumbnail_' . $image;
+ // Изменение размера изображения для Главной.
+                                $thumbnailObj = new SimpleImage();
+                                $thumbnailObj->load(IMG_STORAGE . $image);
+                                $thumbnailObj->resize(490, 280);
+                                $thumbnailObj->save(IMG_STORAGE . $thumbnail);
+ // Изменение размера изображения для страницы статьи.
+                                $imageObj = new SimpleImage();
+                                $imageObj->load(IMG_STORAGE . $image);
+                                $imageObj->resize(1100, 620);
+                                $imageObj->save(IMG_STORAGE . $image);
+                            } else {
+                                $errors['file']['LoadServerError'] = 'Файл ' . $$myfile->getFilename() . ' не был загружен на сервер';
+                            }
+                        }
+
                         if ($newArticle) {
+                            $article->image = $image ?? DEFAULT_ARTICLE_IMAGE;
+                            $article->thumbnail = $thumbnail ?? DEFAULT_ARTICLE_THUMBNAIL;
+                            $article->save();
+
                             Post::mailing($article); // Рассылка при добавлении новой статьи
 
                             $this->redirect('/new-article');
-                        } else {
+                        } else { // Редактирование
+
+
+
+// echo '<script>alert("image")</script>';
+// echo 'image befor save: ';
+// var_dump($image); // string(21) "image_article_152.png" - New
+// echo '<br>';
+// echo 'article->image befor save: ';
+// var_dump($article->image); // string(21) "image_article_152.jpg" - Old
+
+                            $article->image = $image ?? $article->image;
+                            $article->thumbnail = $thumbnail ?? $article->thumbnail;
+                            $article->save();
+// echo '<br>';
+// echo 'article->image after save: ';
+// var_dump($article->image); // string(21) "image_article_152.jpg" - Old
                             $result = true;
                         }
                     } else {

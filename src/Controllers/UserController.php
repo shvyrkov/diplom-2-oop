@@ -266,27 +266,23 @@ class UserController extends AbstractController
 
                 if ($_FILES['myfile']['name'] != '') { // Проверка на наличие файла для загрузки
                     $types = include(CONFIG_DIR . IMAGE_TYPES);
-
                     $fileError = SimpleImage::imageFileValidation($types, FILE_SIZE, $_FILES);
 
                     if ($fileError) {
                         $errors['file'] = $fileError; // Если валидация не прошла, то добавляем её ошибки
                     }
 
-                    if (!$errors) { // Загружаем файл на сервер
-
+                    if (!$errors) { 
                         if ((DEFAULT_AVATAR != $this->user->avatar) // Если это не заставка 
                             && file_exists(AVATAR_STORAGE . $this->user->avatar)
                         ) {
-                            unlink(AVATAR_STORAGE . $this->user->avatar); // то удаляем старый аватар на сервере 
+                            unlink(AVATAR_STORAGE . $this->user->avatar); // то удаляем старый аватар на сервере, т.к. м.б. разные расширения и тогда на сервере будет 2 и более аватара с одним именем и разными рсширениями.
                         }
-                        // @TODO: загрузка файла на сервер - убрать в метод? - См. Админку, чтобы использовать один и тот же метод.
-                        $myfile = new SplFileInfo($_FILES['myfile']['name']); // Загружаемое имя файла с расширением
-                        $fileName = $name ? $name : $this->user->name; // Имя файла без расширения: новое, если было изменено, иначе - старое
-                        $fileName = $fileName . '.' . $myfile->getExtension(); // Имя файла с расширением
-                        $fileMoved = move_uploaded_file($_FILES['myfile']['tmp_name'], AVATAR_STORAGE . $fileName); // Загрузка файла на сервер
 
-                        if (!$fileMoved) {
+                        $myfile = new SplFileInfo($_FILES['myfile']['name']);
+                        $fileName = 'avatar_user_' . $this->user->id . '.' . $myfile->getExtension();
+
+                        if (!move_uploaded_file($_FILES['myfile']['tmp_name'], AVATAR_STORAGE . $fileName)) {
                             $errors['file']['LoadServerError'] = 'Файл ' . $fileName . ' не был загружен на сервер';
                         }
                     }

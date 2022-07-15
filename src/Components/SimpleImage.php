@@ -127,13 +127,10 @@ class SimpleImage
     * @param array $types - массив с допустимыми типами файла
     * @param int $size - максимальный размер файла
     *
-    * @return mixed - bool false - если валидация пройдена успешно
-    *               - array $errors - массив со списком ошибок
+    * @return mixed - array $errors - если валидация не прошла или null
     */
    public static function imageFileValidation($types, $size, $file)
    {
-      $errors = [];
-
       if (!empty($file['myfile']['error'])) { // Проверяем наличие ошибок
          $errors['LoadingError'] = $file['myfile']['error'];
       }
@@ -146,6 +143,6 @@ class SimpleImage
          $errors['SizeError'] = 'Файл ' . $file['myfile']['name'] . ' не может быть загружен на сервер, так как его размер составляет ' . static::formatSize($file['myfile']['size']) . ', что больше допустимых ' . static::formatSize($size);
       }
 
-      return $errors;
+      return $errors ?? null;
    }
 }
