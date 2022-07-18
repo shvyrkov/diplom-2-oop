@@ -108,7 +108,6 @@ class SimpleImage
     */
    public static function formatSize($bytes)
    {
-
       if ($bytes >= 1048576) {
          $bytes = number_format($bytes / 1048576, 2) . ' Mb';
       } elseif ($bytes >= 1024) {
@@ -144,5 +143,29 @@ class SimpleImage
       }
 
       return $errors ?? null;
+   }
+
+   /**
+    * Удаление файлов изображения для статьи с сервера, за исключением заставки.
+    *
+    * @param object $article - 
+    *
+    * @return array $result - массив с результатами удаления
+    */
+   public static function deleteImagesFromServer(object $article)
+   {
+      $result = [];
+
+      if (DEFAULT_ARTICLE_IMAGE != $article->image) { // Чтобы не удалить заставку.
+         if (file_exists(IMG_STORAGE . $article->image) && is_file(IMG_STORAGE . $article->image)) {
+            $result['image'] = unlink(IMG_STORAGE . $article->image);
+         }
+
+         if (file_exists(IMG_STORAGE . $article->thumbnail) && is_file(IMG_STORAGE . $article->thumbnail)) {
+            $result['thumbnail'] = unlink(IMG_STORAGE . $article->thumbnail);
+         }
+
+         return $result;
+      }
    }
 }

@@ -26,9 +26,8 @@ foreach (Methods::all() as $method) {
     $router->get($method->uri . '/page-*',      [ArticleController::class, 'showArticlesByMethod']);
 }
 // --- Страницы сайта -----
-$router->get('',      [SiteController::class, 'index']); // Маршрут для корня сайта (/) - метод index в App\Controllers\SiteController
-
-$router->get('page-*', [SiteController::class, 'index']); // Маршрут для page-1 - пагинация - метод index в App\Controllers\SiteController
+$router->get('',      [SiteController::class, 'index']);
+$router->get('page-*', [SiteController::class, 'index']);
 
 $router->get('about', [SiteController::class, 'about']);
 $router->get('contacts', [SiteController::class, 'contacts']);
@@ -43,11 +42,11 @@ $router->post('article/*/*/approve', [CommentController::class, 'approveComment'
 $router->post('article/*/*/deny', [CommentController::class, 'denyComment']);
 
 // --- Пользовтель -----
-$router->get('subscription', [UserController::class, 'subscription']); // Подписка на рассылку
-$router->post('subscription', [UserController::class, 'subscription']); // Подписка на рассылку
+$router->get('subscription', [UserController::class, 'subscription']);
+$router->post('subscription', [UserController::class, 'subscription']);
 
-$router->get('unsubscribe', [UserController::class, 'unsubscribe']); // Отписка от рассылки
-$router->post('unsubscribe', [UserController::class, 'unsubscribe']); // Отписка от рассылки
+$router->get('unsubscribe', [UserController::class, 'unsubscribe']);
+$router->post('unsubscribe', [UserController::class, 'unsubscribe']);
 
 $router->get('login', [UserController::class, 'login']);
 $router->post('login', [UserController::class, 'login']);
@@ -55,8 +54,8 @@ $router->post('login', [UserController::class, 'login']);
 $router->get('lk', [UserController::class, 'lk']);
 $router->post('lk', [UserController::class, 'lk']);
 
-$router->get('registration', [UserController::class, 'registration']); 
-$router->post('registration', [UserController::class, 'registration']); 
+$router->get('registration', [UserController::class, 'registration']);
+$router->post('registration', [UserController::class, 'registration']);
 
 $router->get('exit', [UserController::class, 'exit']);
 
@@ -87,7 +86,7 @@ $router->get('admin-cms/*', [AdminArticleController::class, 'adminCMS']); // Д�
 $router->post('admin-cms/*', [AdminArticleController::class, 'adminCMS']);
 
 $router->get('new-article', [AdminArticleController::class, 'newArticle']);
-$router->get('article-delete/*', [AdminArticleController::class, 'articleDelete']); 
+$router->get('article-delete/*', [AdminArticleController::class, 'articleDelete']);
 
 // Создание объекта приложения
 $application = new Application($router); // Передаем объект Маршрутизатора с маршрутами в объект Приложения

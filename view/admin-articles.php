@@ -27,6 +27,7 @@ include 'layout/admin-pagination.php';
                         <a href="/admin-cms/<?= $article->id ?>">
                             <button type="submit" name="submit" class="btn btn-secondary">Редактировать</button>
                         </a>
+                        <a href="/article-delete/<?= $article->id ?>"><button type="button" class="btn btn-danger"> Удалить </button></a>
                     </div>
                 </div>
                 <div class="GBlock">

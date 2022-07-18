@@ -140,11 +140,13 @@ include 'layout/admin_title.php';
                 printf(' %s', $errors['description'] ?? '');
                 ?>
               </div>
+              <br>
             </div>
           </div>
         </div>
+
       </div>
-      <p></p>
+      <p></p><br>
       <div class="row px-5 pt-4 ShadowBig">
         <div class="Redactor col-md-6">Автор*:
           <input type="text" class="form-control 

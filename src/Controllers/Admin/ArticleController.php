@@ -136,7 +136,7 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                     }
                 }
 
-                if (!$errors) { // Если ошибок нет, то добавляем данные.
+                if (!$errors) {
                     $newArticle = false;
 
                     if ($id) { // Редактирование существующей статьи
@@ -174,31 +174,18 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                         }
 
                         if (isset($myfile)) { // Есть файл для загрузки
-// Варианты: 
-// 1. Новая статья: 1.1 без фото - Ок, 1.2 с фото - Ок
-// 2. Редактирование существующей статьи: 1.1 без фото - Ок, 1.2 с фото - Ок
+                            SimpleImage::deleteImagesFromServer($article); // Перед загрузкой удаляем старые файлы на сервере
 
-                            // ПЕРЕД ЗАГРУЗКОЙ удаляем старый файл на сервере, т.к. м.б. разные расширения и тогда на сервере будет 2 и более файла с одним именем и разными рсширениями.
-                            if (DEFAULT_ARTICLE_IMAGE != $article->image) { // Если это не заставка  и это не новая стаья- только для редактирования, чтобы не удалить заставку.
-                                if (file_exists(IMG_STORAGE . $article->image) && is_file(IMG_STORAGE . $article->image)) {
-                                    unlink(IMG_STORAGE . $article->image); 
-                                }
-
-                                if (file_exists(IMG_STORAGE . $article->thumbnail && is_file(IMG_STORAGE . $article->thumbnail))) {
-                                    unlink(IMG_STORAGE . $article->thumbnail);
-                                }
-                            }
-
-                            $image = 'image_article_' . rand(1,999) . '-'. $id . '.' . $myfile->getExtension();
+                            $image = 'image_article_' . rand(1, 999) . '-' . $id . '.' . $myfile->getExtension();
 
                             if (move_uploaded_file($_FILES['myfile']['tmp_name'], IMG_STORAGE . $image)) {
                                 $thumbnail = 'thumbnail_' . $image;
- // Изменение размера изображения для Главной.
+                                // Изменение размера изображения для Главной.
                                 $thumbnailObj = new SimpleImage();
                                 $thumbnailObj->load(IMG_STORAGE . $image);
                                 $thumbnailObj->resize(490, 280);
                                 $thumbnailObj->save(IMG_STORAGE . $thumbnail);
- // Изменение размера изображения для страницы статьи.
+                                // Изменение размера изображения для страницы статьи.
                                 $imageObj = new SimpleImage();
                                 $imageObj->load(IMG_STORAGE . $image);
                                 $imageObj->resize(1100, 620);
@@ -208,7 +195,7 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
                             }
                         }
 
-                        if ($newArticle) {
+                        if ($newArticle) { // Новая статья
                             $article->image = $image ?? DEFAULT_ARTICLE_IMAGE;
                             $article->thumbnail = $thumbnail ?? DEFAULT_ARTICLE_THUMBNAIL;
                             $article->save();
@@ -217,22 +204,10 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
 
                             $this->redirect('/new-article');
                         } else { // Редактирование
-
-
-
-// echo '<script>alert("image")</script>';
-// echo 'image befor save: ';
-// var_dump($image); // string(21) "image_article_152.png" - New
-// echo '<br>';
-// echo 'article->image befor save: ';
-// var_dump($article->image); // string(21) "image_article_152.jpg" - Old
-
                             $article->image = $image ?? $article->image;
                             $article->thumbnail = $thumbnail ?? $article->thumbnail;
                             $article->save();
-// echo '<br>';
-// echo 'article->image after save: ';
-// var_dump($article->image); // string(21) "image_article_152.jpg" - Old
+
                             $result = true;
                         }
                     } else {
@@ -266,7 +241,7 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
     }
 
     /**
-     * Вывод страницы-сообщения об удалении статьи.
+     * Удаление статьи.
      *
      * @return AdminView
      */
@@ -274,7 +249,8 @@ class ArticleController extends \App\Controllers\AbstractPrivateController
     {
         if (in_array($this->user->role, [ADMIN, CONTENT_MANAGER])) {
 
-            if (Articles::where('id', $id)->first()) {
+            if ($article = Articles::where('id', $id)->first()) {
+                SimpleImage::deleteImagesFromServer($article);
                 $success = Articles::where('id', $id)->delete();
             } else {
                 $errors[] = 'Ошибка в данных статьи. Обратитесь к администратору';
